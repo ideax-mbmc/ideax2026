@@ -72,7 +72,6 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
     case 'code':
     case 'conduct':
     case 'coc':
-    case 'code':
     case 'code-of-conduct':
       return { type: 'CONDUCT_VIEW' }
       
