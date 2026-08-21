@@ -297,16 +297,6 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
                   >
                     [# JOIN DISCORD]
                   </a>
-                  <button
-                    type="button"
-                    className="register-secondary-btn"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      onRunCommand('register')
-                    }}
-                  >
-                    $ ./register.sh
-                  </button>
                 </div>
               </div>
             </div>
