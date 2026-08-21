@@ -32,6 +32,7 @@ export default function App() {
   const [history, setHistory] = useState([])
   const outputRef = useRef(null)
   const inputRef = useRef(null)
+  const lastCommandRef = useRef({ cmd: '', time: 0 })
 
   const focusInput = () => {
     if (inputRef.current) {
@@ -91,6 +92,13 @@ export default function App() {
 
   const bootCleanupRef = useRef(null)
 
+  const startBootSequence = (onDone) => {
+    if (bootCleanupRef.current) {
+      bootCleanupRef.current()
+    }
+    bootCleanupRef.current = runBootSequence(onDone)
+  }
+
   const ROUTE_ALIASES = {
     faqs: 'faq',
     track: 'tracks',
@@ -129,7 +137,7 @@ export default function App() {
 
   const updateUrlPath = (route) => {
     const newPath = (!route || route === 'home' || route === 'clear' || route === 'cls') ? '/' : `/${route}`
-    if (window.history.replaceState) {
+    if (window.history && window.history.replaceState) {
       window.history.replaceState(null, '', newPath)
     }
   }
@@ -191,8 +199,8 @@ export default function App() {
     return () => {
       if (bootCleanupRef.current) {
         bootCleanupRef.current()
-        bootCleanupRef.current = null
       }
+      bootCleanupRef.current = null
     }
   }, [showIntro])
 
@@ -236,7 +244,14 @@ export default function App() {
 
   const handleRunCommand = (raw) => {
     const trimmed = (raw || '').trim()
+    const now = Date.now()
     
+    // Prevent accidental double execution (e.g. from rapid double clicks or event bubbling)
+    if (trimmed !== '' && trimmed === lastCommandRef.current.cmd && (now - lastCommandRef.current.time) < 300) {
+      return
+    }
+    lastCommandRef.current = { cmd: trimmed, time: now }
+
     // Always add command history if non-empty
     if (trimmed !== '') {
       setHistory(prev => [...prev, trimmed])
@@ -335,7 +350,7 @@ export default function App() {
           <Testimonials onReturn={handleReturnToTerminal} />
         </section>
       ) : view === 'conduct' ? (
-        <section aria-label="Code of Conduct">
+        <section aria-label="Code of Conduct Manual">
           <Conduct onReturn={handleReturnToTerminal} />
         </section>
       ) : (

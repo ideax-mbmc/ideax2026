@@ -16,13 +16,20 @@ export default function SuggestionChips({ onRunCommand }) {
     { label: '$ help', cmd: 'help' },
   ]
 
+  const handleClick = (e, cmd) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onRunCommand(cmd)
+  }
+
   return (
     <div className="chips" aria-label="quick commands">
       {chips.map(chip => (
         <button
           key={chip.cmd}
+          type="button"
           className={chip.isPrimary ? 'chip-primary' : chip.isSecondary ? 'chip-secondary' : ''}
-          onClick={() => onRunCommand(chip.cmd)}
+          onClick={(e) => handleClick(e, chip.cmd)}
         >
           {chip.label}
         </button>
