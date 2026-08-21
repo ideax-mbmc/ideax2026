@@ -485,39 +485,7 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
               </div>
             </div>
 
-            <div className="fetch-info fetch-register-info">
-              <div className="strong">status<span className="dim">@</span>register.service</div>
-              <div className="faint">------------------</div>
-              <div className="kv-grid">
-                <div className="k">Status</div>
-                <div className="v" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span className="pulse-dot" />
-                  <span style={{ color: '#34d399', fontWeight: 600 }}>LIVE</span>
-                </div>
-                <div className="k">Entry Fee</div>
-                <div className="v">Rs. 0</div>
-                <div className="k">Prize Pool</div>
-                <div className="v strong" style={{ color: 'var(--text)' }}>Rs. 111,111</div>
-              </div>
-              <div className="register-cta-actions">
-                <a
-                  href="https://forms.gle/cBgYAroPeJeZpxa6A"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="register-now-btn"
-                >
-                  [&gt; REGISTER NOW]
-                </a>
-                <a
-                  href="https://discord.com/invite/3RctjES2U"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="discord-cta-btn"
-                >
-                  [# JOIN DISCORD]
-                </a>
-              </div>
-            </div>
+
           </div>
         )
 

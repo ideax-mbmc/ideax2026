@@ -284,11 +284,6 @@ body.reduced-motion .app {
 .fetch-art { flex: 0 0 auto; }
 .fetch-art canvas { display: block; width: 280px; height: 300px; }
 .fetch-info { flex: 0 1 340px; min-width: 220px; padding-top: 2px; }
-.fetch-register-info {
-  padding-left: 20px;
-  display: flex;
-  flex-direction: column;
-}
 
 .swatches { display: flex; gap: 5px; margin-top: 14px; }
 .swatches span { width: 18px; height: 12px; display: inline-block; }
