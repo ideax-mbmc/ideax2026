@@ -111,6 +111,15 @@ export default function App() {
   useEffect(() => {
     if (showIntro) return
 
+    // On initial page load/reload, clear hash so the terminal boots cleanly to home
+    if (window.location.hash) {
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', window.location.pathname)
+      } else {
+        window.location.hash = ''
+      }
+    }
+
     const handleHash = () => {
       const hash = window.location.hash.replace(/^#\/?/, '').trim().toLowerCase()
       if (!hash) return
@@ -126,7 +135,6 @@ export default function App() {
       }
     }
 
-    handleHash()
     window.addEventListener('hashchange', handleHash)
     return () => window.removeEventListener('hashchange', handleHash)
   }, [showIntro])
@@ -153,8 +161,17 @@ export default function App() {
     home: 'MBMC IdeaX 2026 | National Hackathon Nepal | Register Now'
   }
 
+  const lastCommandRef = useRef({ cmd: '', time: 0 })
+
   const handleRunCommand = (raw) => {
     const trimmed = (raw || '').trim()
+    const now = Date.now()
+    
+    // Prevent accidental double execution (e.g. from rapid double clicks or event bubbling)
+    if (trimmed !== '' && trimmed === lastCommandRef.current.cmd && (now - lastCommandRef.current.time) < 300) {
+      return
+    }
+    lastCommandRef.current = { cmd: trimmed, time: now }
     
     // Always add command history if non-empty
     if (trimmed !== '') {
@@ -165,9 +182,17 @@ export default function App() {
     if (COMMAND_TITLES[cmdName]) {
       document.title = COMMAND_TITLES[cmdName]
       if (window.location.hash !== `#${cmdName}` && cmdName !== 'home') {
-        history.pushState ? window.history.replaceState(null, '', `#${cmdName}`) : window.location.hash = cmdName
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', `#${cmdName}`)
+        } else {
+          window.location.hash = cmdName
+        }
       } else if (cmdName === 'home') {
-        history.pushState ? window.history.replaceState(null, '', window.location.pathname) : (window.location.hash = '')
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', window.location.pathname)
+        } else {
+          window.location.hash = ''
+        }
       }
     }
 
