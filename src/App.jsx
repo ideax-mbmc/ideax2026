@@ -9,6 +9,7 @@ import Testimonials from './components/Testimonials'
 import Conduct from './components/Conduct'
 import { executeCommand } from './utils/commandHandler'
 import { TRACKS, getDynamicTimeline } from './utils/terminalData'
+import MobileVirtualKeys from './components/MobileVirtualKeys'
 
 const getInitialLandingItems = () => [
   { type: 'TEXT', text: '[ok] mounting /tracks', cls: 'ok' },
@@ -389,6 +390,7 @@ export default function App() {
           )}
         </div>
       )}
+      <MobileVirtualKeys />
     </main>
   )
 }

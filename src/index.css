@@ -862,3 +862,48 @@ body.reduced-motion .app {
   0%, 100% { opacity: 0.85; }
   50%       { opacity: 0; }
 }
+
+/* Mobile Virtual Keys */
+.mobile-virtual-keys {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-virtual-keys {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid var(--accent2);
+    padding: 8px;
+    gap: 8px;
+    z-index: 1000;
+    justify-content: center;
+  }
+
+  .mobile-virtual-keys button {
+    background: #1a1a1a;
+    color: var(--text);
+    border: 1px solid var(--dim);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    font-family: inherit;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+  }
+
+  .mobile-virtual-keys button:active {
+    background: var(--accent2);
+    color: var(--bg);
+  }
+
+  /* Add some padding to main so content isn't obscured by the fixed bar */
+  main {
+    padding-bottom: 50px;
+  }
+}
