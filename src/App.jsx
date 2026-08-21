@@ -380,6 +380,8 @@ export default function App() {
                 <SuggestionChips onRunCommand={handleRunCommand} />
               </nav>
 
+              <MobileVirtualKeys />
+
               <CommandLine
                 inputRef={inputRef}
                 history={history}
@@ -390,7 +392,6 @@ export default function App() {
           )}
         </div>
       )}
-      <MobileVirtualKeys />
     </main>
   )
 }

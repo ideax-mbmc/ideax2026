@@ -564,6 +564,16 @@ body.reduced-motion .app {
 @media (max-width: 600px) {
   body { font-size: 13px; }
   .fetch-art canvas { width: 170px; height: 190px; }
+  .inputline {
+    gap: 6px;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom)) 12px;
+  }
+  .prompt {
+    font-size: 12px;
+  }
+  .inputline input {
+    font-size: 16px;
+  }
 }
 
 /* ---------------- loading intro ---------------- */
@@ -866,39 +876,31 @@ body.reduced-motion .app {
 @media (max-width: 768px) {
   .mobile-virtual-keys {
     display: flex;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(10, 10, 10, 0.85);
+    flex: 0 0 auto;
+    background: rgba(10, 18, 38, 0.85);
     backdrop-filter: blur(8px);
-    border-top: 1px solid var(--accent2);
-    padding: 8px;
-    gap: 8px;
-    z-index: 1000;
+    border-top: 1px solid var(--line);
+    padding: 6px 10px;
+    gap: 6px;
     justify-content: center;
   }
 
   .mobile-virtual-keys button {
-    background: #1a1a1a;
+    background: var(--panel);
     color: var(--text);
-    border: 1px solid var(--dim);
+    border: 1px solid var(--faint);
     border-radius: 4px;
-    padding: 8px 12px;
-    font-size: 0.85rem;
+    padding: 6px 8px;
+    font-size: 0.8rem;
     font-family: inherit;
     cursor: pointer;
     flex: 1;
     text-align: center;
+    touch-action: manipulation;
   }
 
   .mobile-virtual-keys button:active {
     background: var(--accent2);
     color: var(--bg);
-  }
-
-  /* Add some padding to main so content isn't obscured by the fixed bar */
-  main {
-    padding-bottom: 50px;
   }
 }
