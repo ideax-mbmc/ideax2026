@@ -10,6 +10,9 @@ export default function CommandLine({ inputRef, history, onRunCommand, onAppendT
       // Don't interfere if they are using modifiers (Ctrl, Alt, Meta)
       if (e.ctrlKey || e.altKey || e.metaKey) return
 
+      // Don't auto-focus for synthesized events (e.g. from MobileVirtualKeys)
+      if (!e.isTrusted) return
+
       // Don't interfere if another handler already consumed this event
       if (e.defaultPrevented) return
 
