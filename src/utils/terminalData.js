@@ -6,10 +6,10 @@ export const TRACKS = [
     desc: 'Strengthen disaster preparedness & early warning systems, and build tools for sustainable resource management.'
   },
   {
-    id: 'cybersec',
-    file: 'cybersec.sh',
-    name: 'Cyber Security & Digital Trust',
-    desc: 'Build solutions that harden digital infrastructure and strengthen trust across public and private systems.'
+    id: 'tourism',
+    file: 'tourism.sh',
+    name: 'Tourism',
+    desc: 'Build tech solutions promoting sustainable travel, local culture preservation, and smart tourism experiences.'
   },
   {
     id: 'egov',

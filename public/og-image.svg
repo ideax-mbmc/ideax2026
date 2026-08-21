@@ -43,7 +43,7 @@
   <text x="440" y="512" font-family="monospace" font-size="14" fill="#3b82f6">climate</text>
   
   <rect x="560" y="480" width="120" height="50" rx="5" fill="#333"/>
-  <text x="580" y="512" font-family="monospace" font-size="14" fill="#3b82f6">cybersec</text>
+  <text x="590" y="512" font-family="monospace" font-size="14" fill="#3b82f6">tourism</text>
   
   <rect x="700" y="480" width="120" height="50" rx="5" fill="#333"/>
   <text x="720" y="512" font-family="monospace" font-size="14" fill="#3b82f6">egov</text>
