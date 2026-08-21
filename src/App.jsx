@@ -91,51 +91,48 @@ export default function App() {
 
   const bootCleanupRef = useRef(null)
 
-  const startBootSequence = () => {
-    if (bootCleanupRef.current) {
-      bootCleanupRef.current()
-    }
-    bootCleanupRef.current = runBootSequence()
+  const ROUTE_ALIASES = {
+    faqs: 'faq',
+    track: 'tracks',
+    prize: 'prizes',
+    prizepool: 'prizes',
+    rules: 'participation',
+    eligibility: 'participation',
+    signup: 'register',
+    apply: 'register',
+    schedule: 'timeline',
+    dates: 'timeline',
+    info: 'about',
+    hall: 'hall-of-fame',
+    fame: 'hall-of-fame',
+    museum: 'hall-of-fame',
+    halloffame: 'hall-of-fame',
+    'hall-of-fame': 'hall-of-fame',
+    testimonial: 'testimonials',
+    gallery: 'testimonials',
+    testimonials: 'testimonials',
+    coc: 'code',
+    'code-of-conduct': 'code',
+    conduct: 'code',
+    code: 'code',
+    recaps: 'recap',
+    cls: 'clear'
   }
 
-  // Boot sequence
-  useEffect(() => {
-    if (showIntro) return
-    startBootSequence()
-    return () => {
-      if (bootCleanupRef.current) {
-        bootCleanupRef.current()
-        bootCleanupRef.current = null
-      }
+  const getRouteFromLocation = () => {
+    let path = window.location.pathname.replace(/^\/+|\/+$/g, '').trim().toLowerCase()
+    if (!path || path === 'index.html') {
+      path = window.location.hash.replace(/^#\/?/, '').trim().toLowerCase()
     }
-  }, [showIntro])
+    return ROUTE_ALIASES[path] || path
+  }
 
-  // Handle URL hash on load or change
-  useEffect(() => {
-    if (showIntro) return
-
-    const handleHash = () => {
-      const hash = window.location.hash.replace(/^#\/?/, '').trim().toLowerCase()
-      if (!hash) return
-
-      if (['museum', 'hall', 'halloffame', 'hall-of-fame', 'fame'].includes(hash)) {
-        setView('museum')
-        document.title = 'Hall of Fame | MBMC IdeaX 2026'
-      } else if (['gallery', 'testimonials'].includes(hash)) {
-        setView('gallery')
-        document.title = 'Testimonials | MBMC IdeaX 2026'
-      } else if (['conduct', 'coc', 'code-of-conduct'].includes(hash)) {
-        setView('conduct')
-        document.title = 'Code of Conduct & Rules | MBMC IdeaX 2026'
-      } else {
-        handleRunCommand(hash)
-      }
+  const updateUrlPath = (route) => {
+    const newPath = (!route || route === 'home' || route === 'clear' || route === 'cls') ? '/' : `/${route}`
+    if (window.history.replaceState) {
+      window.history.replaceState(null, '', newPath)
     }
-
-    handleHash()
-    window.addEventListener('hashchange', handleHash)
-    return () => window.removeEventListener('hashchange', handleHash)
-  }, [showIntro])
+  }
 
   const COMMAND_TITLES = {
     about: 'About MBMC IdeaX 2026 | National Hackathon',
@@ -143,6 +140,8 @@ export default function App() {
     timeline: 'Timeline & Important Dates | MBMC IdeaX 2026',
     prizes: 'Prizes & Rewards (Rs. 111,111) | MBMC IdeaX 2026',
     faq: 'Frequently Asked Questions (FAQ) | MBMC IdeaX 2026',
+    faqs: 'Frequently Asked Questions (FAQ) | MBMC IdeaX 2026',
+    code: 'Code of Conduct & Rules | MBMC IdeaX 2026',
     conduct: 'Code of Conduct & Rules | MBMC IdeaX 2026',
     coc: 'Code of Conduct & Rules | MBMC IdeaX 2026',
     register: 'Register Now | MBMC IdeaX 2026',
@@ -150,6 +149,7 @@ export default function App() {
     eligibility: 'Eligibility & Team Rules | MBMC IdeaX 2026',
     hall: 'Hall of Fame | MBMC IdeaX 2026',
     museum: 'Hall of Fame | MBMC IdeaX 2026',
+    'hall-of-fame': 'Hall of Fame | MBMC IdeaX 2026',
     testimonials: 'Participant Testimonials | MBMC IdeaX 2026',
     gallery: 'Participant Testimonials | MBMC IdeaX 2026',
     recap: 'Past Recaps (2023-2025) | MBMC IdeaX 2026',
@@ -159,6 +159,81 @@ export default function App() {
     home: 'MBMC IdeaX 2026 | National Hackathon Nepal | Register Now'
   }
 
+  // Initial load & Boot sequence
+  useEffect(() => {
+    if (showIntro) return
+
+    const initialRoute = getRouteFromLocation()
+
+    if (['hall-of-fame', 'museum', 'hall', 'fame'].includes(initialRoute)) {
+      setView('museum')
+      document.title = 'Hall of Fame | MBMC IdeaX 2026'
+      updateUrlPath('hall-of-fame')
+    } else if (['testimonials', 'gallery'].includes(initialRoute)) {
+      setView('gallery')
+      document.title = 'Testimonials | MBMC IdeaX 2026'
+      updateUrlPath('testimonials')
+    } else if (['code', 'conduct', 'coc'].includes(initialRoute)) {
+      setView('conduct')
+      document.title = 'Code of Conduct & Rules | MBMC IdeaX 2026'
+      updateUrlPath('code')
+    } else {
+      if (bootCleanupRef.current) {
+        bootCleanupRef.current()
+      }
+      bootCleanupRef.current = runBootSequence(() => {
+        if (initialRoute && initialRoute !== 'home' && initialRoute !== 'clear') {
+          handleRunCommand(initialRoute)
+        }
+      })
+    }
+
+    return () => {
+      if (bootCleanupRef.current) {
+        bootCleanupRef.current()
+        bootCleanupRef.current = null
+      }
+    }
+  }, [showIntro])
+
+  // Handle URL change via popstate and hashchange
+  useEffect(() => {
+    if (showIntro) return
+
+    const handleLocationChange = () => {
+      const route = getRouteFromLocation()
+      if (!route) {
+        setView('terminal')
+        document.title = COMMAND_TITLES.home
+        return
+      }
+
+      if (['hall-of-fame', 'museum', 'hall', 'fame'].includes(route)) {
+        setView('museum')
+        document.title = 'Hall of Fame | MBMC IdeaX 2026'
+      } else if (['testimonials', 'gallery'].includes(route)) {
+        setView('gallery')
+        document.title = 'Testimonials | MBMC IdeaX 2026'
+      } else if (['code', 'conduct', 'coc'].includes(route)) {
+        setView('conduct')
+        document.title = 'Code of Conduct & Rules | MBMC IdeaX 2026'
+      } else if (['home', 'clear', 'cls'].includes(route)) {
+        setView('terminal')
+        handleClearTerminal()
+      } else {
+        setView('terminal')
+        handleRunCommand(route)
+      }
+    }
+
+    window.addEventListener('popstate', handleLocationChange)
+    window.addEventListener('hashchange', handleLocationChange)
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange)
+      window.removeEventListener('hashchange', handleLocationChange)
+    }
+  }, [showIntro])
+
   const handleRunCommand = (raw) => {
     const trimmed = (raw || '').trim()
     
@@ -167,24 +242,35 @@ export default function App() {
       setHistory(prev => [...prev, trimmed])
     }
 
-    const cmdName = (trimmed.split(/\s+/)[0] || '').toLowerCase()
-    if (COMMAND_TITLES[cmdName]) {
+    const rawCmd = (trimmed.split(/\s+/)[0] || '').toLowerCase()
+    const cmdName = ROUTE_ALIASES[rawCmd] || rawCmd
+
+    if (['home', 'clear', 'cls'].includes(cmdName)) {
+      document.title = COMMAND_TITLES.home
+      updateUrlPath('')
+    } else if (['hall-of-fame', 'museum', 'hall', 'fame'].includes(cmdName)) {
+      document.title = 'Hall of Fame | MBMC IdeaX 2026'
+      updateUrlPath('hall-of-fame')
+    } else if (['testimonials', 'gallery'].includes(cmdName)) {
+      document.title = 'Testimonials | MBMC IdeaX 2026'
+      updateUrlPath('testimonials')
+    } else if (['code', 'conduct', 'coc'].includes(cmdName)) {
+      document.title = 'Code of Conduct & Rules | MBMC IdeaX 2026'
+      updateUrlPath('code')
+    } else if (COMMAND_TITLES[cmdName]) {
       document.title = COMMAND_TITLES[cmdName]
-      if (window.location.hash !== `#${cmdName}` && cmdName !== 'home') {
-        history.pushState ? window.history.replaceState(null, '', `#${cmdName}`) : window.location.hash = cmdName
-      } else if (cmdName === 'home') {
-        history.pushState ? window.history.replaceState(null, '', window.location.pathname) : (window.location.hash = '')
-      }
+      updateUrlPath(cmdName)
     }
 
     const echoItem = { type: 'ECHO', command: raw }
     const result = executeCommand(raw, { history, onRunCommand: handleRunCommand })
 
     if (result && result.type === 'CLEAR') {
-      setItems([])
+      setItems(getInitialLandingItems())
     } else if (result && result.type === 'HOME') {
       setHistory([])
-      document.title = 'MBMC IdeaX 2026 | National Hackathon Nepal | Register Now'
+      document.title = COMMAND_TITLES.home
+      updateUrlPath('')
       startBootSequence()
     } else if (result && result.type === 'MUSEUM') {
       setItems(prev => [...prev, echoItem])
@@ -208,16 +294,16 @@ export default function App() {
   }
 
   const handleClearTerminal = () => {
-    setItems([])
+    setItems(getInitialLandingItems())
+    document.title = COMMAND_TITLES.home
+    updateUrlPath('')
     focusInput()
   }
 
   const handleHome = () => {
     setHistory([])
-    document.title = 'MBMC IdeaX 2026 | National Hackathon Nepal | Register Now'
-    if (window.history.replaceState) {
-      window.history.replaceState(null, '', window.location.pathname)
-    }
+    document.title = COMMAND_TITLES.home
+    updateUrlPath('')
     startBootSequence()
   }
 
@@ -234,10 +320,8 @@ export default function App() {
 
   const handleReturnToTerminal = () => {
     setView('terminal')
-    document.title = 'MBMC IdeaX 2026 | National Hackathon Nepal | Register Now'
-    if (window.history.replaceState) {
-      window.history.replaceState(null, '', window.location.pathname)
-    }
+    document.title = COMMAND_TITLES.home
+    updateUrlPath('')
   }
 
   return (

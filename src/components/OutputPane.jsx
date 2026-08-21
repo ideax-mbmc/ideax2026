@@ -97,7 +97,7 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
             <div className="card">
               <h3>about.md</h3>
               <p>
-                <span className="strong">MBMC IdeaX 2026</span> is a national technology hackathon organized by Madan Bhandari Memorial College in Kathmandu, Nepal. Registration opened on <span className="strong">28th Shrawan 2083 (13th Aug)</span> and closes on <span className="strong">16th Bhadra (1st Sept)</span>. The <span className="strong">Online Round</span> runs from <span className="strong">21st–28th Bhadra (6th–13th Sept)</span>, followed by the <span className="strong">Final On-Site Hackathon Event</span> from <span className="strong">16th–18th Ashoj (2nd–4th Oct)</span>. Participants will develop innovative technology solutions across five problem tracks: Climate Change, Resilience &amp; Sustainability; Cyber Security &amp; Digital Trust; E-Governance &amp; Smart Public Services; Smart Urban Transport &amp; Road Safety; and FinTech &amp; Digital Financial Innovation.
+                <span className="strong">MBMC IdeaX 2026</span> is a national technology hackathon organized by Madan Bhandari Memorial College in Kathmandu, Nepal. Registration opened on <span className="strong">28th Shrawan 2083 (13th Aug)</span> and closes on <span className="strong">16th Bhadra (1st Sept)</span>. The <span className="strong">Online Round</span> runs from <span className="strong">21st–28th Bhadra (6th–13th Sept)</span>, followed by the <span className="strong">Final On-Site Hackathon Event</span> from <span className="strong">16th–18th Ashoj (2nd–4th Oct)</span>. Participants will develop innovative technology solutions across five problem tracks: Climate Change, Resilience &amp; Sustainability; Tourism; E-Governance &amp; Smart Public Services; Smart Urban Transport &amp; Road Safety; and FinTech &amp; Digital Financial Innovation.
               </p>
             </div>
           </div>
@@ -237,7 +237,7 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
               <p style={{ marginBottom: '10px' }}>The hackathon runs continuously for a duration of 48 hours.</p>
 
               <p className="strong" style={{ color: 'var(--accent4)' }}>What are the problem tracks?</p>
-              <p style={{ marginBottom: '10px' }}>The five official problem tracks are: 1) Climate Change, Resilience &amp; Sustainability, 2) Cyber Security &amp; Digital Trust, 3) E-Governance &amp; Smart Public Services, 4) Smart Urban Transport &amp; Road Safety, and 5) FinTech &amp; Digital Financial Innovation.</p>
+              <p style={{ marginBottom: '10px' }}>The five official problem tracks are: 1) Climate Change, Resilience &amp; Sustainability, 2) Tourism, 3) E-Governance &amp; Smart Public Services, 4) Smart Urban Transport &amp; Road Safety, and 5) FinTech &amp; Digital Financial Innovation.</p>
 
               <p className="strong" style={{ color: 'var(--accent4)' }}>Where is the event held?</p>
               <p style={{ marginBottom: '10px' }}>The event is held at Madan Bhandari Memorial College, Kathmandu, Nepal.</p>
@@ -505,7 +505,7 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
         <h2>Tracks</h2>
         <ul>
           <li>Climate Change, Resilience & Sustainability - Build tools for disaster preparedness and sustainable resource management</li>
-          <li>Cyber Security & Digital Trust - Harden digital infrastructure and strengthen trust across systems</li>
+          <li>Tourism - Build tech solutions promoting sustainable travel, local culture preservation, and smart tourism experiences</li>
           <li>E-Governance & Smart Public Services - Make public services faster and more transparent through technology</li>
           <li>Smart Urban Transport & Road Safety - Design solutions for safer, smarter urban mobility</li>
           <li>FinTech & Digital Financial Innovation - Build next-generation digital financial tools for inclusion</li>
