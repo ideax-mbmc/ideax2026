@@ -1,10 +1,71 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import './Conduct.css'
 
-export default function Conduct({ onRunCommand }) {
+export default function Conduct({ onRunCommand, onReturn }) {
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    if (onReturn) {
+      const handleKeyDown = (e) => {
+        const el = containerRef.current
+        if (!el) return
+        
+        const pageAmount = el.clientHeight * 0.8
+        const lineAmount = 40
+
+        switch (e.key) {
+          case 'q':
+          case 'Q':
+          case 'Escape':
+            onReturn()
+            break
+          case 'j':
+          case 'ArrowDown':
+            el.scrollTop += lineAmount
+            e.preventDefault()
+            break
+          case 'k':
+          case 'ArrowUp':
+            el.scrollTop -= lineAmount
+            e.preventDefault()
+            break
+          case ' ':
+          case 'PageDown':
+            el.scrollTop += pageAmount
+            e.preventDefault()
+            break
+          case 'b':
+          case 'PageUp':
+            el.scrollTop -= pageAmount
+            e.preventDefault()
+            break
+          case 'g':
+            el.scrollTop = 0
+            break
+          case 'G':
+            el.scrollTop = el.scrollHeight
+            break
+          default:
+            break
+        }
+      }
+
+      window.addEventListener('keydown', handleKeyDown)
+      // Auto focus container to ensure keys are captured if we use tabIndex, but window listener is better.
+      return () => window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [onReturn])
+
+  const isFullscreen = !!onReturn
+
   return (
-    <div className="card conduct-card-wrapper">
-      <h3>code-of-conduct.md</h3>
+    <div 
+      className={isFullscreen ? 'fullscreen-man' : 'card conduct-card-wrapper'} 
+      ref={containerRef}
+      tabIndex={isFullscreen ? 0 : -1}
+    >
+      <div className={isFullscreen ? 'man-content-wrapper' : ''}>
+        {!isFullscreen && <h3>code-of-conduct.md</h3>}
 
       <div className="man-header">
         <span>CONDUCT(1)</span>
@@ -131,6 +192,13 @@ export default function Conduct({ onRunCommand }) {
         <span>August 2026</span>
         <span>CONDUCT(1)</span>
       </div>
+      </div>
+
+      {isFullscreen && (
+        <div className="man-status-bar">
+          <span className="standout"> Manual page conduct(1) line 1 (press h for help or q to quit) </span>
+        </div>
+      )}
     </div>
   )
 }

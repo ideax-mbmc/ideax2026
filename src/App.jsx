@@ -6,6 +6,7 @@ import CommandLine from './components/CommandLine'
 import LoadingIntro from './components/LoadingIntro'
 import AsciiWorld from './components/AsciiWorld'
 import Testimonials from './components/Testimonials'
+import Conduct from './components/Conduct'
 import { executeCommand } from './utils/commandHandler'
 import { TRACKS, getDynamicTimeline } from './utils/terminalData'
 
@@ -213,6 +214,10 @@ export default function App() {
       setItems(prev => [...prev, echoItem])
       setView('gallery')
       document.title = 'Testimonials | MBMC IdeaX 2026'
+    } else if (result && result.type === 'CONDUCT_VIEW') {
+      setItems(prev => [...prev, echoItem])
+      setView('conduct')
+      document.title = 'Code of Conduct | MBMC IdeaX 2026'
     } else if (result) {
       setItems(prev => [...prev, echoItem, result])
     } else {
@@ -264,6 +269,10 @@ export default function App() {
       ) : view === 'gallery' ? (
         <section aria-label="Testimonials">
           <Testimonials onReturn={handleReturnToTerminal} />
+        </section>
+      ) : view === 'conduct' ? (
+        <section aria-label="Code of Conduct Manual">
+          <Conduct onReturn={handleReturnToTerminal} />
         </section>
       ) : (
         <div className="terminal-app">

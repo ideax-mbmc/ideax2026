@@ -70,7 +70,17 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
     case 'conduct':
     case 'coc':
     case 'code-of-conduct':
-      return { type: 'CONDUCT' }
+      return { type: 'CONDUCT_VIEW' }
+      
+    case 'man': {
+      if (arg === 'conduct' || arg === 'coc' || arg === 'code-of-conduct') {
+        return { type: 'CONDUCT_VIEW' }
+      }
+      if (!arg) {
+        return { type: 'TEXT', text: `What manual page do you want?`, cls: 'warn' }
+      }
+      return { type: 'TEXT', text: `No manual entry for ${arg}`, cls: 'warn' }
+    }
 
     case 'faq':
       return { type: 'FAQ' }
