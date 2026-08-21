@@ -285,7 +285,6 @@ body.reduced-motion .app {
 .fetch-art canvas { display: block; width: 280px; height: 300px; }
 .fetch-info { flex: 0 1 340px; min-width: 220px; padding-top: 2px; }
 .fetch-register-info {
-  border-left: 1px dashed var(--line);
   padding-left: 20px;
   display: flex;
   flex-direction: column;
@@ -403,25 +402,27 @@ body.reduced-motion .app {
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  margin-top: 14px;
 }
 
 .register-now-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 7px 16px;
+  padding: 3px 10px;
   background: var(--accent4);
   color: #0b1329 !important;
   font-family: var(--mono);
   font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.05em;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
   border-radius: 3px;
   text-decoration: none;
   border: 1px solid var(--accent4);
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.45);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
 .register-now-btn:hover {
@@ -437,17 +438,18 @@ body.reduced-motion .app {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 14px;
+  padding: 3px 10px;
   background: rgba(129, 140, 248, 0.1);
   color: #a5b4fc !important;
   font-family: var(--mono);
   font-weight: 600;
-  font-size: 12.5px;
-  letter-spacing: 0.04em;
+  font-size: 11.5px;
+  letter-spacing: 0.03em;
   border-radius: 2px;
   text-decoration: none;
   border: 1px solid #818cf8;
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
 .discord-cta-btn:hover {

@@ -498,16 +498,13 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
                 <div className="k">Status</div>
                 <div className="v" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <span className="pulse-dot" />
-                  <span style={{ color: '#34d399', fontWeight: 600 }}>REGISTRATION IS LIVE</span>
+                  <span style={{ color: '#34d399', fontWeight: 600 }}>LIVE</span>
                 </div>
-                <div className="k">Entry</div>
-                <div className="v"><span className="register-cta-badge">FREE</span></div>
+                <div className="k">Entry Fee</div>
+                <div className="v">Rs. 0</div>
                 <div className="k">Prize Pool</div>
                 <div className="v strong" style={{ color: 'var(--text)' }}>Rs. 111,111</div>
               </div>
-              <p className="register-cta-desc" style={{ marginTop: '10px', marginBottom: '12px' }}>
-                Reserve your team spot now!
-              </p>
               <div className="register-cta-actions">
                 <a
                   href="https://forms.gle/cBgYAroPeJeZpxa6A"
