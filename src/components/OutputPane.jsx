@@ -268,43 +268,46 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
 
       case 'REGISTER_BANNER':
         return (
-          <div key={idx} className="line block register-cta-card">
-            <div className="register-cta-content">
-              <div className="register-cta-header">
-                <span className="pulse-dot" />
-                <span className="register-cta-title">REGISTRATION IS LIVE</span>
-                <span className="register-cta-badge">FREE ENTRY</span>
-              </div>
-              <p className="register-cta-desc">
-                Ready to innovate, build, and win from the <strong className="highlight-text">Rs. 111,111</strong> prize pool? Reserve your spot now!
-              </p>
-              <div className="register-cta-actions">
-                <a
-                  href="https://forms.gle/cBgYAroPeJeZpxa6A"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="register-now-btn"
-                >
-                  REGISTER NOW &rarr;
-                </a>
-                <a
-                  href="https://discord.com/invite/3RctjES2U"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="discord-cta-btn"
-                >
-                  JOIN DISCORD &rarr;
-                </a>
-                <button
-                  type="button"
-                  className="register-secondary-btn"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    onRunCommand('register')
-                  }}
-                >
-                  register.sh
-                </button>
+          <div key={idx} className="line block">
+            <div className="card register-cta-card">
+              <h3>register.sh</h3>
+              <div className="register-cta-content">
+                <div className="register-cta-header">
+                  <span className="pulse-dot" />
+                  <span className="register-cta-title">REGISTRATION IS LIVE</span>
+                  <span className="register-cta-badge">FREE ENTRY</span>
+                </div>
+                <p className="register-cta-desc">
+                  Ready to innovate, build, and win from the <strong className="highlight-text">Rs. 111,111</strong> prize pool? Reserve your spot now!
+                </p>
+                <div className="register-cta-actions">
+                  <a
+                    href="https://forms.gle/cBgYAroPeJeZpxa6A"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="register-now-btn"
+                  >
+                    [&gt; REGISTER NOW]
+                  </a>
+                  <a
+                    href="https://discord.com/invite/3RctjES2U"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="discord-cta-btn"
+                  >
+                    [# JOIN DISCORD]
+                  </a>
+                  <button
+                    type="button"
+                    className="register-secondary-btn"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      onRunCommand('register')
+                    }}
+                  >
+                    $ ./register.sh
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -485,6 +488,43 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
                 <span style={{ background: '#38bdf8' }} />
                 <span style={{ background: '#7dd3fc' }} />
                 <span style={{ background: '#eaf1ff' }} />
+              </div>
+            </div>
+
+            <div className="fetch-info fetch-register-info">
+              <div className="strong">status<span className="dim">@</span>register.service</div>
+              <div className="faint">------------------</div>
+              <div className="kv-grid">
+                <div className="k">Status</div>
+                <div className="v" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span className="pulse-dot" />
+                  <span style={{ color: '#34d399', fontWeight: 600 }}>REGISTRATION IS LIVE</span>
+                </div>
+                <div className="k">Entry</div>
+                <div className="v"><span className="register-cta-badge">FREE</span></div>
+                <div className="k">Prize Pool</div>
+                <div className="v strong" style={{ color: 'var(--text)' }}>Rs. 111,111</div>
+              </div>
+              <p className="register-cta-desc" style={{ marginTop: '10px', marginBottom: '12px' }}>
+                Reserve your team spot now!
+              </p>
+              <div className="register-cta-actions">
+                <a
+                  href="https://forms.gle/cBgYAroPeJeZpxa6A"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="register-now-btn"
+                >
+                  [&gt; REGISTER NOW]
+                </a>
+                <a
+                  href="https://discord.com/invite/3RctjES2U"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="discord-cta-btn"
+                >
+                  [# JOIN DISCORD]
+                </a>
               </div>
             </div>
           </div>

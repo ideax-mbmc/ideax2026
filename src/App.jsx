@@ -17,8 +17,6 @@ const getInitialLandingItems = () => [
   { type: 'BLANK' },
   { type: 'FASTFETCH' },
   { type: 'BLANK' },
-  { type: 'REGISTER_BANNER' },
-  { type: 'BLANK' },
   { type: 'TEXT', text: 'welcome to MBMC IdeaX 2026.', cls: 'strong' },
   { type: 'TEXT', text: "type 'help' to see available commands, or click a suggestion below.", cls: 'dim' },
   { type: 'BLANK' }

@@ -277,13 +277,19 @@ body.reduced-motion .app {
 .fetch-row {
   display: flex;
   gap: 26px;
-  align-items: flex-start;
+  align-items: stretch;
   flex-wrap: wrap;
 }
 
 .fetch-art { flex: 0 0 auto; }
 .fetch-art canvas { display: block; width: 280px; height: 300px; }
-.fetch-info { flex: 1 1 240px; min-width: 220px; padding-top: 2px; }
+.fetch-info { flex: 0 1 340px; min-width: 220px; padding-top: 2px; }
+.fetch-register-info {
+  border-left: 1px dashed var(--line);
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
 
 .swatches { display: flex; gap: 5px; margin-top: 14px; }
 .swatches span { width: 18px; height: 12px; display: inline-block; }
@@ -336,30 +342,22 @@ body.reduced-motion .app {
 /* ---------------- register cta card ---------------- */
 
 .register-cta-card {
-  margin: 14px 0;
-  border: 1px solid var(--line);
-  background: var(--panel2);
-  padding: 16px 18px;
-  border-radius: 4px;
-  position: relative;
-  overflow: hidden;
-}
-
-.register-cta-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 3px;
-  height: 100%;
-  background: var(--accent3);
+  margin: 12px 0;
+  padding: 12px 14px;
 }
 
 .register-cta-header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 8px;
+}
+
+.register-cta-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .pulse-dot {
@@ -413,49 +411,59 @@ body.reduced-motion .app {
   align-items: center;
   justify-content: center;
   padding: 7px 16px;
-  background: var(--accent);
-  color: #ffffff !important;
-  font-weight: 600;
-  font-size: 12.5px;
-  letter-spacing: 0.03em;
+  background: var(--accent4);
+  color: #0b1329 !important;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.05em;
   border-radius: 3px;
   text-decoration: none;
-  border: 1px solid var(--accent2);
-  transition: background 0.15s ease;
+  border: 1px solid var(--accent4);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.45);
+  transition: all 0.15s ease;
 }
 
 .register-now-btn:hover {
-  background: var(--deep);
+  background: #7dd3fc;
+  color: #040914 !important;
+  border-color: #7dd3fc;
   text-decoration: none;
+  box-shadow: 0 0 20px rgba(125, 211, 252, 0.7);
+  transform: translateY(-1px);
 }
 
 .discord-cta-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 7px 16px;
-  background: #4f46e5;
-  color: #ffffff !important;
+  padding: 6px 14px;
+  background: rgba(129, 140, 248, 0.1);
+  color: #a5b4fc !important;
+  font-family: var(--mono);
   font-weight: 600;
   font-size: 12.5px;
-  letter-spacing: 0.03em;
-  border-radius: 3px;
+  letter-spacing: 0.04em;
+  border-radius: 2px;
   text-decoration: none;
-  border: 1px solid #6366f1;
-  transition: background 0.15s ease;
+  border: 1px solid #818cf8;
+  transition: all 0.15s ease;
 }
 
 .discord-cta-btn:hover {
-  background: #4338ca;
+  background: #818cf8;
+  color: var(--bg) !important;
+  border-color: #818cf8;
   text-decoration: none;
+  box-shadow: 0 0 12px rgba(165, 180, 252, 0.35);
 }
 
 .register-secondary-btn {
-  background: transparent;
-  border: 1px dashed var(--faint);
-  color: var(--dim);
+  background: rgba(199, 220, 255, 0.05);
+  border: 1px dashed var(--accent3);
+  color: var(--text);
   padding: 6px 12px;
-  border-radius: 3px;
+  border-radius: 2px;
   font-family: var(--mono);
   font-size: 12px;
   cursor: pointer;
@@ -463,9 +471,10 @@ body.reduced-motion .app {
 }
 
 .register-secondary-btn:hover {
-  background: var(--panel);
-  border-color: var(--accent3);
-  color: var(--text);
+  background: rgba(59, 130, 246, 0.15);
+  border-style: solid;
+  border-color: var(--accent4);
+  color: var(--accent4);
 }
 
 /* ---------------- suggestion chips ---------------- */
