@@ -196,7 +196,7 @@ export default function Conduct({ onRunCommand, onReturn }) {
 
       {isFullscreen && (
         <div className="man-status-bar">
-          <span className="standout"> Manual page conduct(1) line 1 (press h for help or q to quit) </span>
+          <span className="standout"> Manual page conduct(1) line 1 (press q to quit) </span>
         </div>
       )}
     </div>
