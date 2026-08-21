@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { testimonials } from '../utils/testimonialsData'
+import MobileVirtualKeys from './MobileVirtualKeys'
 
 export default function Testimonials({ outputRef, onReturn }) {
   const [lines, setLines] = useState([])
@@ -102,6 +103,11 @@ export default function Testimonials({ outputRef, onReturn }) {
         },
         { type: 'log-eof', text: '[EOF]    /var/log/testimonials.log' },
       ])
+
+      // Return to terminal on quit (mirrors Conduct behaviour)
+      if (isQ && onReturn) {
+        setTimeout(onReturn, 400)
+      }
     }
 
     const run = async () => {
@@ -150,8 +156,11 @@ export default function Testimonials({ outputRef, onReturn }) {
     }
   }, []) // StrictMode-safe: cancelled flag is local to each effect invocation
 
+  const isFullscreen = !!onReturn
+
   return (
-    <div className="tlog-stream">
+    <div className={isFullscreen ? 'tlog-fullscreen' : 'tlog-stream'}>
+      <div className="tlog-stream">
       {lines.map((line, i) => {
         const isLastLine = i === lines.length - 1
         switch (line.type) {
@@ -178,6 +187,16 @@ export default function Testimonials({ outputRef, onReturn }) {
             return null
         }
       })}
+      </div>
+
+      {isFullscreen && (
+        <div className="tlog-status-bar">
+          <div style={{ paddingBottom: '4px' }}>
+            <span className="standout"> tail -f /var/log/testimonials.log (press q to quit) </span>
+          </div>
+          <MobileVirtualKeys />
+        </div>
+      )}
     </div>
   )
 }
