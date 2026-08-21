@@ -22,7 +22,7 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
           ['about', 'what MBMC IdeaX actually is'],
           ['participation', 'eligibility & team requirements'],
           ['tracks', 'list the 5 problem tracks'],
-          ['tracks <id>', 'detail on one track (climate / cybersec / egov / transport / fintech)'],
+          ['tracks <id>', 'detail on one track (climate / tourism / egov / transport / fintech)'],
           ['faq', 'frequently asked questions'],
           ['conduct', 'code of conduct & hackathon rules'],
           ['hall of fame', 'visit the sponsor hall of fame'],
@@ -34,7 +34,6 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
           ['contact', 'email + phone for the organizing team'],
           ['discord', 'join the community server'],
           ['testimonials', 'what past participants say'],
-          ['gallery', 'visual testimonial gallery'],
           ['ls', 'list files in this directory'],
           ['cat <file>', 'print a file, e.g. cat prizes.md'],
           ['fastfetch', 'replay the splash screen'],
@@ -50,7 +49,8 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
     case 'eligibility':
       return { type: 'PARTICIPATION' }
 
-    case 'tracks': {
+    case 'tracks':
+    case 'track': {
       if (arg) {
         const found = TRACKS.find(x => x.id === arg.toLowerCase() || x.file === arg.toLowerCase() || x.file === `${arg.toLowerCase()}.sh`)
         if (!found) {
@@ -62,18 +62,32 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
     }
 
     case 'timeline':
+    case 'schedule':
       return { type: 'TIMELINE', items: getDynamicTimeline() }
 
     case 'prizes':
+    case 'prize':
       return { type: 'PRIZES' }
 
+    case 'code':
     case 'conduct':
     case 'coc':
     case 'code':
     case 'code-of-conduct':
       return { type: 'CONDUCT_VIEW' }
+      
+    case 'man': {
+      if (arg === 'conduct' || arg === 'coc' || arg === 'code-of-conduct') {
+        return { type: 'CONDUCT_VIEW' }
+      }
+      if (!arg) {
+        return { type: 'TEXT', text: `What manual page do you want?`, cls: 'warn' }
+      }
+      return { type: 'TEXT', text: `No manual entry for ${arg}`, cls: 'warn' }
+    }
 
     case 'faq':
+    case 'faqs':
       return { type: 'FAQ' }
 
     case 'countdown': {
@@ -98,9 +112,10 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
       return { type: 'TESTIMONIALS' }
 
     case 'gallery':
-      return { type: 'GALLERY' }
+      return { type: 'TESTIMONIALS' }
 
-    case 'recap': {
+    case 'recap':
+    case 'recaps': {
       if (arg) {
         const year = parseInt(arg, 10)
         const recap = getRecap(year)
@@ -162,6 +177,7 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
     }
 
     case 'clear':
+    case 'cls':
       return { type: 'CLEAR' }
 
     case 'whoami': {

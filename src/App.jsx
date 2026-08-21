@@ -9,6 +9,7 @@ const Testimonials = lazy(() => import('./components/Testimonials'))
 const Conduct = lazy(() => import('./components/Conduct'))
 import { executeCommand } from './utils/commandHandler'
 import { TRACKS, getDynamicTimeline } from './utils/terminalData'
+import MobileVirtualKeys from './components/MobileVirtualKeys'
 
 const getInitialLandingItems = () => [
   { type: 'TEXT', text: '[ok] mounting /tracks', cls: 'ok' },
@@ -32,6 +33,7 @@ export default function App() {
   const [history, setHistory] = useState([])
   const outputRef = useRef(null)
   const inputRef = useRef(null)
+  const lastCommandRef = useRef({ cmd: '', time: 0 })
 
   const focusInput = () => {
     if (inputRef.current) {
@@ -91,22 +93,115 @@ export default function App() {
 
   const bootCleanupRef = useRef(null)
 
-  const startBootSequence = () => {
+  const startBootSequence = (onDone) => {
     if (bootCleanupRef.current) {
       bootCleanupRef.current()
     }
-    bootCleanupRef.current = runBootSequence()
+    bootCleanupRef.current = runBootSequence(onDone)
   }
 
-  // Boot sequence
+  const ROUTE_ALIASES = {
+    faqs: 'faq',
+    track: 'tracks',
+    prize: 'prizes',
+    prizepool: 'prizes',
+    rules: 'participation',
+    eligibility: 'participation',
+    signup: 'register',
+    apply: 'register',
+    schedule: 'timeline',
+    dates: 'timeline',
+    info: 'about',
+    hall: 'hall-of-fame',
+    fame: 'hall-of-fame',
+    museum: 'hall-of-fame',
+    halloffame: 'hall-of-fame',
+    'hall-of-fame': 'hall-of-fame',
+    testimonial: 'testimonials',
+    gallery: 'testimonials',
+    testimonials: 'testimonials',
+    coc: 'code',
+    'code-of-conduct': 'code',
+    conduct: 'code',
+    code: 'code',
+    recaps: 'recap',
+    cls: 'clear'
+  }
+
+  const getRouteFromLocation = () => {
+    let path = window.location.pathname.replace(/^\/+|\/+$/g, '').trim().toLowerCase()
+    if (!path || path === 'index.html') {
+      path = window.location.hash.replace(/^#\/?/, '').trim().toLowerCase()
+    }
+    return ROUTE_ALIASES[path] || path
+  }
+
+  const updateUrlPath = (route) => {
+    const newPath = (!route || route === 'home' || route === 'clear' || route === 'cls') ? '/' : `/${route}`
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, '', newPath)
+    }
+  }
+
+  const COMMAND_TITLES = {
+    about: 'About MBMC IdeaX 2026 | National Hackathon',
+    tracks: 'Tracks & Problem Statements | MBMC IdeaX 2026',
+    timeline: 'Timeline & Important Dates | MBMC IdeaX 2026',
+    prizes: 'Prizes & Rewards (Rs. 111,111) | MBMC IdeaX 2026',
+    faq: 'Frequently Asked Questions (FAQ) | MBMC IdeaX 2026',
+    faqs: 'Frequently Asked Questions (FAQ) | MBMC IdeaX 2026',
+    code: 'Code of Conduct & Rules | MBMC IdeaX 2026',
+    conduct: 'Code of Conduct & Rules | MBMC IdeaX 2026',
+    coc: 'Code of Conduct & Rules | MBMC IdeaX 2026',
+    register: 'Register Now | MBMC IdeaX 2026',
+    participation: 'Eligibility & Team Rules | MBMC IdeaX 2026',
+    eligibility: 'Eligibility & Team Rules | MBMC IdeaX 2026',
+    hall: 'Hall of Fame | MBMC IdeaX 2026',
+    museum: 'Hall of Fame | MBMC IdeaX 2026',
+    'hall-of-fame': 'Hall of Fame | MBMC IdeaX 2026',
+    testimonials: 'Participant Testimonials | MBMC IdeaX 2026',
+    gallery: 'Participant Testimonials | MBMC IdeaX 2026',
+    recap: 'Past Recaps (2023-2025) | MBMC IdeaX 2026',
+    contact: 'Contact & Support | MBMC IdeaX 2026',
+    discord: 'Community Discord | MBMC IdeaX 2026',
+    countdown: 'Countdown to Kickoff | MBMC IdeaX 2026',
+    home: 'MBMC IdeaX 2026 | National Hackathon Nepal | Register Now'
+  }
+
+  // Initial load & Boot sequence
   useEffect(() => {
     if (showIntro) return
-    startBootSequence()
+
+    const initialRoute = getRouteFromLocation()
+
+    if (['hall-of-fame', 'museum', 'hall', 'fame'].includes(initialRoute)) {
+      setView('museum')
+      document.title = 'Hall of Fame | MBMC IdeaX 2026'
+      updateUrlPath('hall-of-fame')
+    } else if (['testimonials', 'gallery'].includes(initialRoute)) {
+      setView('gallery')
+      document.title = 'Testimonials | MBMC IdeaX 2026'
+      updateUrlPath('testimonials')
+    } else if (['code', 'conduct', 'coc'].includes(initialRoute)) {
+      setView('conduct')
+      document.title = 'Code of Conduct & Rules | MBMC IdeaX 2026'
+      updateUrlPath('code')
+    } else {
+      if (bootCleanupRef.current) {
+        bootCleanupRef.current()
+      }
+      bootCleanupRef.current = runBootSequence(() => {
+        if (initialRoute && initialRoute !== 'home' && initialRoute !== 'clear') {
+          handleRunCommand(initialRoute)
+        }
+      })
+    }
+
     return () => {
       if (bootCleanupRef.current) {
         bootCleanupRef.current()
-        bootCleanupRef.current = null
       }
+      bootCleanupRef.current = null
     }
   }, [showIntro])
 
@@ -123,82 +218,94 @@ export default function App() {
     return () => vv.removeEventListener('resize', handleViewportResize)
   }, [])
 
-  // Handle URL hash on load or change
+  // Handle URL change via popstate and hashchange
   useEffect(() => {
     if (showIntro) return
 
-    const handleHash = () => {
-      const hash = window.location.hash.replace(/^#\/?/, '').trim().toLowerCase()
-      if (!hash) return
+    const handleLocationChange = () => {
+      const route = getRouteFromLocation()
+      if (!route) {
+        setView('terminal')
+        document.title = COMMAND_TITLES.home
+        setTimeout(() => {
+          if (outputRef.current) {
+            outputRef.current.scrollTop = outputRef.current.scrollHeight
+          }
+          focusInput()
+        }, 20)
+        return
+      }
 
-      if (['museum', 'hall', 'halloffame', 'hall-of-fame', 'fame'].includes(hash)) {
+      if (['hall-of-fame', 'museum', 'hall', 'fame'].includes(route)) {
         setView('museum')
         document.title = 'Hall of Fame | MBMC IdeaX 2026'
-      } else if (['gallery', 'testimonials'].includes(hash)) {
+      } else if (['testimonials', 'gallery'].includes(route)) {
         setView('gallery')
         document.title = 'Testimonials | MBMC IdeaX 2026'
-      } else if (['conduct', 'coc', 'code-of-conduct'].includes(hash)) {
+      } else if (['code', 'conduct', 'coc'].includes(route)) {
         setView('conduct')
         document.title = 'Code of Conduct & Rules | MBMC IdeaX 2026'
+      } else if (['home', 'clear', 'cls'].includes(route)) {
+        setView('terminal')
+        handleClearTerminal()
       } else {
-        handleRunCommand(hash)
+        setView('terminal')
+        handleRunCommand(route)
       }
     }
 
-    handleHash()
-    window.addEventListener('hashchange', handleHash)
-    return () => window.removeEventListener('hashchange', handleHash)
+    window.addEventListener('popstate', handleLocationChange)
+    window.addEventListener('hashchange', handleLocationChange)
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange)
+      window.removeEventListener('hashchange', handleLocationChange)
+    }
   }, [showIntro])
-
-  const COMMAND_TITLES = {
-    about: 'About MBMC IdeaX 2026 | National Hackathon',
-    tracks: 'Tracks & Problem Statements | MBMC IdeaX 2026',
-    timeline: 'Timeline & Important Dates | MBMC IdeaX 2026',
-    prizes: 'Prizes & Rewards (Rs. 111,111) | MBMC IdeaX 2026',
-    faq: 'Frequently Asked Questions (FAQ) | MBMC IdeaX 2026',
-    conduct: 'Code of Conduct & Rules | MBMC IdeaX 2026',
-    coc: 'Code of Conduct & Rules | MBMC IdeaX 2026',
-    code: 'Code of Conduct & Rules | MBMC IdeaX 2026',
-    register: 'Register Now | MBMC IdeaX 2026',
-    participation: 'Eligibility & Team Rules | MBMC IdeaX 2026',
-    eligibility: 'Eligibility & Team Rules | MBMC IdeaX 2026',
-    hall: 'Hall of Fame | MBMC IdeaX 2026',
-    museum: 'Hall of Fame | MBMC IdeaX 2026',
-    testimonials: 'Participant Testimonials | MBMC IdeaX 2026',
-    gallery: 'Participant Testimonials | MBMC IdeaX 2026',
-    recap: 'Past Recaps (2023-2025) | MBMC IdeaX 2026',
-    contact: 'Contact & Support | MBMC IdeaX 2026',
-    discord: 'Community Discord | MBMC IdeaX 2026',
-    countdown: 'Countdown to Kickoff | MBMC IdeaX 2026',
-    home: 'MBMC IdeaX 2026 | National Hackathon Nepal | Register Now'
-  }
 
   const handleRunCommand = (raw) => {
     const trimmed = (raw || '').trim()
+    const now = Date.now()
     
+    // Prevent accidental double execution (e.g. from rapid double clicks or event bubbling)
+    if (trimmed !== '' && trimmed === lastCommandRef.current.cmd && (now - lastCommandRef.current.time) < 300) {
+      return
+    }
+    lastCommandRef.current = { cmd: trimmed, time: now }
+
     // Always add command history if non-empty
     if (trimmed !== '') {
       setHistory(prev => [...prev, trimmed])
     }
 
-    const cmdName = (trimmed.split(/\s+/)[0] || '').toLowerCase()
-    if (COMMAND_TITLES[cmdName]) {
+    const rawCmd = (trimmed.split(/\s+/)[0] || '').toLowerCase()
+    const cmdName = ROUTE_ALIASES[rawCmd] || rawCmd
+
+    if (['home', 'clear', 'cls'].includes(cmdName)) {
+      document.title = COMMAND_TITLES.home
+      updateUrlPath('')
+    } else if (['hall-of-fame', 'museum', 'hall', 'fame'].includes(cmdName)) {
+      document.title = 'Hall of Fame | MBMC IdeaX 2026'
+      updateUrlPath('hall-of-fame')
+    } else if (['testimonials', 'gallery'].includes(cmdName)) {
+      document.title = 'Testimonials | MBMC IdeaX 2026'
+      updateUrlPath('testimonials')
+    } else if (['code', 'conduct', 'coc'].includes(cmdName)) {
+      document.title = 'Code of Conduct & Rules | MBMC IdeaX 2026'
+      updateUrlPath('code')
+    } else if (COMMAND_TITLES[cmdName]) {
       document.title = COMMAND_TITLES[cmdName]
-      if (window.location.hash !== `#${cmdName}` && cmdName !== 'home') {
-        history.pushState ? window.history.replaceState(null, '', `#${cmdName}`) : window.location.hash = cmdName
-      } else if (cmdName === 'home') {
-        history.pushState ? window.history.replaceState(null, '', window.location.pathname) : (window.location.hash = '')
-      }
+      updateUrlPath(cmdName)
     }
 
     const echoItem = { type: 'ECHO', command: raw }
     const result = executeCommand(raw, { history, onRunCommand: handleRunCommand })
 
     if (result && result.type === 'CLEAR') {
-      setItems([])
+      setItems(getInitialLandingItems())
     } else if (result && result.type === 'HOME') {
       setHistory([])
-      document.title = 'MBMC IdeaX 2026 | National Hackathon Nepal | Register Now'
+      document.title = COMMAND_TITLES.home
+      updateUrlPath('')
       startBootSequence()
     } else if (result && result.type === 'MUSEUM') {
       setItems(prev => [...prev, echoItem])
@@ -222,16 +329,16 @@ export default function App() {
   }
 
   const handleClearTerminal = () => {
-    setItems([])
+    setItems(getInitialLandingItems())
+    document.title = COMMAND_TITLES.home
+    updateUrlPath('')
     focusInput()
   }
 
   const handleHome = () => {
     setHistory([])
-    document.title = 'MBMC IdeaX 2026 | National Hackathon Nepal | Register Now'
-    if (window.history.replaceState) {
-      window.history.replaceState(null, '', window.location.pathname)
-    }
+    document.title = COMMAND_TITLES.home
+    updateUrlPath('')
     startBootSequence()
   }
 
@@ -248,68 +355,79 @@ export default function App() {
 
   const handleReturnToTerminal = () => {
     setView('terminal')
-    document.title = 'MBMC IdeaX 2026 | National Hackathon Nepal | Register Now'
-    if (window.history.replaceState) {
-      window.history.replaceState(null, '', window.location.pathname)
-    }
+    document.title = COMMAND_TITLES.home
+    updateUrlPath('')
+    setTimeout(() => {
+      if (outputRef.current) {
+        outputRef.current.scrollTop = outputRef.current.scrollHeight
+      }
+      focusInput()
+    }, 20)
   }
 
   return (
     <main>
-      {view === 'museum' ? (
+      {view === 'museum' && (
         <section aria-label="Hall of Fame">
           <Suspense fallback={<div className="view-loading">loading hall of fame…</div>}>
             <AsciiWorld onReturn={handleReturnToTerminal} />
           </Suspense>
         </section>
-      ) : view === 'gallery' ? (
+      )}
+      
+      {view === 'gallery' && (
         <section aria-label="Testimonials">
           <Suspense fallback={<div className="view-loading">loading testimonials…</div>}>
             <Testimonials onReturn={handleReturnToTerminal} />
           </Suspense>
         </section>
-      ) : view === 'conduct' ? (
-        <section aria-label="Code of Conduct">
+      )}
+      
+      {view === 'conduct' && (
+        <section aria-label="Code of Conduct Manual">
           <Suspense fallback={<div className="view-loading">loading code of conduct…</div>}>
             <Conduct onReturn={handleReturnToTerminal} />
           </Suspense>
         </section>
-      ) : (
-        <div className="terminal-app">
-          <div className="scanlines" aria-hidden="true" />
-          <div className="vignette" aria-hidden="true" />
-
-          {showIntro ? (
-            <LoadingIntro onComplete={() => setShowIntro(false)} />
-          ) : (
-            <div className="app" id="app">
-              <TitleBar
-                onClear={handleClearTerminal}
-                onHome={handleHome}
-                onFocus={handleFocusInput}
-              />
-
-              <OutputPane
-                items={items}
-                onRunCommand={handleRunCommand}
-                outputRef={outputRef}
-                onFocusInput={handleFocusInput}
-              />
-
-              <nav aria-label="Quick commands" className="quick-nav">
-                <SuggestionChips onRunCommand={handleRunCommand} />
-              </nav>
-
-              <CommandLine
-                inputRef={inputRef}
-                history={history}
-                onRunCommand={handleRunCommand}
-                onAppendText={handleAppendText}
-              />
-            </div>
-          )}
-        </div>
       )}
+
+      <div className="terminal-app" style={{ display: view === 'terminal' ? 'flex' : 'none' }}>
+        <div className="scanlines" aria-hidden="true" />
+        <div className="vignette" aria-hidden="true" />
+
+        {showIntro ? (
+          <LoadingIntro onComplete={() => setShowIntro(false)} />
+        ) : (
+          <div className="app" id="app">
+            <TitleBar
+              onClear={handleClearTerminal}
+              onHome={handleHome}
+              onFocus={handleFocusInput}
+            />
+
+            <OutputPane
+              items={items}
+              onRunCommand={handleRunCommand}
+              outputRef={outputRef}
+              onFocusInput={handleFocusInput}
+            />
+
+            <nav aria-label="Quick commands" className="quick-nav">
+              <SuggestionChips onRunCommand={handleRunCommand} />
+            </nav>
+
+            <MobileVirtualKeys />
+
+            <CommandLine
+              inputRef={inputRef}
+              history={history}
+              onRunCommand={handleRunCommand}
+              onAppendText={handleAppendText}
+              isActive={view === 'terminal'}
+            />
+          </div>
+        )}
+      </div>
     </main>
   )
 }

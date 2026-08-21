@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import AsciiCanvas from './AsciiCanvas'
-import { testimonials } from '../utils/testimonialsData'
+import Conduct from './Conduct'
+import Testimonials from './Testimonials'
 
 export default function OutputPane({ items, onRunCommand, outputRef, onFocusInput }) {
 
@@ -97,7 +98,7 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
             <div className="card">
               <h3>about.md</h3>
               <p>
-                <span className="strong">MBMC IdeaX 2026</span> is a national technology hackathon organized by Madan Bhandari Memorial College in Kathmandu, Nepal. Registration opened on <span className="strong">28th Shrawan 2083 (13th Aug)</span> and closes on <span className="strong">16th Bhadra (1st Sept)</span>. The <span className="strong">Online Round</span> runs from <span className="strong">21st–28th Bhadra (6th–13th Sept)</span>, followed by the <span className="strong">Final On-Site Hackathon Event</span> from <span className="strong">16th–18th Ashoj (2nd–4th Oct)</span>. Participants will develop innovative technology solutions across five problem tracks: Climate Change, Resilience &amp; Sustainability; Cyber Security &amp; Digital Trust; E-Governance &amp; Smart Public Services; Smart Urban Transport &amp; Road Safety; and FinTech &amp; Digital Financial Innovation.
+                <span className="strong">MBMC IdeaX 2026</span> is a national technology hackathon organized by Madan Bhandari Memorial College in Kathmandu, Nepal. Registration opened on <span className="strong">28th Shrawan 2083 (13th Aug)</span> and closes on <span className="strong">16th Bhadra (1st Sept)</span>. The <span className="strong">Online Round</span> runs from <span className="strong">21st–28th Bhadra (6th–13th Sept)</span>, followed by the <span className="strong">Final On-Site Hackathon Event</span> from <span className="strong">16th–18th Ashoj (2nd–4th Oct)</span>. Participants will develop innovative technology solutions across five problem tracks: Climate Change, Resilience &amp; Sustainability; Tourism; E-Governance &amp; Smart Public Services; Smart Urban Transport &amp; Road Safety; and FinTech &amp; Digital Financial Innovation.
               </p>
             </div>
           </div>
@@ -237,7 +238,7 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
               <p style={{ marginBottom: '10px' }}>The hackathon runs continuously for a duration of 48 hours.</p>
 
               <p className="strong" style={{ color: 'var(--accent4)' }}>What are the problem tracks?</p>
-              <p style={{ marginBottom: '10px' }}>The five official problem tracks are: 1) Climate Change, Resilience &amp; Sustainability, 2) Cyber Security &amp; Digital Trust, 3) E-Governance &amp; Smart Public Services, 4) Smart Urban Transport &amp; Road Safety, and 5) FinTech &amp; Digital Financial Innovation.</p>
+              <p style={{ marginBottom: '10px' }}>The five official problem tracks are: 1) Climate Change, Resilience &amp; Sustainability, 2) Tourism, 3) E-Governance &amp; Smart Public Services, 4) Smart Urban Transport &amp; Road Safety, and 5) FinTech &amp; Digital Financial Innovation.</p>
 
               <p className="strong" style={{ color: 'var(--accent4)' }}>Where is the event held?</p>
               <p style={{ marginBottom: '10px' }}>The event is held at Madan Bhandari Memorial College, Kathmandu, Nepal.</p>
@@ -257,45 +258,46 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
           </div>
         )
 
+      case 'CONDUCT':
+      case 'CONDUCT_VIEW':
+        return (
+          <div key={idx} className="line block">
+            <Conduct onRunCommand={onRunCommand} />
+          </div>
+        )
+
       case 'REGISTER_BANNER':
         return (
-          <div key={idx} className="line block register-cta-card">
-            <div className="register-cta-content">
-              <div className="register-cta-header">
-                <span className="pulse-dot" />
-                <span className="register-cta-title">REGISTRATION IS LIVE</span>
-                <span className="register-cta-badge">FREE ENTRY</span>
-              </div>
-              <p className="register-cta-desc">
-                Ready to innovate, build, and win from the <strong className="highlight-text">Rs. 111,111</strong> prize pool? Reserve your spot now!
-              </p>
-              <div className="register-cta-actions">
-                <a
-                  href="https://forms.gle/cBgYAroPeJeZpxa6A"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="register-now-btn"
-                >
-                  REGISTER NOW &rarr;
-                </a>
-                <a
-                  href="https://discord.com/invite/3RctjES2U"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="discord-cta-btn"
-                >
-                  JOIN DISCORD &rarr;
-                </a>
-                <button
-                  type="button"
-                  className="register-secondary-btn"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    onRunCommand('register')
-                  }}
-                >
-                  register.sh
-                </button>
+          <div key={idx} className="line block">
+            <div className="card register-cta-card">
+              <h3>register.sh</h3>
+              <div className="register-cta-content">
+                <div className="register-cta-header">
+                  <span className="pulse-dot" />
+                  <span className="register-cta-title">REGISTRATION IS LIVE</span>
+                  <span className="register-cta-badge">FREE ENTRY</span>
+                </div>
+                <p className="register-cta-desc">
+                  Ready to innovate, build, and win from the <strong className="highlight-text">Rs. 111,111</strong> prize pool? Reserve your spot now!
+                </p>
+                <div className="register-cta-actions">
+                  <a
+                    href="https://forms.gle/cBgYAroPeJeZpxa6A"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="register-now-btn"
+                  >
+                    [&gt; REGISTER NOW]
+                  </a>
+                  <a
+                    href="https://discord.com/invite/3RctjES2U"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="discord-cta-btn"
+                  >
+                    [# JOIN DISCORD]
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -358,16 +360,10 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
       case 'TESTIMONIALS':
         return (
           <React.Fragment key={idx}>
-            <div className="line dim">$ cat testimonials.log</div>
+            <div className="line dim">$ tail -f /var/log/testimonials.log</div>
             <div className="line block">
-              {testimonials.map((t, i) => (
-                <div key={i} className="card">
-                  <h3>{t.name} <span className="dim">&mdash; {t.role}</span></h3>
-                  <p style={{ fontStyle: 'italic' }}>"{t.quote}"</p>
-                </div>
-              ))}
+              <Testimonials outputRef={outputRef} />
             </div>
-            <div className="line faint">type 'gallery' for the full visual experience.</div>
           </React.Fragment>
         )
 
@@ -478,6 +474,8 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
                 <span style={{ background: '#eaf1ff' }} />
               </div>
             </div>
+
+
           </div>
         )
 
@@ -505,7 +503,7 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
         <h2>Tracks</h2>
         <ul>
           <li>Climate Change, Resilience & Sustainability - Build tools for disaster preparedness and sustainable resource management</li>
-          <li>Cyber Security & Digital Trust - Harden digital infrastructure and strengthen trust across systems</li>
+          <li>Tourism - Build tech solutions promoting sustainable travel, local culture preservation, and smart tourism experiences</li>
           <li>E-Governance & Smart Public Services - Make public services faster and more transparent through technology</li>
           <li>Smart Urban Transport & Road Safety - Design solutions for safer, smarter urban mobility</li>
           <li>FinTech & Digital Financial Innovation - Build next-generation digital financial tools for inclusion</li>
