@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { COMMANDS } from '../utils/terminalData'
 
-export default function CommandLine({ inputRef, history, onRunCommand, onAppendText }) {
+export default function CommandLine({ inputRef, history, onRunCommand, onAppendText, isActive = true }) {
   const [val, setVal] = useState('')
   const [histIndex, setHistIndex] = useState(-1)
 
   useEffect(() => {
     const handleGlobalKeyDown = (e) => {
+      // Don't interfere if the terminal is not active
+      if (!isActive) return
+
       // Don't interfere if they are using modifiers (Ctrl, Alt, Meta)
       if (e.ctrlKey || e.altKey || e.metaKey) return
 
@@ -42,7 +45,7 @@ export default function CommandLine({ inputRef, history, onRunCommand, onAppendT
     // Use capture phase to catch the event before it reaches other elements
     window.addEventListener('keydown', handleGlobalKeyDown, true)
     return () => window.removeEventListener('keydown', handleGlobalKeyDown, true)
-  }, [inputRef])
+  }, [inputRef, isActive])
 
   const handleSubmit = (e) => {
     e.preventDefault()

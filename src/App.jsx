@@ -214,6 +214,12 @@ export default function App() {
       if (!route) {
         setView('terminal')
         document.title = COMMAND_TITLES.home
+        setTimeout(() => {
+          if (outputRef.current) {
+            outputRef.current.scrollTop = outputRef.current.scrollHeight
+          }
+          focusInput()
+        }, 20)
         return
       }
 
@@ -338,60 +344,71 @@ export default function App() {
     setView('terminal')
     document.title = COMMAND_TITLES.home
     updateUrlPath('')
+    setTimeout(() => {
+      if (outputRef.current) {
+        outputRef.current.scrollTop = outputRef.current.scrollHeight
+      }
+      focusInput()
+    }, 20)
   }
 
   return (
     <main>
-      {view === 'museum' ? (
+      {view === 'museum' && (
         <section aria-label="Hall of Fame">
           <AsciiWorld onReturn={handleReturnToTerminal} />
         </section>
-      ) : view === 'gallery' ? (
+      )}
+      
+      {view === 'gallery' && (
         <section aria-label="Testimonials">
           <Testimonials onReturn={handleReturnToTerminal} />
         </section>
-      ) : view === 'conduct' ? (
+      )}
+      
+      {view === 'conduct' && (
         <section aria-label="Code of Conduct Manual">
           <Conduct onReturn={handleReturnToTerminal} />
         </section>
-      ) : (
-        <div className="terminal-app">
-          <div className="scanlines" aria-hidden="true" />
-          <div className="vignette" aria-hidden="true" />
-
-          {showIntro ? (
-            <LoadingIntro onComplete={() => setShowIntro(false)} />
-          ) : (
-            <div className="app" id="app">
-              <TitleBar
-                onClear={handleClearTerminal}
-                onHome={handleHome}
-                onFocus={handleFocusInput}
-              />
-
-              <OutputPane
-                items={items}
-                onRunCommand={handleRunCommand}
-                outputRef={outputRef}
-                onFocusInput={handleFocusInput}
-              />
-
-              <nav aria-label="Quick commands">
-                <SuggestionChips onRunCommand={handleRunCommand} />
-              </nav>
-
-              <MobileVirtualKeys />
-
-              <CommandLine
-                inputRef={inputRef}
-                history={history}
-                onRunCommand={handleRunCommand}
-                onAppendText={handleAppendText}
-              />
-            </div>
-          )}
-        </div>
       )}
+
+      <div className="terminal-app" style={{ display: view === 'terminal' ? 'flex' : 'none' }}>
+        <div className="scanlines" aria-hidden="true" />
+        <div className="vignette" aria-hidden="true" />
+
+        {showIntro ? (
+          <LoadingIntro onComplete={() => setShowIntro(false)} />
+        ) : (
+          <div className="app" id="app">
+            <TitleBar
+              onClear={handleClearTerminal}
+              onHome={handleHome}
+              onFocus={handleFocusInput}
+            />
+
+            <OutputPane
+              items={items}
+              onRunCommand={handleRunCommand}
+              outputRef={outputRef}
+              onFocusInput={handleFocusInput}
+            />
+
+            <nav aria-label="Quick commands">
+              <SuggestionChips onRunCommand={handleRunCommand} />
+            </nav>
+
+            <MobileVirtualKeys />
+
+            <CommandLine
+              inputRef={inputRef}
+              history={history}
+              onRunCommand={handleRunCommand}
+              onAppendText={handleAppendText}
+              isActive={view === 'terminal'}
+            />
+          </div>
+        )}
+      </div>
     </main>
   )
 }
