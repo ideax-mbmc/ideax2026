@@ -179,17 +179,26 @@ export default function AsciiCanvas() {
     }
 
     let lastT = 0
+    let lastDraw = 0
+    let visible = true
+
+    // decorative element — 30fps is plenty and halves the work on low-end devices
+    const FRAME_INTERVAL = 1000 / 30
+
     function loop(ts) {
       if (!running) return
+      rafId = requestAnimationFrame(loop)
+      if (!visible) return
       const dt = Math.min(0.05, (ts - lastT) / 1000 || 0)
       lastT = ts
+      if (ts - lastDraw < FRAME_INTERVAL) return
+      lastDraw = ts
       if (!dragging) {
         angleY += dt * 0.55
       }
       parX += (targetParX - parX) * 0.08
       parY += (targetParY - parY) * 0.08
       drawFrame()
-      rafId = requestAnimationFrame(loop)
     }
 
     function pointerPos(e) {
@@ -261,6 +270,16 @@ export default function AsciiCanvas() {
     }
     window.addEventListener('resize', handleResize)
 
+    // stop drawing entirely while the canvas is scrolled out of view
+    let io = null
+    if (typeof IntersectionObserver !== 'undefined') {
+      io = new IntersectionObserver((entries) => {
+        visible = entries[0].isIntersecting
+        if (visible && reduced) drawFrame()
+      })
+      io.observe(canvas)
+    }
+
     resize()
     running = true
     if (reduced) {
@@ -274,6 +293,7 @@ export default function AsciiCanvas() {
     return () => {
       running = false
       if (rafId) cancelAnimationFrame(rafId)
+      if (io) io.disconnect()
       window.removeEventListener('resize', handleResize)
       canvas.removeEventListener('pointermove', onPointerMove)
       canvas.removeEventListener('pointerdown', onPointerDown)

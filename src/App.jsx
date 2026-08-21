@@ -27,7 +27,9 @@ const getInitialLandingItems = () => [
 ]
 
 export default function App() {
-  const [showIntro, setShowIntro] = useState(true)
+  const [showIntro, setShowIntro] = useState(() => {
+    try { return !sessionStorage.getItem('ideax_intro_seen') } catch (_) { return true }
+  })
   const [view, setView] = useState('terminal')
   const [items, setItems] = useState([])
   const [history, setHistory] = useState([])

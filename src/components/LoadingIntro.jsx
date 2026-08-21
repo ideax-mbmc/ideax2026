@@ -31,8 +31,21 @@ export default function LoadingIntro({ onComplete }) {
   const [progress, setProgress] = useState(0)
   const [bannerLine, setBannerLine] = useState(0)
   const timerRef = useRef([])
+  const finishedRef = useRef(false)
+  const onCompleteRef = useRef(onComplete)
+  useEffect(() => { onCompleteRef.current = onComplete }, [onComplete])
 
   useEffect(() => {
+    const finish = () => {
+      if (finishedRef.current) return
+      finishedRef.current = true
+      timerRef.current.forEach(id => { clearTimeout(id); clearInterval(id) })
+      try { sessionStorage.setItem('ideax_intro_seen', '1') } catch (_) {}
+      document.body.classList.add('boot')
+      setPhase('done')
+      if (onCompleteRef.current) onCompleteRef.current()
+    }
+
     // Reveal banner lines one by one
     BANNER_LINES.forEach((_, i) => {
       const t = setTimeout(() => setBannerLine(i + 1), i * 80)
@@ -74,18 +87,22 @@ export default function LoadingIntro({ onComplete }) {
 
     seq.forEach(([offset, p]) => {
       const id = setTimeout(() => {
-        setPhase(p)
-        if (p === 'done') {
-          // Add boot class so terminal CRT animation fires on mount
-          document.body.classList.add('boot')
-          onComplete()
-        }
+        if (p === 'done') finish()
+        else setPhase(p)
       }, TOTAL_MS + 100 + offset)
       timerRef.current.push(id)
     })
 
-    return () => timerRef.current.forEach(id => clearTimeout(id))
-  }, [onComplete])
+    // Any interaction skips straight to the terminal
+    window.addEventListener('keydown', finish)
+    window.addEventListener('pointerdown', finish)
+
+    return () => {
+      timerRef.current.forEach(id => { clearTimeout(id); clearInterval(id) })
+      window.removeEventListener('keydown', finish)
+      window.removeEventListener('pointerdown', finish)
+    }
+  }, [])
 
   // Build text-based progress bar: [████████░░░░] 42%
   const BAR_WIDTH = 28

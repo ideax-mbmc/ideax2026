@@ -1,44 +1,38 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import AsciiCanvas from './AsciiCanvas'
 import Conduct from './Conduct'
 import Testimonials from './Testimonials'
 
-export default function OutputPane({ items, onRunCommand, outputRef, onFocusInput }) {
-
+// Self-contained ticking countdown so the whole OutputPane doesn't re-render every second
+function LiveCountdown() {
+  const [label, setLabel] = useState('')
   useEffect(() => {
-    if (outputRef.current) {
-      outputRef.current.scrollTop = outputRef.current.scrollHeight
-    }
-  }, [items, outputRef])
-
-  const [countdown, setCountdown] = useState('')
-  useEffect(() => {
-    function updateCountdown() {
-      const target = new Date('2026-09-01T00:00:00')
-      const now = new Date()
-      const diff = target - now
+    const target = new Date('2026-09-01T00:00:00')
+    const update = () => {
+      const diff = target - new Date()
       if (diff <= 0) {
-        setCountdown('00:00:00')
+        setLabel('00:00:00')
         return
       }
       const d = Math.floor(diff / (1000 * 60 * 60 * 24))
       const h = Math.floor((diff / (1000 * 60 * 60)) % 24)
       const m = Math.floor((diff / (1000 * 60)) % 60)
       const s = Math.floor((diff / 1000) % 60)
-      setCountdown(`${d}d ${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`)
+      setLabel(`${d}d ${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`)
     }
-    updateCountdown()
-    const id = setInterval(updateCountdown, 1000)
+    update()
+    const id = setInterval(update, 1000)
     return () => clearInterval(id)
   }, [])
+  return <span>{label}</span>
+}
 
-  const handlePaneClick = (e) => {
-    const sel = window.getSelection()
-    if (sel && sel.toString().length > 0) return
-    onFocusInput()
-  }
+// Memoized item renderer — appending a line never re-renders previous lines
+const OutputItem = React.memo(function OutputItem({ item, runCommand, outputRef }) {
+  return renderItemBody(item, runCommand, outputRef)
+})
 
-  const renderItem = (item, idx) => {
+function renderItemBody(item, runCommand, outputRef) {
     switch (item.type) {
       case 'ECHO':
         return (
@@ -79,7 +73,7 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
                     className="cmd-link"
                     onClick={(e) => {
                       e.stopPropagation()
-                      onRunCommand(cmd.split(' ')[0])
+                      runCommand(cmd.split(' ')[0])
                     }}
                   >
                     {cmd}
@@ -139,7 +133,7 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
                       className="cmd-link"
                       onClick={(e) => {
                         e.stopPropagation()
-                        onRunCommand(`tracks ${t.id}`)
+                        runCommand(`tracks ${t.id}`)
                       }}
                     >
                       tracks/{t.file}
@@ -262,7 +256,7 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
       case 'CONDUCT_VIEW':
         return (
           <div key={idx} className="line block">
-            <Conduct onRunCommand={onRunCommand} />
+            <Conduct onRunCommand={runCommand} />
           </div>
         )
 
@@ -385,7 +379,7 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
                     className="cmd-link"
                     onClick={(e) => {
                       e.stopPropagation()
-                      onRunCommand(`recap ${r.year}`)
+                      runCommand(`recap ${r.year}`)
                     }}
                   >
                     {r.year}
@@ -455,7 +449,7 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
                 <div className="k">OS</div><div className="v">MBMC IdeaX 2026</div>
                 <div className="k">Host</div><div className="v">Madan Bhandari Memorial College</div>
                 <div className="k">Kernel</div><div className="v">hackathon-6.2.2026</div>
-                <div className="k">Countdown</div><div className="v">{countdown} (until Sep 1)</div>
+                <div className="k">Countdown</div><div className="v"><LiveCountdown /> (until Sep 1)</div>
                 <div className="k">Tracks</div><div className="v">5</div>
                 <div className="k">Prize Pool</div><div className="v">Rs. 111,111</div>
                 <div className="k">Shell</div><div className="v">register.sh</div>
@@ -482,6 +476,26 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
       default:
         return null
     }
+}
+
+export default function OutputPane({ items, onRunCommand, outputRef, onFocusInput }) {
+  useEffect(() => {
+    if (outputRef.current) {
+      outputRef.current.scrollTop = outputRef.current.scrollHeight
+    }
+  }, [items, outputRef])
+
+  // keep a live ref so the memoized items get a stable callback identity
+  const runRef = useRef(onRunCommand)
+  useEffect(() => { runRef.current = onRunCommand })
+  const stableRun = useCallback((cmd) => {
+    if (runRef.current) runRef.current(cmd)
+  }, [])
+
+  const handlePaneClick = (e) => {
+    const sel = window.getSelection()
+    if (sel && sel.toString().length > 0) return
+    onFocusInput()
   }
 
   return (
@@ -492,7 +506,9 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
       aria-live="polite"
       aria-label="terminal output"
     >
-      {items.map(renderItem)}
+      {items.map((item, idx) => (
+        <OutputItem key={idx} item={item} runCommand={stableRun} outputRef={outputRef} />
+      ))}
       
       {/* SEO-friendly hidden content for search engines */}
       <div className="seo-content" aria-hidden="true">
