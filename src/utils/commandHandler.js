@@ -70,7 +70,7 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
     case 'conduct':
     case 'coc':
     case 'code-of-conduct':
-      return { type: 'CONDUCT_VIEW' }
+      return { type: 'CONDUCT' }
 
     case 'faq':
       return { type: 'FAQ' }

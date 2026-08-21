@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import AsciiCanvas from './AsciiCanvas'
+import Conduct from './Conduct'
 import { testimonials } from '../utils/testimonialsData'
 
 export default function OutputPane({ items, onRunCommand, outputRef, onFocusInput }) {
@@ -254,6 +255,14 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
               <p className="strong" style={{ color: 'var(--accent4)' }}>Are there any registration or participation fees?</p>
               <p>No! MBMC IdeaX 2026 is 100% free of cost with zero registration or participation fees.</p>
             </div>
+          </div>
+        )
+
+      case 'CONDUCT':
+      case 'CONDUCT_VIEW':
+        return (
+          <div key={idx} className="line block">
+            <Conduct onRunCommand={onRunCommand} />
           </div>
         )
 

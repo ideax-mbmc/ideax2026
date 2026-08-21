@@ -1,250 +1,149 @@
-.conduct-stage {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  background: #0d0f14;
-  overflow: hidden;
-  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-  color: #9a97ae;
+/* Man Page Replica Styling for Conduct Card */
+
+.conduct-card-wrapper {
+  padding: 14px 16px;
+}
+
+.man-header,
+.man-footer {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-}
-
-.conduct-container {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 900px;
-  padding: 0 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-}
-
-.conduct-title {
-  color: #e8e2f5;
-  font-size: 28px;
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  margin: 0;
-  text-align: center;
-}
-
-.conduct-subtitle {
-  color: #4a4a5c;
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin: -14px 0 0;
-  text-align: center;
-}
-
-.conduct-slider {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
-}
-
-.conduct-arrow {
-  background: none;
-  border: 1px solid #4a4a5c;
-  color: #9a97ae;
-  font-size: 16px;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: color 0.15s, border-color 0.15s;
-}
-
-.conduct-arrow:hover {
-  color: #e8e2f5;
-  border-color: #38bdf8;
-}
-
-.conduct-viewport {
-  flex: 1;
-  overflow: hidden;
-}
-
-.conduct-track {
-  display: flex;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.conduct-slide {
-  min-width: 100%;
-  padding: 0 8px;
-  box-sizing: border-box;
-}
-
-.conduct-card {
-  background: rgba(30, 32, 42, 0.85);
-  border: 1px solid #2a2c3a;
-  border-radius: 4px;
-  padding: 28px 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  min-height: 340px;
-}
-
-.conduct-card-header {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-  padding-bottom: 12px;
-}
-
-.conduct-badge {
-  font-size: 10px;
-  font-weight: 700;
-  color: #38bdf8;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.conduct-card-title {
-  color: #e8e2f5;
-  font-size: 18px;
+  color: var(--dim);
+  font-size: 11.5px;
   font-weight: 600;
-  margin: 2px 0 0 0;
+  letter-spacing: 0.05em;
+  padding: 4px 0;
 }
 
-.conduct-card-subtitle {
-  color: #7289da;
-  font-size: 11px;
-  letter-spacing: 0.5px;
+.man-header {
+  border-bottom: 1px dashed var(--line);
+  margin-top: 8px;
+  margin-bottom: 14px;
 }
 
-.conduct-card-body {
-  color: #9a97ae;
+.man-footer {
+  border-top: 1px dashed var(--line);
+  margin-top: 18px;
+}
+
+.man-title-center {
+  color: var(--accent4);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.man-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.man-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.man-heading {
+  color: var(--accent4);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 6px 0 4px 0;
+}
+
+.man-indent {
+  margin-left: 18px;
+  color: var(--dim);
   font-size: 13px;
-  line-height: 1.75;
-  overflow-y: auto;
-  max-height: 260px;
-  padding-right: 6px;
+  line-height: 1.55;
 }
 
-.conduct-card-body::-webkit-scrollbar {
-  width: 6px;
+.man-indent p {
+  margin: 0 0 6px 0;
 }
 
-.conduct-card-body::-webkit-scrollbar-thumb {
-  background: #38bdf8;
-  border-radius: 3px;
-}
-
-.conduct-card-body p {
-  margin: 0 0 10px 0;
-}
-
-.conduct-card-body h4 {
-  color: #38bdf8;
-  font-size: 12.5px;
-  margin: 12px 0 4px 0;
-}
-
-.strong-text {
-  color: #eaf1ff;
-}
-
-.conduct-list {
-  margin: 4px 0 10px 0;
+.man-list {
+  margin: 4px 0 6px 18px;
   padding: 0;
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
-.conduct-list li {
+.man-list li {
   position: relative;
-  padding-left: 18px;
+  padding-left: 16px;
+  color: var(--dim);
+  font-size: 13px;
 }
 
-.conduct-list li::before {
+.man-list li::before {
   content: '•';
   position: absolute;
   left: 0;
-  color: #38bdf8;
+  color: var(--accent3);
 }
 
-.warning-list li::before {
+.man-warning-list li::before {
   color: #f87171;
 }
 
-.conduct-contact-card {
-  background: rgba(10, 18, 38, 0.6);
-  border: 1px solid rgba(56, 189, 248, 0.2);
-  padding: 14px 16px;
+.man-warning-list li .strong {
+  color: #fca5a5;
+}
+
+.man-contact-box {
+  margin-top: 6px;
+  padding: 8px 12px;
+  background: var(--panel2);
+  border: 1px solid var(--line);
   border-radius: 4px;
-  margin-top: 10px;
 }
 
-.conduct-contact-card h4 {
-  margin: 0 0 8px 0;
-  color: #38bdf8;
-}
-
-.contact-person {
-  font-size: 12.5px;
+.man-contact-title {
+  display: block;
+  color: var(--accent4);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   margin-bottom: 4px;
 }
 
-.contact-person span {
-  color: #eaf1ff;
+.man-contact-row {
+  font-size: 12.5px;
+  margin-bottom: 2px;
+  color: var(--dim);
 }
 
-.contact-person a {
-  color: #60a5fa;
+.man-contact-row span {
+  color: var(--text);
+  font-weight: 500;
+  margin-right: 6px;
+}
+
+.man-contact-row a {
+  color: var(--accent3);
   text-decoration: none;
 }
 
-.contact-person a:hover {
+.man-contact-row a:hover {
   text-decoration: underline;
 }
 
-.conduct-dots {
-  display: flex;
-  gap: 8px;
-}
-
-.conduct-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 1px solid #4a4a5c;
-  background: transparent;
-  cursor: pointer;
-  padding: 0;
-  transition: background 0.2s, border-color 0.2s;
-}
-
-.conduct-dot.active {
-  background: #38bdf8;
-  border-color: #38bdf8;
-}
-
 @media (max-width: 600px) {
-  .conduct-container {
-    padding: 0 16px;
+  .man-indent {
+    margin-left: 10px;
   }
-  .conduct-card {
-    padding: 20px;
-    min-height: 300px;
+  .man-list {
+    margin-left: 10px;
   }
-  .conduct-title {
-    font-size: 20px;
-  }
-  .conduct-arrow {
-    display: none;
+  .man-header,
+  .man-footer {
+    font-size: 10.5px;
   }
 }
+
+
