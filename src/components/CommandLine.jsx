@@ -10,9 +10,23 @@ export default function CommandLine({ inputRef, history, onRunCommand, onAppendT
       // Don't interfere if they are using modifiers (Ctrl, Alt, Meta)
       if (e.ctrlKey || e.altKey || e.metaKey) return
 
-      // Don't interfere if they are already focused on an input or textarea
-      const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : ''
-      if (activeTag === 'input' || activeTag === 'textarea') return
+      // Don't interfere if another handler already consumed this event
+      if (e.defaultPrevented) return
+
+      // Don't interfere if a focusable element is already active
+      const active = document.activeElement
+      if (active) {
+        const activeTag = active.tagName.toLowerCase()
+        if (
+          activeTag === 'input' ||
+          activeTag === 'textarea' ||
+          activeTag === 'button' ||
+          activeTag === 'a' ||
+          activeTag === 'select' ||
+          active.isContentEditable ||
+          active.getAttribute('tabindex') !== null
+        ) return
+      }
 
       // If the key is a printable character (length === 1) or Backspace/Enter
       if (e.key.length === 1 || e.key === 'Backspace') {
