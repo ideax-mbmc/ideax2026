@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import AsciiCanvas from './AsciiCanvas'
 import Conduct from './Conduct'
-import TestimonialsStream from './TestimonialsStream'
+import Testimonials from './Testimonials'
 
 export default function OutputPane({ items, onRunCommand, outputRef, onFocusInput }) {
 
@@ -372,7 +372,7 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
           <React.Fragment key={idx}>
             <div className="line dim">$ tail -f /var/log/testimonials.log</div>
             <div className="line block">
-              <TestimonialsStream outputRef={outputRef} />
+              <Testimonials outputRef={outputRef} />
             </div>
           </React.Fragment>
         )
