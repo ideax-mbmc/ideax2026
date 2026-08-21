@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { testimonials } from '../utils/testimonialsData'
 
-export default function Testimonials({ outputRef }) {
+export default function Testimonials({ outputRef, onReturn }) {
   const [lines, setLines] = useState([])
 
   // Holds the cancel function while the stream is running; null when done/idle

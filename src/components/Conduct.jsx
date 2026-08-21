@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import './Conduct.css'
+import MobileVirtualKeys from './MobileVirtualKeys'
 
 export default function Conduct({ onRunCommand, onReturn }) {
   const containerRef = useRef(null)
@@ -196,7 +197,10 @@ export default function Conduct({ onRunCommand, onReturn }) {
 
       {isFullscreen && (
         <div className="man-status-bar">
-          <span className="standout"> Manual page conduct(1) line 1 (press q to quit) </span>
+          <div style={{ paddingBottom: '4px' }}>
+            <span className="standout"> Manual page conduct(1) line 1 (press q to quit) </span>
+          </div>
+          <MobileVirtualKeys />
         </div>
       )}
     </div>
