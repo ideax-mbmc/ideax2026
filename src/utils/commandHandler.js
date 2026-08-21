@@ -34,7 +34,6 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
           ['contact', 'email + phone for the organizing team'],
           ['discord', 'join the community server'],
           ['testimonials', 'what past participants say'],
-          ['gallery', 'visual testimonial gallery'],
           ['ls', 'list files in this directory'],
           ['cat <file>', 'print a file, e.g. cat prizes.md'],
           ['fastfetch', 'replay the splash screen'],
@@ -107,7 +106,7 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
       return { type: 'TESTIMONIALS' }
 
     case 'gallery':
-      return { type: 'GALLERY' }
+      return { type: 'TESTIMONIALS' }
 
     case 'recap': {
       if (arg) {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import AsciiCanvas from './AsciiCanvas'
 import Conduct from './Conduct'
-import { testimonials } from '../utils/testimonialsData'
+import TestimonialsStream from './TestimonialsStream'
 
 export default function OutputPane({ items, onRunCommand, outputRef, onFocusInput }) {
 
@@ -370,16 +370,10 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
       case 'TESTIMONIALS':
         return (
           <React.Fragment key={idx}>
-            <div className="line dim">$ cat testimonials.log</div>
+            <div className="line dim">$ tail -f /var/log/testimonials.log</div>
             <div className="line block">
-              {testimonials.map((t, i) => (
-                <div key={i} className="card">
-                  <h3>{t.name} <span className="dim">&mdash; {t.role}</span></h3>
-                  <p style={{ fontStyle: 'italic' }}>"{t.quote}"</p>
-                </div>
-              ))}
+              <TestimonialsStream outputRef={outputRef} />
             </div>
-            <div className="line faint">type 'gallery' for the full visual experience.</div>
           </React.Fragment>
         )
 

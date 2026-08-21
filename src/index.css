@@ -789,3 +789,76 @@ body.reduced-motion .app {
   padding: 0;
 }
 
+
+/* ─── Testimonials tail -f log stream ─────────────────────────── */
+
+.tlog-stream {
+  font-family: var(--font);
+  font-size: 0.88em;
+  line-height: 1.7;
+  width: 100%;
+}
+
+.tlog-blank {
+  height: 0.6em;
+}
+
+.tlog-line {
+  display: block;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.tlog-info {
+  color: #34d399;
+  opacity: 0.9;
+}
+
+.tlog-hint {
+  color: var(--faint, #4a5568);
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.tlog-header {
+  color: #60a5fa;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.tlog-quote {
+  color: var(--text, #e2e8f0);
+  padding-left: 2ch;
+  font-style: italic;
+  border-left: 2px solid rgba(96, 165, 250, 0.25);
+  margin-left: 1ch;
+}
+
+.tlog-system {
+  color: #f59e0b;
+  opacity: 0.85;
+}
+
+.tlog-eof {
+  color: var(--dim, #6b7280);
+  font-size: 0.82em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.tlog-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.1em;
+  background: #60a5fa;
+  opacity: 0.85;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: tlog-blink 0.85s step-end infinite;
+}
+
+@keyframes tlog-blink {
+  0%, 100% { opacity: 0.85; }
+  50%       { opacity: 0; }
+}

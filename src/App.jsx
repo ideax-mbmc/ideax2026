@@ -5,7 +5,6 @@ import SuggestionChips from './components/SuggestionChips'
 import CommandLine from './components/CommandLine'
 import LoadingIntro from './components/LoadingIntro'
 import AsciiWorld from './components/AsciiWorld'
-import Testimonials from './components/Testimonials'
 import Conduct from './components/Conduct'
 import { executeCommand } from './utils/commandHandler'
 import { TRACKS, getDynamicTimeline } from './utils/terminalData'
@@ -128,9 +127,6 @@ export default function App() {
       if (['museum', 'hall', 'halloffame', 'hall-of-fame', 'fame'].includes(hash)) {
         setView('museum')
         document.title = 'Hall of Fame | MBMC IdeaX 2026'
-      } else if (['gallery', 'testimonials'].includes(hash)) {
-        setView('gallery')
-        document.title = 'Testimonials | MBMC IdeaX 2026'
       } else {
         handleRunCommand(hash)
       }
@@ -154,7 +150,6 @@ export default function App() {
     hall: 'Hall of Fame | MBMC IdeaX 2026',
     museum: 'Hall of Fame | MBMC IdeaX 2026',
     testimonials: 'Participant Testimonials | MBMC IdeaX 2026',
-    gallery: 'Participant Testimonials | MBMC IdeaX 2026',
     recap: 'Past Recaps (2023-2025) | MBMC IdeaX 2026',
     contact: 'Contact & Support | MBMC IdeaX 2026',
     discord: 'Community Discord | MBMC IdeaX 2026',
@@ -210,10 +205,6 @@ export default function App() {
       setItems(prev => [...prev, echoItem])
       setView('museum')
       document.title = 'Hall of Fame | MBMC IdeaX 2026'
-    } else if (result && result.type === 'GALLERY') {
-      setItems(prev => [...prev, echoItem])
-      setView('gallery')
-      document.title = 'Testimonials | MBMC IdeaX 2026'
     } else if (result && result.type === 'CONDUCT_VIEW') {
       setItems(prev => [...prev, echoItem])
       setView('conduct')
@@ -265,10 +256,6 @@ export default function App() {
       {view === 'museum' ? (
         <section aria-label="Hall of Fame">
           <AsciiWorld onReturn={handleReturnToTerminal} />
-        </section>
-      ) : view === 'gallery' ? (
-        <section aria-label="Testimonials">
-          <Testimonials onReturn={handleReturnToTerminal} />
         </section>
       ) : view === 'conduct' ? (
         <section aria-label="Code of Conduct Manual">

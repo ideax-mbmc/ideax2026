@@ -12,7 +12,7 @@ export default function SuggestionChips({ onRunCommand }) {
     { label: '$ recap', cmd: 'recap' },
     { label: '$ prizes', cmd: 'prizes' },
     { label: '$ timeline', cmd: 'timeline' },
-    { label: '$ testimonials', cmd: 'gallery' },
+    { label: '$ testimonials', cmd: 'testimonials' },
     { label: '$ help', cmd: 'help' },
   ]
 
