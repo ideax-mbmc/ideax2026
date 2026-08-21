@@ -23,7 +23,7 @@ const MAP_CH = {
   5: ["*", "#e8934f"],
   6: ["~", "rgba(150,90,110,0.8)"],
 };
-const TIER_DOT_COLOR = { platinum: "#d6d6de", gold: "#c49b40", silver: "#b0b0b8" };
+const TIER_DOT_COLOR = { platinum: "#d6d6de", gold: "#c49b40", silver: "#b0b0b8", silverlogo: "#e8e2f5" };
 const MM_COLORS = {
   1: "rgba(150,150,165,0.35)",
   2: "rgba(217,165,68,0.9)",
@@ -189,6 +189,25 @@ export function render(timeSec, ctx, renderer, player, input, museum, paintingLo
       }
 
       if (ch !== " ") { ctx.fillStyle = colr; ctx.fillText(ch, px, py); }
+    }
+    if (cellValue === 2 && painting && tier && painting.canvasBitmap) {
+      const cx0 = 0.5 - tier.wFrac / 2, cx1 = 0.5 + tier.wFrac / 2;
+      if (wallX >= cx0 && wallX <= cx1) {
+        const cy0 = 0.5 - tier.hFrac / 2, cy1 = 0.5 + tier.hFrac / 2;
+        const plaqueH = 0.22;
+        const plaqueY0 = cy1 - plaqueH * (cy1 - cy0);
+        const y0 = wallTop + cy0 * (wallBottom - wallTop);
+        const y1 = wallTop + plaqueY0 * (wallBottom - wallTop);
+        const destY = y0 * CHAR_H;
+        const destH = Math.max(1, (y1 - y0) * CHAR_H);
+        const u = (wallX - cx0) / (cx1 - cx0);
+        const bmp = painting.canvasBitmap;
+        const sx = Math.max(0, Math.min(bmp.width - 1, u * bmp.width));
+        const oldAlpha = ctx.globalAlpha;
+        ctx.globalAlpha = Math.min(1, Math.max(0.3, brightness * 0.85 + 0.15));
+        ctx.drawImage(bmp, sx, 0, 1, bmp.height, px, destY, CHAR_W, destH);
+        ctx.globalAlpha = oldAlpha;
+      }
     }
   }
 

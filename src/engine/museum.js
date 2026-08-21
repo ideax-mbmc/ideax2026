@@ -18,7 +18,7 @@ export function buildMuseum() {
 
   const wallDeco = (x, y, code, extra) => {
     grid[y][x] = code;
-    if (code === 2 && extra) paintings.push({ x, y, tier: extra.tier, name: extra.name });
+    if (code === 2 && extra) paintings.push({ x, y, tier: extra.tier, name: extra.name, logoUrl: extra.logoUrl || null });
     if (code === 5) torches.push({ x: x + 0.5, y: y + 0.5 });
   };
   const pillar = (x, y) => { grid[y][x] = 3; };
@@ -60,12 +60,17 @@ export function buildMuseum() {
   wallDeco(28, 17, 5);
 
   const silverItems = [
-    [4, 'PIVOT'], [7, null], [10, 'LUMEN'], [13, null], [16, 'ANCHOR'],
+    [4, 'PIVOT'], [7, 'logo:/sponsor logos/hamro csit logo.svg'], [10, 'LUMEN'], [13, null], [16, 'ANCHOR'],
     [19, null], [22, 'RAVEN'], [25, null], [28, 'CORVUS'],
   ];
   for (const [cx, name] of silverItems) {
-    if (name) wallDeco(cx, 23, 2, { tier: 'silver', name });
-    else wallDeco(cx, 23, 6);
+    if (name && name.startsWith('logo:')) {
+      wallDeco(cx, 23, 2, { tier: 'silverlogo', name: 'HAMRO CSIT', logoUrl: name.slice(5) });
+    } else if (name) {
+      wallDeco(cx, 23, 2, { tier: 'silver', name });
+    } else {
+      wallDeco(cx, 23, 6);
+    }
   }
   wallDeco(1, 20, 5);
   wallDeco(30, 21, 5);
@@ -87,7 +92,7 @@ export function buildMuseum() {
     { type: 'chandelier', x: 21.5, y: 20.5, scale: 1.3 },
   ];
 
-  return { grid, heightGrid, W, H, paintings, torches, sprites, spawn: { x: 4.0, y: 12.5 } };
+  return { grid, heightGrid, W, H, paintings, torches, sprites, spawn: { x: 7.5, y: 20.8, angle: Math.PI / 2 } };
 }
 
 export const ROOMS = [

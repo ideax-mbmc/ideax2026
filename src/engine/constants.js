@@ -14,6 +14,7 @@ export const TIERS = {
   platinum: { wFrac: 0.88, hFrac: 0.82, maxLen: 10, frame: [222, 222, 230], canvasA: [200, 210, 235], canvasB: [90, 100, 150] },
   gold:     { wFrac: 0.62, hFrac: 0.56, maxLen: 7,  frame: [199, 158, 66],  canvasA: [230, 180, 90],  canvasB: [120, 60, 20]  },
   silver:   { wFrac: 0.40, hFrac: 0.36, maxLen: 6,  frame: [178, 178, 188], canvasA: [180, 190, 205], canvasB: [70, 80, 100]  },
+  silverlogo: { wFrac: 0.60, hFrac: 0.54, maxLen: 12, frame: [198, 198, 208], canvasA: [168, 178, 195], canvasB: [52, 60, 78] },
 };
 
 export const WALL_COLOR    = [132, 130, 146];

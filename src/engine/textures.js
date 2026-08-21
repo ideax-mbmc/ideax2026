@@ -182,6 +182,12 @@ export function paintCell(painting, tier, wallX, rowFrac, brightness) {
       : { ch: ".", colr: shade(PLAQUE_BG, 0.3 + brightness * 0.4) };
   }
 
+  // sponsor logo: a real bitmap is drawn through this area by the renderer's
+  // image pass — leave it empty (the wall pass skips space characters)
+  if (painting.canvasBitmap) {
+    return { ch: " ", colr: null };
+  }
+
   const seed = painting.x * 12.9898 + painting.y * 78.233;
   const n1 = Math.sin(wallX * 9 + seed) * Math.cos(rowFrac * 7 + seed * 0.7);
   const v = (n1 + 1) / 2;

@@ -36,7 +36,7 @@ function renderItemBody(item, runCommand, outputRef) {
     switch (item.type) {
       case 'ECHO':
         return (
-          <div key={idx} className="line echo-line">
+          <div className="line echo-line">
             <span className="prompt-echo">guest@ideax:~$</span>
             {item.command}
           </div>
@@ -44,14 +44,14 @@ function renderItemBody(item, runCommand, outputRef) {
 
       case 'TEXT':
         return (
-          <div key={idx} className={`line ${item.cls || ''}`}>
+          <div className={`line ${item.cls || ''}`}>
             {item.text}
           </div>
         )
 
       case 'TEXT_LIST':
         return (
-          <div key={idx} className="line block">
+          <div className="line block">
             {item.lines.map((l, i) => (
               <div key={i} className={item.cls || ''}>{l}</div>
             ))}
@@ -59,11 +59,11 @@ function renderItemBody(item, runCommand, outputRef) {
         )
 
       case 'BLANK':
-        return <div key={idx} className="line">&nbsp;</div>
+        return <div className="line">&nbsp;</div>
 
       case 'HELP':
         return (
-          <React.Fragment key={idx}>
+          <React.Fragment>
             <div className="line dim">available commands</div>
             <div className="line block table">
               {item.rows.map(([cmd, desc], i) => (
@@ -88,7 +88,7 @@ function renderItemBody(item, runCommand, outputRef) {
 
       case 'ABOUT':
         return (
-          <div key={idx} className="line block">
+          <div className="line block">
             <div className="card">
               <h3>about.md</h3>
               <p>
@@ -100,7 +100,7 @@ function renderItemBody(item, runCommand, outputRef) {
 
       case 'PARTICIPATION':
         return (
-          <div key={idx} className="line block">
+          <div className="line block">
             <div className="card">
               <h3>participation.md</h3>
               <p className="strong" style={{ fontSize: '1.05em', color: 'var(--accent4)' }}>
@@ -122,7 +122,7 @@ function renderItemBody(item, runCommand, outputRef) {
 
       case 'TRACKS_LIST':
         return (
-          <React.Fragment key={idx}>
+          <React.Fragment>
             <div className="line dim">$ ls tracks/</div>
             <div className="line block">
               {item.tracks.map((t) => (
@@ -150,7 +150,7 @@ function renderItemBody(item, runCommand, outputRef) {
 
       case 'TRACK_DETAIL':
         return (
-          <div key={idx} className="line block">
+          <div className="line block">
             <div className="card">
               <h3>tracks/{item.track.file}</h3>
               <p>{item.track.desc}</p>
@@ -161,7 +161,7 @@ function renderItemBody(item, runCommand, outputRef) {
 
       case 'TIMELINE':
         return (
-          <React.Fragment key={idx}>
+          <React.Fragment>
             <div className="line dim">$ tail -f timeline.log</div>
             <div className="line block table">
               {item.items.map((item, i) => (
@@ -178,7 +178,7 @@ function renderItemBody(item, runCommand, outputRef) {
 
       case 'PRIZES':
         return (
-          <div key={idx} className="line block">
+          <div className="line block">
             <div className="card">
               <h3>prize-pool.md</h3>
               <p>
@@ -212,7 +212,7 @@ function renderItemBody(item, runCommand, outputRef) {
 
       case 'FAQ':
         return (
-          <div key={idx} className="line block">
+          <div className="line block">
             <div className="card">
               <h3>faq.md</h3>
 
@@ -255,14 +255,14 @@ function renderItemBody(item, runCommand, outputRef) {
       case 'CONDUCT':
       case 'CONDUCT_VIEW':
         return (
-          <div key={idx} className="line block">
+          <div className="line block">
             <Conduct onRunCommand={runCommand} />
           </div>
         )
 
       case 'REGISTER_BANNER':
         return (
-          <div key={idx} className="line block">
+          <div className="line block">
             <div className="card register-cta-card">
               <h3>register.sh</h3>
               <div className="register-cta-content">
@@ -299,7 +299,7 @@ function renderItemBody(item, runCommand, outputRef) {
 
       case 'REGISTER':
         return (
-          <div key={idx} className="line block">
+          <div className="line block">
             <div className="card">
               <h3>register.sh</h3>
               <p>
@@ -317,7 +317,7 @@ function renderItemBody(item, runCommand, outputRef) {
 
       case 'CONTACT':
         return (
-          <div key={idx} className="line block">
+          <div className="line block">
             <div className="card">
               <h3>contact.md</h3>
               <div className="kv-grid">
@@ -338,7 +338,7 @@ function renderItemBody(item, runCommand, outputRef) {
 
       case 'DISCORD':
         return (
-          <div key={idx} className="line block">
+          <div className="line block">
             <div className="card">
               <h3>discord.invite</h3>
               <p>
@@ -353,7 +353,7 @@ function renderItemBody(item, runCommand, outputRef) {
 
       case 'TESTIMONIALS':
         return (
-          <React.Fragment key={idx}>
+          <React.Fragment>
             <div className="line dim">$ tail -f /var/log/testimonials.log</div>
             <div className="line block">
               <Testimonials outputRef={outputRef} />
@@ -363,7 +363,7 @@ function renderItemBody(item, runCommand, outputRef) {
 
       case 'RECAP_LIST':
         return (
-          <React.Fragment key={idx}>
+          <React.Fragment>
             <div className="line dim">$ ls recaps/</div>
             <div className="line block table">
               <div className="row" style={{ marginBottom: '4px' }}>
@@ -397,7 +397,7 @@ function renderItemBody(item, runCommand, outputRef) {
       case 'RECAP_DETAIL': {
         const r = item.recap
         return (
-          <div key={idx} className="line block">
+          <div className="line block">
             <div className="card">
               <h3>IdeaX {r.year} <span className="dim">&mdash; {r.theme}</span></h3>
               <div className="kv-grid" style={{ marginTop: '10px' }}>
@@ -438,7 +438,7 @@ function renderItemBody(item, runCommand, outputRef) {
 
       case 'FASTFETCH':
         return (
-          <div key={idx} className="line block fetch-row">
+          <div className="line block fetch-row">
             <div className="fetch-art">
               <AsciiCanvas />
             </div>

@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react'
 import { buildMuseum, setupTorchFlicker } from '../engine/museum'
+import { loadPaintingImages } from '../engine/images'
 import { createPlayer, createInputState, updatePlayer } from '../engine/player'
 import { createRendererState, resize, render, renderMinimap, renderHud } from '../engine/renderer'
 import { SPRITE_DEFS } from '../engine/textures'
@@ -36,6 +37,7 @@ export default function AsciiWorld({ onReturn }) {
     const museum = buildMuseum()
     const paintingLookup = {}
     museum.paintings.forEach(p => { paintingLookup[`${p.x},${p.y}`] = p; })
+    loadPaintingImages(museum.paintings)
     const torches = setupTorchFlicker(museum.torches)
     for (const s of museum.sprites) {
       const d = SPRITE_DEFS[s.type]

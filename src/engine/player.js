@@ -1,7 +1,7 @@
 import { isWall, isSpriteBlocked } from './museum'
 
 export function createPlayer(spawn) {
-  return { x: spawn.x, y: spawn.y, angle: 0, pitch: 0, speed: 2.6, runMul: 1.8 };
+  return { x: spawn.x, y: spawn.y, angle: spawn.angle ?? 0, pitch: 0, speed: 2.6, runMul: 1.8 };
 }
 
 export function createInputState() {
