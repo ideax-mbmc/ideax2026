@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, Suspense, lazy } from 'react'
 import TitleBar from './components/TitleBar'
 import OutputPane from './components/OutputPane'
 import SuggestionChips from './components/SuggestionChips'
 import CommandLine from './components/CommandLine'
 import LoadingIntro from './components/LoadingIntro'
-import AsciiWorld from './components/AsciiWorld'
-import Testimonials from './components/Testimonials'
-import Conduct from './components/Conduct'
+const AsciiWorld = lazy(() => import('./components/AsciiWorld'))
+const Testimonials = lazy(() => import('./components/Testimonials'))
+const Conduct = lazy(() => import('./components/Conduct'))
 import { executeCommand } from './utils/commandHandler'
 import { TRACKS, getDynamicTimeline } from './utils/terminalData'
 
@@ -110,6 +110,19 @@ export default function App() {
     }
   }, [showIntro])
 
+  // Keep the input visible when the on-screen keyboard opens (iOS Safari)
+  useEffect(() => {
+    const vv = window.visualViewport
+    if (!vv) return
+    const handleViewportResize = () => {
+      if (document.activeElement === inputRef.current && inputRef.current) {
+        inputRef.current.scrollIntoView({ block: 'nearest' })
+      }
+    }
+    vv.addEventListener('resize', handleViewportResize)
+    return () => vv.removeEventListener('resize', handleViewportResize)
+  }, [])
+
   // Handle URL hash on load or change
   useEffect(() => {
     if (showIntro) return
@@ -145,6 +158,7 @@ export default function App() {
     faq: 'Frequently Asked Questions (FAQ) | MBMC IdeaX 2026',
     conduct: 'Code of Conduct & Rules | MBMC IdeaX 2026',
     coc: 'Code of Conduct & Rules | MBMC IdeaX 2026',
+    code: 'Code of Conduct & Rules | MBMC IdeaX 2026',
     register: 'Register Now | MBMC IdeaX 2026',
     participation: 'Eligibility & Team Rules | MBMC IdeaX 2026',
     eligibility: 'Eligibility & Team Rules | MBMC IdeaX 2026',
@@ -244,15 +258,21 @@ export default function App() {
     <main>
       {view === 'museum' ? (
         <section aria-label="Hall of Fame">
-          <AsciiWorld onReturn={handleReturnToTerminal} />
+          <Suspense fallback={<div className="view-loading">loading hall of fame…</div>}>
+            <AsciiWorld onReturn={handleReturnToTerminal} />
+          </Suspense>
         </section>
       ) : view === 'gallery' ? (
         <section aria-label="Testimonials">
-          <Testimonials onReturn={handleReturnToTerminal} />
+          <Suspense fallback={<div className="view-loading">loading testimonials…</div>}>
+            <Testimonials onReturn={handleReturnToTerminal} />
+          </Suspense>
         </section>
       ) : view === 'conduct' ? (
         <section aria-label="Code of Conduct">
-          <Conduct onReturn={handleReturnToTerminal} />
+          <Suspense fallback={<div className="view-loading">loading code of conduct…</div>}>
+            <Conduct onReturn={handleReturnToTerminal} />
+          </Suspense>
         </section>
       ) : (
         <div className="terminal-app">
@@ -276,7 +296,7 @@ export default function App() {
                 onFocusInput={handleFocusInput}
               />
 
-              <nav aria-label="Quick commands">
+              <nav aria-label="Quick commands" className="quick-nav">
                 <SuggestionChips onRunCommand={handleRunCommand} />
               </nav>
 

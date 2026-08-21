@@ -159,11 +159,11 @@ body.reduced-motion .app {
 
 .titlebar {
   flex: 0 0 auto;
-  height: 42px;
+  min-height: 42px;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 0 14px;
+  padding: env(safe-area-inset-top) 14px 0;
   background: rgba(10, 18, 38, 0.9);
   border-bottom: 1px solid var(--line);
 }
@@ -180,7 +180,15 @@ body.reduced-motion .app {
   border: none;
   padding: 0;
   cursor: pointer;
+  position: relative;
   transition: transform 0.1s linear, filter 0.1s linear;
+}
+
+/* enlarge tap target without changing visual size */
+.dot::after {
+  content: '';
+  position: absolute;
+  inset: -14px;
 }
 
 .dot:hover {
@@ -475,6 +483,7 @@ body.reduced-motion .app {
   gap: 8px;
   flex-wrap: nowrap;
   overflow-x: auto;
+  scroll-snap-type: x proximity;
   padding: 8px 14px;
   border-top: 1px solid var(--line);
   background: rgba(10, 18, 38, 0.6);
@@ -492,6 +501,7 @@ body.reduced-motion .app {
   padding: 6px 10px;
   cursor: pointer;
   white-space: nowrap;
+  scroll-snap-align: start;
   transition: border-color 0.1s linear, color 0.1s linear;
 }
 
@@ -555,9 +565,56 @@ body.reduced-motion .app {
 
 .inputline input::placeholder { color: var(--faint); }
 
+/* ---------------- mobile / touch adaptations ---------------- */
+
 @media (max-width: 600px) {
   body { font-size: 13px; }
   .fetch-art canvas { width: 170px; height: 190px; }
+
+  /* 16px prevents iOS Safari auto-zoom on input focus */
+  .inputline input { font-size: 16px; }
+  .prompt { font-size: 14px; }
+}
+
+@media (max-width: 480px) {
+  /* stack fastfetch art above info */
+  .fetch-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .fetch-art { align-self: center; }
+
+  /* tighter table first column so values don't overflow */
+  .table .row {
+    grid-template-columns: 96px 1fr;
+    gap: 8px;
+  }
+}
+
+/* landscape phones: reclaim vertical space */
+@media (max-height: 500px) and (orientation: landscape) {
+  .quick-nav { display: none; }
+  .output { padding-top: 10px; }
+}
+
+/* touch devices: bigger targets, cheaper rendering */
+@media (hover: none) and (pointer: coarse) {
+  .scanlines, .vignette, .crt-overlay, .fullscreen-vignette { display: none; }
+
+  .return-btn { backdrop-filter: none; background: rgba(10, 18, 38, 0.95); }
+
+  .chips button {
+    min-height: 44px;
+    padding: 0 16px;
+    touch-action: manipulation;
+  }
+  .chips::-webkit-scrollbar { display: none; }
+  .chips { scrollbar-width: none; }
+
+  .dot { transform: scale(1.2); }
+  .dot::after { inset: -16px; }
+
+  .return-btn { padding: 10px 18px; font-size: 13px; }
 }
 
 /* ---------------- loading intro ---------------- */
@@ -776,5 +833,15 @@ body.reduced-motion .app {
 .seo-content li {
   margin: 0;
   padding: 0;
+}
+
+/* lazy-loaded view fallback */
+.view-loading {
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--faint);
+  font-size: 13px;
 }
 

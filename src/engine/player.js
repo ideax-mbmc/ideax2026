@@ -26,11 +26,22 @@ export function updatePlayer(dt, player, input, museum, sprites) {
   if (input.keys["ArrowLeft"])  player.angle -= 1.8 * dt;
   if (input.keys["ArrowRight"]) player.angle += 1.8 * dt;
 
+  // analog touch joystick: tm.y = forward, tm.x = strafe (range -1..1)
+  const tm = input.touchMove;
+  if (tm) {
+    const mag = Math.hypot(tm.x, tm.y);
+    if (mag > 0.15) {
+      dx += forward.x * tm.y + strafe.x * tm.x;
+      dy += forward.y * tm.y + strafe.y * tm.x;
+    }
+  }
+
   const len = Math.hypot(dx, dy);
   if (len > 0) {
+    const scale = Math.min(1, len);
     dx /= len; dy /= len;
-    const mul = input.keys["ShiftLeft"] || input.keys["ShiftRight"] ? player.runMul : 1;
-    const step = player.speed * mul * dt;
+    const mul = input.keys["ShiftLeft"] || input.keys["ShiftRight"] || input.touchRun ? player.runMul : 1;
+    const step = player.speed * mul * dt * scale;
     tryMove(player.x + dx * step, player.y + dy * step, player, museum, sprites);
   }
 }

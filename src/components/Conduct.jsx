@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './Conduct.css'
 
 const CONDUCT_SECTIONS = [
@@ -114,6 +114,15 @@ export default function Conduct({ onReturn }) {
   const prev = () => setCurrent((current - 1 + CONDUCT_SECTIONS.length) % CONDUCT_SECTIONS.length)
   const next = () => setCurrent((current + 1) % CONDUCT_SECTIONS.length)
 
+  const touchX = useRef(null)
+  const onTouchStart = (e) => { touchX.current = e.touches[0].clientX }
+  const onTouchEnd = (e) => {
+    if (touchX.current === null) return
+    const dx = e.changedTouches[0].clientX - touchX.current
+    if (Math.abs(dx) > 40) { dx < 0 ? next() : prev() }
+    touchX.current = null
+  }
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowLeft') prev()
@@ -137,7 +146,11 @@ export default function Conduct({ onReturn }) {
             &#x276E;
           </button>
 
-          <div className="conduct-viewport">
+          <div
+            className="conduct-viewport"
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+          >
             <div
               className="conduct-track"
               style={{ transform: `translateX(-${current * 100}%)` }}

@@ -22,6 +22,15 @@ export default function Testimonials({ onReturn }) {
   const prev = () => setCurrent((current - 1 + testimonials.length) % testimonials.length)
   const next = () => setCurrent((current + 1) % testimonials.length)
 
+  const touchX = useRef(null)
+  const onTouchStart = (e) => { touchX.current = e.touches[0].clientX }
+  const onTouchEnd = (e) => {
+    if (touchX.current === null) return
+    const dx = e.changedTouches[0].clientX - touchX.current
+    if (Math.abs(dx) > 40) { dx < 0 ? next() : prev() }
+    touchX.current = null
+  }
+
   return (
     <div className="testimonials-stage">
       <div className="crt-overlay" />
@@ -36,7 +45,11 @@ export default function Testimonials({ onReturn }) {
             &#x276E;
           </button>
 
-          <div className="testimonials-viewport">
+          <div
+            className="testimonials-viewport"
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+          >
             <div
               className="testimonials-track"
               style={{ transform: `translateX(-${current * 100}%)` }}

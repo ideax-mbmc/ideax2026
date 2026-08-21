@@ -3,7 +3,7 @@ import { recaps, getRecap } from './recapData'
 
 
 export function executeCommand(rawCommand, { history, onRunCommand }) {
-  const trimmed = (rawCommand || '').trim()
+  const trimmed = (rawCommand || '').trim().replace(/^\//, '')
 
   if (trimmed === '') {
     return null
@@ -69,6 +69,7 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
 
     case 'conduct':
     case 'coc':
+    case 'code':
     case 'code-of-conduct':
       return { type: 'CONDUCT_VIEW' }
 
