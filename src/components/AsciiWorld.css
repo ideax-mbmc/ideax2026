@@ -178,3 +178,33 @@
 .touch-btn-exit {
   color: #9a97ae;
 }
+
+/* ---------------- rotate toast ---------------- */
+
+.rotate-toast {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  background: rgba(217, 165, 68, 0.95);
+  color: #0d0f14;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  animation: rotate-toast-in 0.3s ease-out, rotate-toast-out 0.3s ease-in 3.7s forwards;
+}
+
+@keyframes rotate-toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes rotate-toast-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}

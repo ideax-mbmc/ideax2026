@@ -1,5 +1,6 @@
 import { TRACKS, getDynamicTimeline, TARGET_DATE, DEADLINE_DATE } from './terminalData'
 import { recaps, getRecap } from './recapData'
+import { members } from './membersData'
 
 
 export function executeCommand(rawCommand, { history, onRunCommand }) {
@@ -26,6 +27,7 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
           ['faq', 'frequently asked questions'],
           ['conduct', 'code of conduct & hackathon rules'],
           ['hall of fame', 'visit the sponsor hall of fame'],
+          ['members', 'meet the organizing committee'],
           ['recap', 'browse past hackathon recaps (2023-2025)'],
           ['prizes', 'prize breakdown'],
           ['timeline', 'registration + event dates'],
@@ -112,6 +114,11 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
 
     case 'gallery':
       return { type: 'TESTIMONIALS' }
+
+    case 'members':
+    case 'team':
+    case 'committee':
+      return { type: 'MEMBERS', members }
 
     case 'recap':
     case 'recaps': {

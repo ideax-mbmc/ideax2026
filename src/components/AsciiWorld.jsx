@@ -16,6 +16,7 @@ export default function AsciiWorld({ onReturn }) {
   const joyBaseRef = useRef(null)
   const joyKnobRef = useRef(null)
   const [showOverlay, setShowOverlay] = useState(true)
+  const [showRotateToast, setShowRotateToast] = useState(false)
   const [isTouch] = useState(() =>
     typeof window !== 'undefined' &&
     window.matchMedia('(hover: none) and (pointer: coarse)').matches
@@ -25,6 +26,34 @@ export default function AsciiWorld({ onReturn }) {
   useEffect(() => {
     overlayVisibleRef.current = showOverlay
   }, [showOverlay])
+
+  useEffect(() => {
+    if (typeof screen === 'undefined' || !screen.orientation) return
+
+    let locked = false
+
+    const lockOrientation = async () => {
+      try {
+        if (screen.orientation.type.startsWith('portrait')) {
+          await screen.orientation.lock('landscape')
+          locked = true
+        }
+      } catch (err) {
+        if (err.name !== 'NotSupportedError') {
+          setShowRotateToast(true)
+          setTimeout(() => setShowRotateToast(false), 4000)
+        }
+      }
+    }
+
+    lockOrientation()
+
+    return () => {
+      if (locked) {
+        try { screen.orientation.unlock() } catch (_) {}
+      }
+    }
+  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -242,6 +271,12 @@ export default function AsciiWorld({ onReturn }) {
           <canvas ref={minimapRef} className="ascii-world-minimap" width="120" height="120" />
         </div>
       </div>
+
+      {showRotateToast && (
+        <div className="rotate-toast" role="status" aria-live="polite">
+          Rotate device for best experience
+        </div>
+      )}
 
       {isTouch && !showOverlay && (
         <>

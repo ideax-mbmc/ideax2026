@@ -7,6 +7,7 @@ import LoadingIntro from './components/LoadingIntro'
 const AsciiWorld = lazy(() => import('./components/AsciiWorld'))
 const Testimonials = lazy(() => import('./components/Testimonials'))
 const Conduct = lazy(() => import('./components/Conduct'))
+const Members = lazy(() => import('./components/Members'))
 import { executeCommand } from './utils/commandHandler'
 import { TRACKS, getDynamicTimeline } from './utils/terminalData'
 import MobileVirtualKeys from './components/MobileVirtualKeys'
@@ -122,6 +123,9 @@ export default function App() {
     testimonial: 'testimonials',
     gallery: 'testimonials',
     testimonials: 'testimonials',
+    team: 'members',
+    committee: 'members',
+    members: 'members',
     coc: 'code',
     'code-of-conduct': 'code',
     conduct: 'code',
@@ -163,6 +167,9 @@ export default function App() {
     'hall-of-fame': 'Hall of Fame | MBMC IdeaX 2026',
     testimonials: 'Participant Testimonials | MBMC IdeaX 2026',
     gallery: 'Participant Testimonials | MBMC IdeaX 2026',
+    members: 'Organizing Committee | MBMC IdeaX 2026',
+    team: 'Organizing Committee | MBMC IdeaX 2026',
+    committee: 'Organizing Committee | MBMC IdeaX 2026',
     recap: 'Past Recaps (2023-2025) | MBMC IdeaX 2026',
     contact: 'Contact & Support | MBMC IdeaX 2026',
     discord: 'Community Discord | MBMC IdeaX 2026',
@@ -188,6 +195,10 @@ export default function App() {
       setView('conduct')
       document.title = 'Code of Conduct & Rules | MBMC IdeaX 2026'
       updateUrlPath('code')
+    } else if (['members', 'team', 'committee'].includes(initialRoute)) {
+      setView('members')
+      document.title = 'Organizing Committee | MBMC IdeaX 2026'
+      updateUrlPath('members')
     } else {
       if (bootCleanupRef.current) {
         bootCleanupRef.current()
@@ -247,6 +258,9 @@ export default function App() {
       } else if (['code', 'conduct', 'coc'].includes(route)) {
         setView('conduct')
         document.title = 'Code of Conduct & Rules | MBMC IdeaX 2026'
+      } else if (['members', 'team', 'committee'].includes(route)) {
+        setView('members')
+        document.title = 'Organizing Committee | MBMC IdeaX 2026'
       } else if (['home', 'clear', 'cls'].includes(route)) {
         setView('terminal')
         handleClearTerminal()
@@ -294,6 +308,9 @@ export default function App() {
     } else if (['code', 'conduct', 'coc'].includes(cmdName)) {
       document.title = 'Code of Conduct & Rules | MBMC IdeaX 2026'
       updateUrlPath('code')
+    } else if (['members', 'team', 'committee'].includes(cmdName)) {
+      document.title = 'Organizing Committee | MBMC IdeaX 2026'
+      updateUrlPath('members')
     } else if (COMMAND_TITLES[cmdName]) {
       document.title = COMMAND_TITLES[cmdName]
       updateUrlPath(cmdName)
@@ -321,6 +338,10 @@ export default function App() {
       setItems(prev => [...prev, echoItem])
       setView('conduct')
       document.title = 'Code of Conduct & Rules | MBMC IdeaX 2026'
+    } else if (result && result.type === 'MEMBERS') {
+      setItems(prev => [...prev, echoItem])
+      setView('members')
+      document.title = 'Organizing Committee | MBMC IdeaX 2026'
     } else if (result) {
       setItems(prev => [...prev, echoItem, result])
     } else {
@@ -389,6 +410,14 @@ export default function App() {
         <section aria-label="Code of Conduct Manual">
           <Suspense fallback={<div className="view-loading">loading code of conduct…</div>}>
             <Conduct onReturn={handleReturnToTerminal} />
+          </Suspense>
+        </section>
+      )}
+
+      {view === 'members' && (
+        <section aria-label="Organizing Committee">
+          <Suspense fallback={<div className="view-loading">loading organizing committee…</div>}>
+            <Members onReturn={handleReturnToTerminal} />
           </Suspense>
         </section>
       )}

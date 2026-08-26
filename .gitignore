@@ -57,3 +57,6 @@ ehthumbs.db
 
 # Agent files
 AGENTS.md
+
+# Deploy artifacts
+ideax-deploy.zip

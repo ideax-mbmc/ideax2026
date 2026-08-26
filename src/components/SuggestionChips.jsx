@@ -9,6 +9,7 @@ export default function SuggestionChips({ onRunCommand }) {
     { label: '$ faq', cmd: 'faq' },
     { label: '$ conduct', cmd: 'conduct' },
     { label: '$ hall of fame', cmd: 'hall-of-fame' },
+    { label: '$ members', cmd: 'members' },
     { label: '$ recap', cmd: 'recap' },
     { label: '$ prizes', cmd: 'prizes' },
     { label: '$ timeline', cmd: 'timeline' },

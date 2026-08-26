@@ -92,7 +92,7 @@ export function buildMuseum() {
     { type: 'chandelier', x: 21.5, y: 20.5, scale: 1.3 },
   ];
 
-  return { grid, heightGrid, W, H, paintings, torches, sprites, spawn: { x: 7.5, y: 20.8, angle: Math.PI / 2 } };
+  return { grid, heightGrid, W, H, paintings, torches, sprites, spawn: { x: 6.0, y: 12.5, angle: -Math.PI / 2 } };
 }
 
 export const ROOMS = [

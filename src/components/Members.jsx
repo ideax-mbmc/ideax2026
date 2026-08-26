@@ -1,0 +1,189 @@
+import React, { useState, useEffect, useRef } from 'react'
+import { members } from '../utils/membersData'
+import MobileVirtualKeys from './MobileVirtualKeys'
+
+export default function Members({ outputRef, onReturn }) {
+  const [lines, setLines] = useState([])
+  const cancelRef = useRef(null)
+  const outputRefLatest = useRef(outputRef)
+
+  useEffect(() => { outputRefLatest.current = outputRef }, [outputRef])
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (!cancelRef.current) return
+      const isCtrlZ = e.ctrlKey && e.key === 'z'
+      const isQ = !e.ctrlKey && !e.altKey && !e.metaKey && e.key === 'q'
+      if (!isCtrlZ && !isQ) return
+      e.preventDefault()
+      e.stopPropagation()
+      cancelRef.current(isQ ? 'q' : 'ctrl+z')
+    }
+    document.addEventListener('keydown', handleKey, true)
+    return () => document.removeEventListener('keydown', handleKey, true)
+  }, [])
+
+  useEffect(() => {
+    let cancelled = false
+    const timeoutIds = []
+
+    const scheduleTimer = (fn, ms) => {
+      const id = setTimeout(() => { if (!cancelled) fn() }, ms)
+      timeoutIds.push(id)
+      return id
+    }
+
+    const scrollToBottom = () => {
+      const ref = outputRefLatest.current
+      const el = ref && ref.current ? ref.current : ref
+      if (el && el.scrollTo) {
+        requestAnimationFrame(() => { if (el) el.scrollTop = el.scrollHeight })
+      }
+    }
+
+    const appendLine = (lineObj) => {
+      if (cancelled) return
+      setLines((prev) => [...prev, lineObj])
+      scrollToBottom()
+    }
+
+    const pause = (ms) =>
+      new Promise((resolve) => scheduleTimer(resolve, ms))
+
+    const typeOut = (text, lineType, charDelay = 16) =>
+      new Promise((resolve) => {
+        if (cancelled) { resolve(); return }
+        let i = 0
+        let built = ''
+        appendLine({ type: lineType, text: '' })
+
+        const tick = () => {
+          if (cancelled) { resolve(); return }
+          if (i >= text.length) { resolve(); return }
+          built += text[i++]
+          setLines((prev) => {
+            if (prev.length === 0) return prev
+            const next = [...prev]
+            next[next.length - 1] = { ...next[next.length - 1], text: built }
+            return next
+          })
+          scrollToBottom()
+          scheduleTimer(tick, charDelay)
+        }
+        scheduleTimer(tick, charDelay)
+      })
+
+    cancelRef.current = (reason) => {
+      if (cancelled) return
+      cancelled = true
+      timeoutIds.forEach(clearTimeout)
+      cancelRef.current = null
+
+      const isQ = reason === 'q'
+      setLines((prev) => [
+        ...prev,
+        { type: 'log-blank' },
+        {
+          type: 'log-system',
+          text: isQ
+            ? '[SYSTEM] Quit signal received. Stream terminated.'
+            : '[SYSTEM] SIGTSTP received. Stream suspended.',
+        },
+        { type: 'log-eof', text: '[EOF]    /var/log/members.log' },
+      ])
+
+      if (isQ && onReturn) {
+        setTimeout(onReturn, 400)
+      }
+    }
+
+    const run = async () => {
+      await pause(300)
+      if (cancelled) return
+
+      appendLine({ type: 'log-info', text: '[INFO]  Connection established. Tailing /var/log/members.log…' })
+      appendLine({ type: 'log-hint', text: '        Press Ctrl+Z to suspend · q to quit' })
+      appendLine({ type: 'log-blank' })
+
+      for (let idx = 0; idx < members.length; idx++) {
+        if (cancelled) return
+        const m = members[idx]
+        const ts = new Date().toISOString().replace('T', ' ').slice(0, 19)
+
+        await pause(200)
+        if (cancelled) return
+        appendLine({ type: 'log-stream', text: `[STREAM] ${ts}  ${m.name} — ${m.position}` })
+
+        await pause(120)
+        if (cancelled) return
+        await typeOut(`"${m.quote}"`, 'log-quote', 16)
+
+        if (idx < members.length - 1) {
+          await pause(400)
+          if (cancelled) return
+          appendLine({ type: 'log-blank' })
+        }
+      }
+
+      await pause(600)
+      if (cancelled) return
+
+      cancelRef.current = null
+      appendLine({ type: 'log-blank' })
+      appendLine({ type: 'log-system', text: '[SYSTEM] Stream closed. End of file reached.' })
+      appendLine({ type: 'log-eof', text: '[EOF]    /var/log/members.log' })
+    }
+
+    run()
+
+    return () => {
+      cancelled = true
+      timeoutIds.forEach(clearTimeout)
+      cancelRef.current = null
+    }
+  }, [])
+
+  const isFullscreen = !!onReturn
+
+  return (
+    <div className={isFullscreen ? 'tlog-fullscreen' : 'tlog-stream'}>
+      <div className="tlog-stream">
+        {lines.map((line, i) => {
+          const isLastLine = i === lines.length - 1
+          switch (line.type) {
+            case 'log-blank':
+              return <div key={i} className="tlog-blank" />
+            case 'log-info':
+              return <div key={i} className="tlog-line tlog-info">{line.text}</div>
+            case 'log-hint':
+              return <div key={i} className="tlog-line tlog-hint">{line.text}</div>
+            case 'log-stream':
+              return <div key={i} className="tlog-line tlog-header">{line.text}</div>
+            case 'log-quote':
+              return (
+                <div key={i} className="tlog-line tlog-quote">
+                  {line.text}
+                  {isLastLine && <span className="tlog-cursor" aria-hidden="true" />}
+                </div>
+              )
+            case 'log-system':
+              return <div key={i} className="tlog-line tlog-system">{line.text}</div>
+            case 'log-eof':
+              return <div key={i} className="tlog-line tlog-eof">{line.text}</div>
+            default:
+              return null
+          }
+        })}
+      </div>
+
+      {isFullscreen && (
+        <div className="tlog-status-bar">
+          <div style={{ paddingBottom: '4px' }}>
+            <span className="standout"> tail -f /var/log/members.log (press q to quit) </span>
+          </div>
+          <MobileVirtualKeys />
+        </div>
+      )}
+    </div>
+  )
+}
