@@ -1,42 +1,59 @@
-export const members = [
+export const organizingTeam = [
   {
-    name: 'Sujan Dhungana',
-    position: 'Chairperson',
-    quote: 'IdeaX is not just a hackathon — it\'s a movement. Every year I watch students transform from curious beginners into confident builders. That transformation is why we do this.',
+    id: "advisory-board",
+    name: "ADVISORY_BOARD",
+    members: [
+      { name: "Dr. Babu Ram Adhikari" },
+      { name: "Mr. Prajwal Man Shrestha" },
+      { name: "Dr. Tara Prasad Gautam" },
+      { name: "Mr. Kamal Neupane" },
+      { name: "Dr. Pramod Raj Updhyay" },
+      { name: "Mr. Hari Bahadur Chand" }
+    ]
   },
   {
-    name: 'Famous Dhungana',
-    position: 'Vice Chairperson',
-    quote: 'The best ideas come from constraints. 48 hours, limited resources, infinite creativity — that\'s where magic happens. IdeaX proves it every single year.',
+    id: "steering-committee",
+    name: "STEERING_COMMITTEE",
+    members: [
+      { name: "Mr. Naw Raj Joshi", role: "Coordinator" },
+      { name: "Mr. Prajwal Bhandari", role: "Co-Coordinator" },
+      { name: "Mr. Rhishav Poudyal", role: "Co-Coordinator" }
+    ]
   },
   {
-    name: 'Shashi Baranwal',
-    position: 'Technical Lead',
-    quote: 'We don\'t just want working code. We want solutions that matter. Climate tech that saves farms. Fintech that includes the unbanked. That\'s the standard we hold.',
+    id: "student-advisor-team",
+    name: "STUDENT_ADVISOR_TEAM",
+    members: [
+      { name: "Bansaj Poudel" },
+      { name: "Swosthik Karki" },
+      { name: "Firoj Poudel" },
+      { name: "Miraj Bhhatari" },
+      { name: "Famosh Dungana" },
+      { name: "Vishal Shrestha" },
+      { name: "Raunak Shreewastab" }
+    ]
   },
   {
-    name: 'Basab Jha',
-    position: 'Operations Lead',
-    quote: 'A hackathon is organized chaos. My job is to make sure the chaos feels effortless — good food, stable wifi, mentors when you need them. So you can focus on building.',
-  },
-  {
-    name: 'Riya Sharma',
-    position: 'Community Lead',
-    quote: 'The community you find here lasts longer than any project. Late-night debugging sessions become lifelong friendships. That\'s the real prize of IdeaX.',
-  },
-  {
-    name: 'Amit Thapa',
-    position: 'Partnerships Lead',
-    quote: 'We bring industry to the students — not as judges, but as collaborators. The sponsors in our Hall of Fame? They\'re here because they believe in what you\'re building.',
-  },
-  {
-    name: 'Priya Kandel',
-    position: 'Design Lead',
-    quote: 'Function follows form, but impact follows empathy. We design IdeaX to be inclusive — whether it\'s your first hackathon or your tenth, you belong here.',
-  },
-  {
-    name: 'Kiran Poudel',
-    position: 'Logistics Lead',
-    quote: '48 hours. 500+ people. Zero excuses. Every chair, every outlet, every meal — planned so you don\'t have to think about anything except your next breakthrough.',
-  },
+    id: "core-team",
+    name: "CORE_TEAM",
+    members: [
+      { name: "Krijal Paneru", program: "BCA", role: "Co-Lead" },
+      { name: "Krishna Adhikari", program: "BSc.CSIT", role: "Co-Lead" },
+      { name: "Khewang Tamang Thing", program: "BSc.CSIT", role: "General Manager" },
+      { name: "Aswin Phuyal", program: "BSc.CSIT", role: "General Manager" },
+      { name: "Bipana KC", program: "BSc.CSIT", role: "Content Creation Lead" },
+      { name: "Rohan Parajuli", program: "BSc.CSIT", role: "Design Lead" },
+      { name: "Smriti Ale", program: "BSc.CSIT", role: "Design Lead" },
+      { name: "Gaurab Pandey", program: "BCA", role: "Development Lead" },
+      { name: "Binaya Poudel", program: "BSc.CSIT", role: "Documentation Lead" },
+      { name: "Pranaya Shrestha", program: "BBM", role: "Logistics Lead" },
+      { name: "Sarfraj Alam", program: "BSc.CSIT", role: "Media Lead" },
+      { name: "Supriya Panta", program: "BSc.CSIT", role: "Sponsorship Lead" },
+      { name: "Sudikshya Khadka", program: "BSc.CSIT", role: "Outreach Lead" },
+      { name: "Robin Man Shrestha", program: "BSc.CSIT", role: "Technical Lead" }
+    ]
+  }
 ];
+
+// Maintain compatibility export
+export const members = organizingTeam;

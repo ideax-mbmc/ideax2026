@@ -862,8 +862,10 @@ body.reduced-motion .app {
 .tlog-fullscreen {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  position: relative;
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  overflow: hidden;
 }
 
 .tlog-fullscreen > .tlog-stream {
@@ -992,3 +994,122 @@ body.reduced-motion .app {
     color: var(--bg);
   }
 }
+
+/* ─── Organizing Team Interactive Tree ─────────────────────────── */
+.tree-container {
+  padding: 16px;
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.tree-row {
+  display: flex;
+  align-items: flex-start;
+  min-height: 1.8em;
+}
+
+/* Button style for clickable folders */
+button.tree-folder-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-align: left;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+button.tree-folder-btn:focus-visible {
+  outline: 1px solid var(--accent4);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tree-folder-name {
+  color: var(--accent4);
+  font-weight: bold;
+  transition: color 0.15s ease;
+}
+
+button.tree-folder-btn:hover .tree-folder-name {
+  color: var(--accent5);
+}
+
+.tree-line {
+  white-space: pre;
+  font-family: var(--mono);
+  flex-shrink: 0;
+  color: var(--faint);
+  transition: color 0.15s ease;
+  user-select: none;
+}
+
+.tree-text-content {
+  white-space: pre-wrap;
+  word-break: break-word;
+  padding-left: 2px;
+}
+
+.member-group {
+  display: block;
+  transition: background 0.15s ease;
+  border-radius: 2px;
+}
+
+.member-group:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.member-group:hover .tree-line {
+  color: var(--accent5);
+}
+
+.member-name {
+  color: var(--text);
+  font-weight: 500;
+  transition: text-shadow 0.15s ease;
+}
+
+.member-group:hover .member-name {
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+}
+
+.info-key {
+  color: var(--dim);
+}
+
+.info-val {
+  color: var(--text);
+  opacity: 0.95;
+}
+
+/* Smooth directory open/close transition */
+.directory-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.directory-content.expanded {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.directory-inner {
+  min-height: 0;
+}
+
+@media (max-width: 600px) {
+  .tree-container {
+    font-size: 12.5px;
+    padding: 10px;
+  }
+}
+
