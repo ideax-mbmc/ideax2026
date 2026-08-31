@@ -1,6 +1,6 @@
 import { TRACKS, getDynamicTimeline, TARGET_DATE, DEADLINE_DATE } from './terminalData'
 import { recaps, getRecap } from './recapData'
-import { members } from './membersData'
+// No import of members needed here since the component imports it directly
 
 
 export function executeCommand(rawCommand, { history, onRunCommand }) {
@@ -27,7 +27,7 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
           ['faq', 'frequently asked questions'],
           ['conduct', 'code of conduct & hackathon rules'],
           ['hall of fame', 'visit the sponsor hall of fame'],
-          ['members', 'meet the organizing committee'],
+          ['organizing team', 'meet the organizing team'],
           ['recap', 'browse past hackathon recaps (2023-2025)'],
           ['prizes', 'prize breakdown'],
           ['timeline', 'registration + event dates'],
@@ -115,10 +115,17 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
     case 'gallery':
       return { type: 'TESTIMONIALS' }
 
+    case 'organizing':
+      if (arg && arg.toLowerCase() === 'team') {
+        return { type: 'ORGANIZING_TEAM' }
+      }
+      return { type: 'TEXT', text: `command not found: organizing ${arg}. did you mean 'organizing team'?`, cls: 'warn' }
+    case 'organizers':
+    case 'organizing-team':
     case 'members':
     case 'team':
     case 'committee':
-      return { type: 'MEMBERS', members }
+      return { type: 'ORGANIZING_TEAM' }
 
     case 'recap':
     case 'recaps': {

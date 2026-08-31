@@ -84,5 +84,5 @@ export function getDynamicTimeline() {
 export const COMMANDS = [
   'help', 'about', 'participation', 'tracks', 'timeline', 'prizes', 'conduct', 'coc', 'faq',
   'register', 'contact', 'discord', 'countdown', 'whoami', 'sudo', 'clear', 'ls', 'cat',
-  'fastfetch', 'neofetch', 'date', 'echo', 'history', 'exit', 'logout'
+  'fastfetch', 'neofetch', 'date', 'echo', 'history', 'exit', 'logout', 'organizers', 'organizing-team'
 ]
