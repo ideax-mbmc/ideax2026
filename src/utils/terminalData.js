@@ -32,7 +32,7 @@ export const TRACKS = [
 ]
 
 export const TARGET_DATE = new Date('2026-10-02T00:00:00+05:45').getTime()
-export const DEADLINE_DATE = new Date('2026-09-01T23:59:59+05:45').getTime()
+export const DEADLINE_DATE = new Date('2026-09-05T23:59:59+05:45').getTime()
 export const ONLINE_START_DATE = new Date('2026-09-06T00:00:00+05:45').getTime()
 export const ONLINE_END_DATE = new Date('2026-09-13T23:59:59+05:45').getTime()
 export const JUDGING_START_DATE = new Date('2026-10-04T17:00:00+05:45').getTime()
@@ -49,7 +49,7 @@ export function getDynamicTimeline() {
       cls: now < DEADLINE_DATE ? 'ok' : 'dim'
     },
     {
-      date: 'sep 01 2026',
+      date: 'sep 05 2026',
       desc: 'Registration closes, last day to lock your team in.',
       tag: now < DEADLINE_DATE ? '[UPCOMING]' : '[PASSED]',
       cls: now < DEADLINE_DATE ? 'warn' : 'dim'
