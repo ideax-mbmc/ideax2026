@@ -71,7 +71,8 @@ export const organizingTeam = [
         name: "DEVELOPMENT_TEAM",
         members: [
           { name: "Gaurab Pandey", url: "https://gaurabpandey.com.np" },
-          { name: "Yojana Gautam" }
+          { name: "Yojana Gautam" },
+          { name: "Sanjog Gautam" }
         ]
       },
       {
@@ -133,7 +134,7 @@ export const organizingTeam = [
           { name: "Khemant Jaisi" },
           { name: "Manish Gurung" },
           { name: "Niraj Thapa" },
-          { name: "Apsara" }
+          { name: "Apsara Shiwakoti" }
         ]
       },
       {
