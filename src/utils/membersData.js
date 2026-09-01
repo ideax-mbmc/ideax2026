@@ -15,9 +15,9 @@ export const organizingTeam = [
     id: "steering-committee",
     name: "STEERING_COMMITTEE",
     members: [
-      { name: "Mr. Naw Raj Joshi", role: "Coordinator" },
-      { name: "Mr. Prajwal Bhandari", role: "Co-Coordinator" },
-      { name: "Mr. Rhishav Poudyal", role: "Co-Coordinator" }
+      { name: "Mr. Naw Raj Joshi" },
+      { name: "Mr. Prajwal Bhandari" },
+      { name: "Mr. Rhishav Poudyal" }
     ]
   },
   {
@@ -28,29 +28,122 @@ export const organizingTeam = [
       { name: "Swosthik Karki" },
       { name: "Firoj Poudel" },
       { name: "Miraj Bhhatari" },
-      { name: "Famosh Dungana" },
+      { name: "Famous Dhungana" },
       { name: "Vishal Shrestha" },
       { name: "Raunak Shreewastab" }
     ]
   },
   {
+    id: "mentors",
+    name: "MENTORS",
+    members: [
+      { name: "Sachita Bhandari" },
+      { name: "Abhisrent Khatri" },
+      { name: "Loojha Shrestha" },
+      { name: "Miraj Bhattarai" },
+      { name: "Vishal Shrestha" },
+      { name: "Reeju Pandit" },
+      { name: "Nilima Shrestha" }
+    ]
+  },
+  {
     id: "core-team",
     name: "CORE_TEAM",
-    members: [
-      { name: "Krijal Paneru", program: "BCA", role: "Co-Lead" },
-      { name: "Krishna Adhikari", program: "BSc.CSIT", role: "Co-Lead" },
-      { name: "Khewang Tamang Thing", program: "BSc.CSIT", role: "General Manager" },
-      { name: "Aswin Phuyal", program: "BSc.CSIT", role: "General Manager" },
-      { name: "Gaurab Pandey", program: "BCA", role: "Development Lead" },
-      { name: "Bipana KC", program: "BSc.CSIT", role: "Content Creation Lead" },
-      { name: "Rohan Parajuli", program: "BSc.CSIT", role: "Design Lead" },
-      { name: "Smriti Ale", program: "BSc.CSIT", role: "Design Lead" },
-      { name: "Binaya Poudel", program: "BSc.CSIT", role: "Documentation Lead" },
-      { name: "Pranaya Shrestha", program: "BBM", role: "Logistics Lead" },
-      { name: "Sarfraj Alam", program: "BSc.CSIT", role: "Media Lead" },
-      { name: "Supriya Panta", program: "BSc.CSIT", role: "Sponsorship Lead" },
-      { name: "Sudikshya Khadka", program: "BSc.CSIT", role: "Outreach Lead" },
-      { name: "Robin Man Shrestha", program: "BSc.CSIT", role: "Technical Lead" }
+    subTeams: [
+      {
+        id: "co-lead-team",
+        name: "CO_LEAD_TEAM",
+        members: [
+          { name: "Krijal Paneru" },
+          { name: "Krishna Adhikari" }
+        ]
+      },
+      {
+        id: "general-management-team",
+        name: "GENERAL_MANAGEMENT_TEAM",
+        members: [
+          { name: "Khewang Tamang Thing" },
+          { name: "Aswin Phuyal" }
+        ]
+      },
+      {
+        id: "development-team",
+        name: "DEVELOPMENT_TEAM",
+        members: [
+          { name: "Gaurab Pandey", url: "https://gaurabpandey.com.np" },
+          { name: "Yojana Gautam" }
+        ]
+      },
+      {
+        id: "technical-team",
+        name: "TECHNICAL_TEAM",
+        members: [
+          { name: "Robin Man Shrestha" },
+          { name: "Jonash Chataut" }
+        ]
+      },
+      {
+        id: "documentation-team",
+        name: "DOCUMENTATION_TEAM",
+        members: [
+          { name: "Binaya Poudel" }
+        ]
+      },
+      {
+        id: "design-team",
+        name: "DESIGN_TEAM",
+        members: [
+          { name: "Rohan Parajuli" },
+          { name: "Smriti Ale" }
+        ]
+      },
+      {
+        id: "content-creation-team",
+        name: "CONTENT_CREATION_TEAM",
+        members: [
+          { name: "Bipana KC" },
+          { name: "Diya Karki" },
+          { name: "Anmol Karki" }
+        ]
+      },
+      {
+        id: "outreach-team",
+        name: "OUTREACH_TEAM",
+        members: [
+          { name: "Sudikshya Khadka" },
+          { name: "Sushant Adhikari" },
+          { name: "Jigyasa Koirala" }
+        ]
+      },
+      {
+        id: "sponsorship-team",
+        name: "SPONSORSHIP_TEAM",
+        members: [
+          { name: "Supriya Panta" },
+          { name: "Jensa Adhikari" },
+          { name: "Krisha Thapa" },
+          { name: "Sudip Paneru" }
+        ]
+      },
+      {
+        id: "logistics-team",
+        name: "LOGISTICS_TEAM",
+        members: [
+          { name: "Pranaya Shrestha" },
+          { name: "Khemant Jaisi" },
+          { name: "Manish Gurung" },
+          { name: "Niraj Thapa" },
+          { name: "Apsara" }
+        ]
+      },
+      {
+        id: "media-team",
+        name: "MEDIA_TEAM",
+        members: [
+          { name: "Sarfraj Alam" },
+          { name: "Pratik Thapa" }
+        ]
+      }
     ]
   }
 ];

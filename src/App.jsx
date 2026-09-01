@@ -126,6 +126,8 @@ export default function App() {
     team: 'organizing-team',
     committee: 'organizing-team',
     members: 'organizing-team',
+    mentors: 'organizing-team',
+    mentor: 'organizing-team',
     organizers: 'organizing-team',
     organizing: 'organizing-team',
     'organizing-team': 'organizing-team',
