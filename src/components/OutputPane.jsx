@@ -4,10 +4,10 @@ import Conduct from './Conduct'
 import Testimonials from './Testimonials'
 
 // Self-contained ticking countdown so the whole OutputPane doesn't re-render every second
-function LiveCountdown() {
+function LiveCountdown({ targetDate }) {
   const [label, setLabel] = useState('')
   useEffect(() => {
-    const target = new Date('2026-09-01T00:00:00')
+    const target = targetDate ? new Date(targetDate) : new Date('2026-09-05T23:59:59+05:45')
     const update = () => {
       const diff = target - new Date()
       if (diff <= 0) {
@@ -23,7 +23,7 @@ function LiveCountdown() {
     update()
     const id = setInterval(update, 1000)
     return () => clearInterval(id)
-  }, [])
+  }, [targetDate])
   return <span>{label}</span>
 }
 
@@ -92,7 +92,7 @@ function renderItemBody(item, runCommand, outputRef) {
             <div className="card">
               <h3>about.md</h3>
               <p>
-                <span className="strong">MBMC IdeaX 2026</span> is a national technology hackathon organized by Madan Bhandari Memorial College in Kathmandu, Nepal. Registration opened on <span className="strong">28th Shrawan 2083 (13th Aug)</span> and closes on <span className="strong">16th Bhadra (1st Sept)</span>. The <span className="strong">Online Round</span> runs from <span className="strong">21st–28th Bhadra (6th–13th Sept)</span>, followed by the <span className="strong">Final On-Site Hackathon Event</span> from <span className="strong">16th–18th Ashoj (2nd–4th Oct)</span>. Participants will develop innovative technology solutions across five problem tracks: Climate Change, Resilience &amp; Sustainability; Tourism; E-Governance &amp; Smart Public Services; Smart Urban Transport &amp; Road Safety; and FinTech &amp; Digital Financial Innovation.
+                <span className="strong">MBMC IdeaX 2026</span> is a national technology hackathon organized by Madan Bhandari Memorial College in Kathmandu, Nepal. Registration opened on <span className="strong">28th Shrawan 2083 (13th Aug)</span> and closes on <span className="strong">20th Bhadra (5th Sept)</span>. The <span className="strong">Online Round</span> runs from <span className="strong">21st–28th Bhadra (6th–13th Sept)</span>, followed by the <span className="strong">Final On-Site Hackathon Event</span> from <span className="strong">16th–18th Ashoj (2nd–4th Oct)</span>. Participants will develop innovative technology solutions across five problem tracks: Climate Change, Resilience &amp; Sustainability; Tourism; E-Governance &amp; Smart Public Services; Smart Urban Transport &amp; Road Safety; and FinTech &amp; Digital Financial Innovation.
               </p>
             </div>
           </div>
@@ -223,7 +223,7 @@ function renderItemBody(item, runCommand, outputRef) {
               <p style={{ marginBottom: '10px' }}>The Online Round runs 21st–28th Bhadra (6th–13th Sept), and the Final On-Site Event runs 16th–18th Ashoj (2nd–4th Oct 2026).</p>
 
               <p className="strong" style={{ color: 'var(--accent4)' }}>What is the registration deadline?</p>
-              <p style={{ marginBottom: '10px' }}>Registration closes on 16th Bhadra (1st September 2026).</p>
+              <p style={{ marginBottom: '10px' }}>Registration closes on 20th Bhadra (5th September 2026).</p>
 
               <p className="strong" style={{ color: 'var(--accent4)' }}>Is the hackathon online or offline?</p>
               <p style={{ marginBottom: '10px' }}>MBMC IdeaX 2026 features an Online Round (6th–13th Sept) followed by an in-person Final Event (2nd–4th Oct) at Madan Bhandari Memorial College in Kathmandu, Nepal.</p>
@@ -309,7 +309,7 @@ function renderItemBody(item, runCommand, outputRef) {
                 Join our official <a href="https://discord.com/invite/3RctjES2U" target="_blank" rel="noopener noreferrer">Discord Server</a> for team-finding, crucial announcements, and all future updates!
               </p>
               <div className="meta">
-                registration closes 16th Bhadra (1st September) &middot; teams encouraged, not required &middot; solo entries welcome
+                registration closes 20th Bhadra (5th September) &middot; teams encouraged, not required &middot; solo entries welcome
               </div>
             </div>
           </div>
@@ -331,6 +331,24 @@ function renderItemBody(item, runCommand, outputRef) {
                 <div className="v">Madan Bhandari Memorial College, Kathmandu, Nepal</div>
                 <div className="k">mode</div>
                 <div className="v">in-person</div>
+              </div>
+            </div>
+          </div>
+        )
+
+      case 'COUNTDOWN':
+        return (
+          <div className="line block">
+            <div className="card">
+              <h3>countdown.log</h3>
+              <p>
+                <span className="strong" style={{ fontSize: '1.25em', color: 'var(--accent4)' }}>
+                  <LiveCountdown targetDate={item.deadlineDate || '2026-09-05T23:59:59+05:45'} />
+                </span>
+                <span className="dim"> remaining until registration closes (20th Bhadra / 5th Sept 2026)</span>
+              </p>
+              <div className="meta" style={{ marginTop: '8px' }}>
+                &gt; {item.subText || 'until doors open, oct 02 2026, kathmandu time.'}
               </div>
             </div>
           </div>
@@ -449,12 +467,12 @@ function renderItemBody(item, runCommand, outputRef) {
                 <div className="k">OS</div><div className="v">MBMC IdeaX 2026</div>
                 <div className="k">Host</div><div className="v">Madan Bhandari Memorial College</div>
                 <div className="k">Kernel</div><div className="v">hackathon-6.2.2026</div>
-                <div className="k">Countdown</div><div className="v"><LiveCountdown /> (until Sep 1)</div>
+                <div className="k">Countdown</div><div className="v"><LiveCountdown /> (until Sep 5)</div>
                 <div className="k">Tracks</div><div className="v">5</div>
                 <div className="k">Prize Pool</div><div className="v">Rs. 111,111</div>
                 <div className="k">Shell</div><div className="v">register.sh</div>
                 <div className="k">Venue</div><div className="v">Kathmandu, Nepal</div>
-                <div className="k">Deadline</div><div className="v">16th Bhadra (1st Sept)</div>
+                <div className="k">Deadline</div><div className="v">20th Bhadra (5th Sept)</div>
                 <div className="k">Online Rd</div><div className="v">21st–28th Bhadra (6th–13th Sept)</div>
                 <div className="k">Final Event</div><div className="v">16th–18th Ashoj (2nd–4th Oct)</div>
               </div>
@@ -526,13 +544,13 @@ export default function OutputPane({ items, onRunCommand, outputRef, onFocusInpu
         </ul>
         
         <h2>Timeline</h2>
-        <p>Registration closes September 1st, 2026. Online Round: September 6-13, 2026. Final Event: October 2-4, 2026 at Madan Bhandari Memorial College, Kathmandu.</p>
+        <p>Registration closes September 5th, 2026. Online Round: September 6-13, 2026. Final Event: October 2-4, 2026 at Madan Bhandari Memorial College, Kathmandu.</p>
         
         <h2>Prizes</h2>
         <p>Total prize pool of Rs. 111,111 distributed across winning teams in different tracks.</p>
         
         <h2>Register</h2>
-        <p>Join 500+ innovators at IdeaX 2026. Form a team of 2-4 members and register before September 1st. The event is completely free to participate.</p>
+        <p>Join 500+ innovators at IdeaX 2026. Form a team of 2-4 members and register before September 5th. The event is completely free to participate.</p>
       </div>
     </div>
   )
