@@ -125,6 +125,8 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
     case 'members':
     case 'team':
     case 'committee':
+    case 'mentors':
+    case 'mentor':
       return { type: 'ORGANIZING_TEAM' }
 
     case 'recap':

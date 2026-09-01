@@ -1075,6 +1075,18 @@ button.tree-folder-btn:hover .tree-folder-name {
   transition: text-shadow 0.15s ease;
 }
 
+a.member-name.member-link {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a.member-name.member-link:hover,
+a.member-name.member-link:focus {
+  text-decoration: none;
+  color: inherit;
+}
+
 .member-group:hover .member-name {
   text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
 }
