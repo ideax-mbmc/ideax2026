@@ -284,7 +284,7 @@ function renderItemBody(item, runCommand, outputRef) {
                   [&gt; REGISTER NOW]
                 </a>
                 <a
-                  href="https://discord.gg/bm59S8yfz"
+                  href="https://discord.gg/A5Sg6wzhN"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="discord-cta-btn"
@@ -306,7 +306,7 @@ function renderItemBody(item, runCommand, outputRef) {
               Fill out the official <a href="https://forms.gle/cBgYAroPeJeZpxa6A" target="_blank" rel="noopener noreferrer">Registration Form</a> to sign up your team or enter solo.
             </p>
             <p style={{ marginTop: '8px' }}>
-              Join our official <a href="https://discord.gg/bm59S8yfz" target="_blank" rel="noopener noreferrer">Discord Server</a> for team-finding, crucial announcements, and all future updates!
+              Join our official <a href="https://discord.gg/A5Sg6wzhN" target="_blank" rel="noopener noreferrer">Discord Server</a> for team-finding, crucial announcements, and all future updates!
             </p>
             <div className="meta">
               registration closes 20th Bhadra (5th September) &middot; teams encouraged, not required &middot; solo entries welcome
@@ -326,7 +326,7 @@ function renderItemBody(item, runCommand, outputRef) {
               <div className="k">phone</div>
               <div className="v"><a href="tel:+9779842362679">+977-984-2362679</a></div>
               <div className="k">discord</div>
-              <div className="v"><a href="https://discord.gg/bm59S8yfz" target="_blank" rel="noopener noreferrer">discord.gg/bm59S8yfz</a></div>
+              <div className="v"><a href="https://discord.gg/A5Sg6wzhN" target="_blank" rel="noopener noreferrer">discord.gg/A5Sg6wzhN</a></div>
               <div className="k">venue</div>
               <div className="v">Madan Bhandari Memorial College, Kathmandu, Nepal</div>
               <div className="k">mode</div>
@@ -361,8 +361,8 @@ function renderItemBody(item, runCommand, outputRef) {
             <h3>discord.invite</h3>
             <p>
               Join the server for team-finding, announcements, and mentor Q&amp;A:{' '}
-              <a href="https://discord.gg/bm59S8yfz" target="_blank" rel="noopener noreferrer">
-                discord.gg/bm59S8yfz
+              <a href="https://discord.gg/A5Sg6wzhN" target="_blank" rel="noopener noreferrer">
+                discord.gg/A5Sg6wzhN
               </a>
             </p>
           </div>
