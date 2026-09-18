@@ -26,7 +26,6 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
           ['tracks <id>', 'detail on one track (climate / tourism / egov / transport / fintech)'],
           ['faq', 'frequently asked questions'],
           ['conduct', 'code of conduct & hackathon rules'],
-          ['hall of fame', 'visit the sponsor hall of fame'],
           ['organizing team', 'meet the organizing team'],
           ['recap', 'browse past hackathon recaps (2023-2025)'],
           ['prizes', 'prize breakdown'],
@@ -141,13 +140,6 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
       }
       return { type: 'RECAP_LIST', recaps }
     }
-
-    case 'hall':
-    case 'halloffame':
-    case 'hall-of-fame':
-    case 'fame':
-    case 'museum':
-      return { type: 'MUSEUM' }
 
     case 'home':
       return { type: 'HOME' }
