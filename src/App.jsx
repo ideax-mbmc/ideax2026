@@ -21,6 +21,8 @@ const getInitialLandingItems = () => [
   { type: 'BLANK' },
   { type: 'REGISTER_BANNER' },
   { type: 'BLANK' },
+  { type: 'SPONSORS' },
+  { type: 'BLANK' },
   { type: 'TEXT', text: 'welcome to MBMC IdeaX 2026.', cls: 'strong' },
   { type: 'TEXT', text: "type 'help' to see available commands, or click a suggestion below.", cls: 'dim' },
   { type: 'BLANK' }
@@ -171,6 +173,8 @@ export default function App() {
     recap: 'Past Recaps (2023-2025) | MBMC IdeaX 2026',
     contact: 'Contact & Support | MBMC IdeaX 2026',
     discord: 'Community Discord | MBMC IdeaX 2026',
+    sponsors: 'Our Sponsors | MBMC IdeaX 2026',
+    sponsor: 'Our Sponsors | MBMC IdeaX 2026',
     countdown: 'Countdown to Kickoff | MBMC IdeaX 2026',
     home: 'MBMC IdeaX 2026 | National Hackathon Nepal | Register Now'
   }

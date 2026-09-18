@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import AsciiCanvas from './AsciiCanvas'
 import Conduct from './Conduct'
 import Testimonials from './Testimonials'
+import { SPONSORS } from '../utils/sponsorsData'
 
 // Self-contained ticking countdown so the whole OutputPane doesn't re-render every second
 function LiveCountdown({ targetDate }) {
@@ -450,6 +451,33 @@ function renderItemBody(item, runCommand, outputRef) {
               </p>
             </div>
           )}
+        </div>
+      )
+    }
+
+    case 'SPONSORS': {
+      const REPEAT = 6
+      const track = Array.from({ length: REPEAT }, () => SPONSORS).flat()
+      return (
+        <div className="line block">
+          <div className="card">
+            <h3>sponsors.log</h3>
+            <p style={{ marginBottom: '10px' }}>Backed by the organizations powering IdeaX 2026.</p>
+            <div className="sponsor-carousel">
+              <div className="sponsor-track">
+                {track.map((s, i) => (
+                  <div className="sponsor-slide" key={`${s.file}-${i}`} title={s.name}>
+                    <img
+                      src={encodeURI(`/sponsor logos/${s.file}`)}
+                      alt={s.name}
+                      loading="lazy"
+                      draggable="false"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       )
     }
