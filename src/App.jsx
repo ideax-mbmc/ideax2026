@@ -4,7 +4,6 @@ import OutputPane from './components/OutputPane'
 import SuggestionChips from './components/SuggestionChips'
 import CommandLine from './components/CommandLine'
 import LoadingIntro from './components/LoadingIntro'
-const AsciiWorld = lazy(() => import('./components/AsciiWorld'))
 const Testimonials = lazy(() => import('./components/Testimonials'))
 const Conduct = lazy(() => import('./components/Conduct'))
 const Members = lazy(() => import('./components/Members'))
@@ -115,11 +114,6 @@ export default function App() {
     schedule: 'timeline',
     dates: 'timeline',
     info: 'about',
-    hall: 'hall-of-fame',
-    fame: 'hall-of-fame',
-    museum: 'hall-of-fame',
-    halloffame: 'hall-of-fame',
-    'hall-of-fame': 'hall-of-fame',
     testimonial: 'testimonials',
     gallery: 'testimonials',
     testimonials: 'testimonials',
@@ -167,9 +161,6 @@ export default function App() {
     register: 'Register Now | MBMC IdeaX 2026',
     participation: 'Eligibility & Team Rules | MBMC IdeaX 2026',
     eligibility: 'Eligibility & Team Rules | MBMC IdeaX 2026',
-    hall: 'Hall of Fame | MBMC IdeaX 2026',
-    museum: 'Hall of Fame | MBMC IdeaX 2026',
-    'hall-of-fame': 'Hall of Fame | MBMC IdeaX 2026',
     testimonials: 'Participant Testimonials | MBMC IdeaX 2026',
     gallery: 'Participant Testimonials | MBMC IdeaX 2026',
     'organizing-team': 'Organizing Team | MBMC IdeaX 2026',
@@ -190,11 +181,7 @@ export default function App() {
 
     const initialRoute = getRouteFromLocation()
 
-    if (['hall-of-fame', 'museum', 'hall', 'fame'].includes(initialRoute)) {
-      setView('museum')
-      document.title = 'Hall of Fame | MBMC IdeaX 2026'
-      updateUrlPath('hall-of-fame')
-    } else if (['testimonials', 'gallery'].includes(initialRoute)) {
+    if (['testimonials', 'gallery'].includes(initialRoute)) {
       setView('gallery')
       document.title = 'Testimonials | MBMC IdeaX 2026'
       updateUrlPath('testimonials')
@@ -256,10 +243,7 @@ export default function App() {
         return
       }
 
-      if (['hall-of-fame', 'museum', 'hall', 'fame'].includes(route)) {
-        setView('museum')
-        document.title = 'Hall of Fame | MBMC IdeaX 2026'
-      } else if (['testimonials', 'gallery'].includes(route)) {
+      if (['testimonials', 'gallery'].includes(route)) {
         setView('gallery')
         document.title = 'Testimonials | MBMC IdeaX 2026'
       } else if (['code', 'conduct', 'coc'].includes(route)) {
@@ -306,9 +290,6 @@ export default function App() {
     if (['home', 'clear', 'cls'].includes(cmdName)) {
       document.title = COMMAND_TITLES.home
       updateUrlPath('')
-    } else if (['hall-of-fame', 'museum', 'hall', 'fame'].includes(cmdName)) {
-      document.title = 'Hall of Fame | MBMC IdeaX 2026'
-      updateUrlPath('hall-of-fame')
     } else if (['testimonials', 'gallery'].includes(cmdName)) {
       document.title = 'Testimonials | MBMC IdeaX 2026'
       updateUrlPath('testimonials')
@@ -333,10 +314,6 @@ export default function App() {
       document.title = COMMAND_TITLES.home
       updateUrlPath('')
       startBootSequence()
-    } else if (result && result.type === 'MUSEUM') {
-      setItems(prev => [...prev, echoItem])
-      setView('museum')
-      document.title = 'Hall of Fame | MBMC IdeaX 2026'
     } else if (result && result.type === 'GALLERY') {
       setItems(prev => [...prev, echoItem])
       setView('gallery')
@@ -397,14 +374,6 @@ export default function App() {
 
   return (
     <main>
-      {view === 'museum' && (
-        <section aria-label="Hall of Fame">
-          <Suspense fallback={<div className="view-loading">loading hall of fame…</div>}>
-            <AsciiWorld onReturn={handleReturnToTerminal} />
-          </Suspense>
-        </section>
-      )}
-      
       {view === 'gallery' && (
         <section aria-label="Testimonials">
           <Suspense fallback={<div className="view-loading">loading testimonials…</div>}>

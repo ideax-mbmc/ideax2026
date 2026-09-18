@@ -8,7 +8,6 @@ export default function SuggestionChips({ onRunCommand }) {
     { label: '$ tracks', cmd: 'tracks' },
     { label: '$ faq', cmd: 'faq' },
     { label: '$ conduct', cmd: 'conduct' },
-    { label: '$ hall of fame', cmd: 'hall-of-fame' },
     { label: '$ organizing team', cmd: 'organizing team' },
     { label: '$ recap', cmd: 'recap' },
     { label: '$ prizes', cmd: 'prizes' },
