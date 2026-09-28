@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90" width="320" height="90" fill="none">
+  <!-- Crest / Badge on the Left -->
+  <g transform="translate(45, 45)">
+    <!-- Outer dashed/dotted ring -->
+    <circle cx="0" cy="0" r="38" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6"/>
+    <!-- Solid inner ring -->
+    <circle cx="0" cy="0" r="33" stroke="#ffffff" stroke-width="2" />
+    <circle cx="0" cy="0" r="29" stroke="#e2e8f0" stroke-width="1" opacity="0.5"/>
+    
+    <!-- Crown on top of R -->
+    <path d="M-10 -15 L-14 -22 L-5 -19 L0 -24 L5 -19 L14 -22 L10 -15 Z" fill="#ffffff" />
+    
+    <!-- Stylized "R" -->
+    <text x="0" y="14" font-family="'Times New Roman', 'Playfair Display', Georgia, serif" font-size="34" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="1">R</text>
+  </g>
+
+  <!-- Typography on the Right -->
+  <g transform="translate(105, 0)">
+    <!-- "ROYAL" -->
+    <text x="0" y="44" font-family="'Cinzel', 'Times New Roman', 'Playfair Display', Georgia, serif" font-size="32" font-weight="800" fill="#ffffff" letter-spacing="4">ROYAL</text>
+    <!-- "SHOES" -->
+    <text x="2" y="66" font-family="'Montserrat', 'Inter', sans-serif" font-size="14" font-weight="700" fill="#cbd5e1" letter-spacing="8.5">SHOES</text>
+    <text x="2" y="78" font-family="'Montserrat', 'Inter', sans-serif" font-size="7.5" font-weight="600" fill="#94a3b8" letter-spacing="3.5">MADE IN NEPAL</text>
+  </g>
+</svg>

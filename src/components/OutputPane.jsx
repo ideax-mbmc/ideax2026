@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import AsciiCanvas from './AsciiCanvas'
 import Conduct from './Conduct'
 import Testimonials from './Testimonials'
-import { SPONSORS } from '../utils/sponsorsData'
+import { SILVER_BRONZE, ASSOCIATE_PARTNERS, OFFICIAL_PARTNERS } from '../utils/sponsorsData'
 
 // Self-contained ticking countdown so the whole OutputPane doesn't re-render every second
 function LiveCountdown({ targetDate }) {
@@ -457,23 +457,113 @@ function renderItemBody(item, runCommand, outputRef) {
 
     case 'SPONSORS': {
       const REPEAT = 6
-      const track = Array.from({ length: REPEAT }, () => SPONSORS).flat()
+      // Marquee 1 — Silver / Bronze: build a flat array of { type, ...data } items
+      const silverBronzeItems = SILVER_BRONZE.flatMap(group => {
+        const isSilver = group.tier.toLowerCase().includes('silver')
+        return [
+          { type: 'label', text: group.tier.toUpperCase(), isSilver },
+          ...group.sponsors.map(s => ({ type: 'logo', isSilver, ...s })),
+        ]
+      })
+      const silverBronzeTrack = Array.from({ length: REPEAT }, () => silverBronzeItems).flat()
+
+      // Marquee 2 — Associate Partners
+      const associateTrack = Array.from({ length: REPEAT }, () => ASSOCIATE_PARTNERS).flat()
+
+      // Marquee 3 — Official Partners (logo + role)
+      const officialTrack = Array.from({ length: REPEAT }, () => OFFICIAL_PARTNERS).flat()
+
       return (
         <div className="line block">
           <div className="card">
             <h3>sponsors.log</h3>
-            <p style={{ marginBottom: '10px' }}>Backed by the organizations powering IdeaX 2026.</p>
-            <div className="sponsor-carousel">
-              <div className="sponsor-track">
-                {track.map((s, i) => (
-                  <div className="sponsor-slide" key={`${s.file}-${i}`} title={s.name}>
-                    <img
-                      src={encodeURI(`/sponsor logos/${s.file}`)}
-                      alt={s.name}
-                      loading="lazy"
-                      draggable="false"
-                    />
-                  </div>
+            <p style={{ marginBottom: '14px' }}>Backed by the organizations powering IdeaX 2026.</p>
+
+            {/* ── Marquee 1: Silver / Bronze ── */}
+            <div className="sponsor-carousel marquee-silver-bronze">
+              <div className="sponsor-track sponsor-track--slow">
+                {silverBronzeTrack.map((item, i) =>
+                  item.type === 'label' ? (
+                    <div
+                      className={`sponsor-tier-label ${item.isSilver ? 'sponsor-tier-silver' : 'sponsor-tier-bronze'}`}
+                      key={`lbl-${item.text}-${i}`}
+                    >
+                      <span className="tier-bullet">●</span>
+                      <span className="tier-text">{item.text}</span>
+                    </div>
+                  ) : (
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`sponsor-slide ${item.isSilver ? 'sponsor-slide--silver' : ''}`}
+                      key={`sb-${item.file}-${i}`}
+                      title={item.name}
+                    >
+                      <img
+                        src={encodeURI(`/sponsor logos/${item.file}`)}
+                        alt={item.name}
+                        loading="lazy"
+                        draggable="false"
+                      />
+                    </a>
+                  )
+                )}
+              </div>
+            </div>
+
+            {/* ── Marquee 2: Associate Partners ── */}
+            <div className="sponsor-row-associate">
+              <div className="sponsor-fixed-card">
+                <span className="fixed-card-tag">PARTNERS</span>
+                <span className="fixed-card-title">Associate Partners</span>
+              </div>
+              <div className="sponsor-carousel marquee-associate">
+                <div className="sponsor-track sponsor-track--medium">
+                  {associateTrack.map((s, i) => (
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="sponsor-slide"
+                      key={`ap-${s.file}-${i}`}
+                      title={s.name}
+                    >
+                      <img
+                        src={encodeURI(`/sponsor logos/${s.file}`)}
+                        alt={s.name}
+                        loading="lazy"
+                        draggable="false"
+                      />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* ── Marquee 3: Official Partners (logo + role) ── */}
+            <div className="sponsor-carousel marquee-official">
+              <div className="sponsor-track sponsor-track--fast">
+                {officialTrack.map((s, i) => (
+                  <a
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="sponsor-partner-card"
+                    key={`op-${s.file}-${i}`}
+                    title={s.name}
+                  >
+                    <div className="partner-logo-area">
+                      <img
+                        src={encodeURI(`/sponsor logos/${s.file}`)}
+                        alt={s.name}
+                        loading="lazy"
+                        draggable="false"
+                      />
+                    </div>
+                    <div className="partner-divider" />
+                    <div className="sponsor-role">{s.role}</div>
+                  </a>
                 ))}
               </div>
             </div>
