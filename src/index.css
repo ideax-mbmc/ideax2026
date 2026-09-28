@@ -342,36 +342,132 @@ body.reduced-motion .app {
 .card .meta { margin-top: 8px; color: var(--accent4); font-size: 12px; }
 
 /* ---------------- sponsor carousel ---------------- */
+.sponsors-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sponsors-subtitle {
+  margin: 0 0 4px 0 !important;
+  color: var(--dim);
+  font-size: 13px;
+}
+
+.sponsors-section {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
 .sponsor-carousel {
   overflow: hidden;
-  margin: 4px 0 2px 0;
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
+  margin: 2px 0;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
 }
 
 .sponsor-track {
   display: flex;
   align-items: center;
   width: max-content;
-  animation: sponsorScroll 24s linear infinite;
+}
+
+/* Individual track animations */
+.sponsor-track-tier {
+  animation: sponsorScrollTier 30s linear infinite;
+}
+
+.sponsor-track-associate {
+  animation: sponsorScrollAssociate 22s linear infinite;
+}
+
+.sponsor-track-role {
+  animation: sponsorScrollRole 38s linear infinite;
 }
 
 .sponsor-carousel:hover .sponsor-track {
   animation-play-state: paused;
 }
 
+/* Marquee 1: Flowing Tier Badges */
+.sponsor-tier-badge {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 60px;
+  padding: 0 16px;
+  margin: 0 10px;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.sponsor-tier-badge.tier-silver {
+  margin: 0 12px 0 100px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(199, 220, 255, 0.12) 50%, rgba(148, 163, 184, 0.08) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  color: #ffffff;
+  font-weight: 800;
+  letter-spacing: 1px;
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.22) inset, 0 0 16px rgba(125, 211, 252, 0.25), 0 2px 8px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.6), 0 0 2px rgba(255, 255, 255, 0.9);
+}
+
+.sponsor-tier-badge.tier-bronze {
+  margin: 0 12px 0 100px;
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.16) 0%, rgba(146, 64, 14, 0.08) 100%);
+  border: 1px solid rgba(217, 119, 6, 0.4);
+  color: #f59e0b;
+  font-weight: 600;
+  box-shadow: 0 0 12px rgba(180, 83, 9, 0.12) inset;
+}
+
+.tier-dot {
+  border-radius: 50%;
+}
+
+.tier-silver .tier-dot {
+  width: 8px;
+  height: 8px;
+  background: #ffffff;
+  box-shadow: 0 0 12px #ffffff, 0 0 4px #7dd3fc;
+}
+
+.tier-bronze .tier-dot {
+  width: 7px;
+  height: 7px;
+  background: #d97706;
+  box-shadow: 0 0 6px rgba(217, 119, 6, 0.5);
+}
+
+/* Common slide for logo links (Marquees 1 & 2) */
 .sponsor-slide {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 140px;
+  width: 144px;
   height: 72px;
   margin: 0 10px;
-  padding: 8px 14px;
+  padding: 8px 16px;
   background: var(--panel2);
   border: 1px solid var(--line);
-  border-radius: 3px;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sponsor-slide:hover {
+  transform: translateY(-2px) scale(1.05);
+  border-color: var(--accent3);
+  box-shadow: 0 6px 18px rgba(37, 99, 255, 0.25);
 }
 
 .sponsor-slide img {
@@ -379,35 +475,212 @@ body.reduced-motion .app {
   max-height: 100%;
   object-fit: contain;
   filter: grayscale(1) brightness(1.6) contrast(0.9) opacity(0.75);
-  transition: filter 0.2s ease;
+  transition: filter 0.25s ease, opacity 0.25s ease;
 }
 
 .sponsor-slide:hover img {
   filter: none;
+  opacity: 1;
 }
 
-@keyframes sponsorScroll {
+/* Marquee 2: Fixed Associate Label Layout */
+.associate-row-container {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(10, 18, 38, 0.55);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 10px;
+  overflow: hidden;
+}
+
+.associate-fixed-label {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, rgba(37, 99, 255, 0.16), rgba(14, 24, 48, 0.9));
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  user-select: none;
+}
+
+.associate-tag {
+  font-size: 9.5px;
+  letter-spacing: 1.5px;
+  color: var(--accent4);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.associate-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.associate-carousel {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+}
+
+/* Marquee 3: Role Partner Slides (Logo + Role Title, no brand names) */
+.sponsor-role-slide {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  width: 220px;
+  min-height: 94px;
+  height: auto;
+  margin: 0 10px;
+  padding: 10px 14px 8px 14px;
+  background: var(--panel2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sponsor-role-slide:hover {
+  transform: translateY(-2px) scale(1.04);
+  border-color: var(--accent3);
+  box-shadow: 0 6px 20px rgba(37, 99, 255, 0.28);
+}
+
+.sponsor-role-img-box {
+  width: 100%;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sponsor-role-img-box img {
+  max-width: 100%;
+  max-height: 28px;
+  object-fit: contain;
+  filter: grayscale(1) brightness(1.6) contrast(0.9) opacity(0.75);
+  transition: filter 0.25s ease, opacity 0.25s ease;
+}
+
+.sponsor-role-slide:hover .sponsor-role-img-box img {
+  filter: none;
+  opacity: 1;
+}
+
+.sponsor-role-title {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--accent4);
+  text-align: center;
+  line-height: 1.35;
+  width: 100%;
+  white-space: normal;
+  display: block;
+  overflow: visible;
+  letter-spacing: 0.2px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(125, 211, 252, 0.2);
+  transition: color 0.2s ease, border-top-color 0.2s ease;
+}
+
+.sponsor-role-slide:hover .sponsor-role-title {
+  color: #fff;
+  border-top-color: var(--accent4);
+}
+
+/* Animations */
+@keyframes sponsorScrollTier {
   from { transform: translateX(0); }
-  to { transform: translateX(-16.6667%); }
+  to { transform: translateX(-50%); }
 }
 
-@media (max-width: 600px) {
+@keyframes sponsorScrollAssociate {
+  from { transform: translateX(0); }
+  to { transform: translateX(-12.5%); }
+}
+
+@keyframes sponsorScrollRole {
+  from { transform: translateX(0); }
+  to { transform: translateX(-25%); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 680px) {
+  .associate-row-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .associate-fixed-label {
+    align-self: flex-start;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+  }
+
   .sponsor-slide {
-    width: 104px;
-    height: 56px;
+    width: 116px;
+    height: 60px;
     margin: 0 6px;
     padding: 6px 10px;
+  }
+
+  .sponsor-role-slide {
+    width: 175px;
+    min-height: 84px;
+    height: auto;
+    margin: 0 6px;
+    padding: 8px 10px 6px 10px;
+  }
+
+  .sponsor-role-img-box {
+    height: 26px;
+  }
+
+  .sponsor-role-img-box img {
+    max-height: 24px;
+  }
+
+  .sponsor-role-title {
+    font-size: 9.5px;
+    line-height: 1.25;
+  }
+
+  .sponsor-tier-badge {
+    height: 50px;
+    padding: 0 12px;
+    margin: 0 6px;
+    font-size: 11px;
+  }
+
+  .sponsor-tier-badge.tier-silver,
+  .sponsor-tier-badge.tier-bronze {
+    margin-left: 50px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .sponsor-track {
-    animation: none;
+    animation: none !important;
   }
   .sponsor-carousel {
     overflow-x: auto;
   }
 }
+
 
 /* ---------------- register cta card ---------------- */
 

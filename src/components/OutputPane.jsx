@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import AsciiCanvas from './AsciiCanvas'
 import Conduct from './Conduct'
 import Testimonials from './Testimonials'
-import { SPONSORS } from '../utils/sponsorsData'
+import { SPONSORS, TIER_MARQUEE_ITEMS, ASSOCIATE_PARTNERS, ROLE_PARTNERS } from '../utils/sponsorsData'
 
 // Self-contained ticking countdown so the whole OutputPane doesn't re-render every second
 function LiveCountdown({ targetDate }) {
@@ -456,27 +456,116 @@ function renderItemBody(item, runCommand, outputRef) {
     }
 
     case 'SPONSORS': {
-      const REPEAT = 6
-      const track = Array.from({ length: REPEAT }, () => SPONSORS).flat()
+      const REPEAT_TIER = 2
+      const REPEAT_ASSOC = 8
+      const REPEAT_ROLE = 4
+
+      const tierTrack = Array.from({ length: REPEAT_TIER }, () => TIER_MARQUEE_ITEMS).flat()
+      const associateTrack = Array.from({ length: REPEAT_ASSOC }, () => ASSOCIATE_PARTNERS).flat()
+      const roleTrack = Array.from({ length: REPEAT_ROLE }, () => ROLE_PARTNERS).flat()
+
       return (
         <div className="line block">
-          <div className="card">
+          <div className="card sponsors-card">
             <h3>sponsors.log</h3>
-            <p style={{ marginBottom: '10px' }}>Backed by the organizations powering IdeaX 2026.</p>
-            <div className="sponsor-carousel">
-              <div className="sponsor-track">
-                {track.map((s, i) => (
-                  <div className="sponsor-slide" key={`${s.file}-${i}`} title={s.name}>
-                    <img
-                      src={encodeURI(`/sponsor logos/${s.file}`)}
-                      alt={s.name}
-                      loading="lazy"
-                      draggable="false"
-                    />
-                  </div>
-                ))}
+            <p className="sponsors-subtitle">Backed by the organizations powering IdeaX 2026.</p>
+
+            {/* Marquee 1 — Silver/Bronze tier (labels and logos flow together) */}
+            <div className="sponsors-section">
+              <div className="sponsor-carousel marquee-tier">
+                <div className="sponsor-track sponsor-track-tier">
+                  {tierTrack.map((item, i) =>
+                    item.type === 'label' ? (
+                      <div
+                        className={`sponsor-tier-badge tier-${item.tier}`}
+                        key={`tier-lbl-${item.tier}-${i}`}
+                      >
+                        <span className="tier-dot" />
+                        <span className="tier-text">{item.label}</span>
+                      </div>
+                    ) : (
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="sponsor-slide"
+                        key={`tier-logo-${item.name}-${i}`}
+                        title={item.name}
+                      >
+                        <img
+                          src={encodeURI(`/sponsor logos/${item.file}`)}
+                          alt={item.name}
+                          loading="lazy"
+                          draggable="false"
+                        />
+                      </a>
+                    )
+                  )}
+                </div>
               </div>
             </div>
+
+            {/* Marquee 2 — Associate Partners (fixed label, logos scroll) */}
+            <div className="sponsors-section">
+              <div className="associate-row-container">
+                <div className="associate-fixed-label">
+                  <span className="associate-tag">PARTNERS</span>
+                  <span className="associate-title">Associate Partners</span>
+                </div>
+                <div className="sponsor-carousel associate-carousel">
+                  <div className="sponsor-track sponsor-track-associate">
+                    {associateTrack.map((s, i) => (
+                      <a
+                        href={s.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="sponsor-slide"
+                        key={`assoc-${s.file}-${i}`}
+                        title={s.name}
+                      >
+                        <img
+                          src={encodeURI(`/sponsor logos/${s.file}`)}
+                          alt={s.name}
+                          loading="lazy"
+                          draggable="false"
+                        />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Marquee 3 — Official Partners by role (logo + role title, no brand names) */}
+            <div className="sponsors-section">
+              <div className="sponsor-carousel role-carousel">
+                <div className="sponsor-track sponsor-track-role">
+                  {roleTrack.map((p, i) => (
+                    <a
+                      href={p.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="sponsor-role-slide"
+                      key={`role-${p.file}-${i}`}
+                      title={p.role}
+                    >
+                      <div className="sponsor-role-img-box">
+                        <img
+                          src={encodeURI(`/sponsor logos/${p.file}`)}
+                          alt={p.role}
+                          loading="lazy"
+                          draggable="false"
+                        />
+                      </div>
+                      <div className="sponsor-role-title">
+                        {p.role}
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       )
