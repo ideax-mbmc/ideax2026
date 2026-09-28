@@ -2,7 +2,11 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import AsciiCanvas from './AsciiCanvas'
 import Conduct from './Conduct'
 import Testimonials from './Testimonials'
+<<<<<<< HEAD
 import { SPONSORS, TIER_MARQUEE_ITEMS, ASSOCIATE_PARTNERS, ROLE_PARTNERS } from '../utils/sponsorsData'
+=======
+import { SPONSORS } from '../utils/sponsorsData'
+>>>>>>> origin/main
 
 // Self-contained ticking countdown so the whole OutputPane doesn't re-render every second
 function LiveCountdown({ targetDate }) {
@@ -456,6 +460,7 @@ function renderItemBody(item, runCommand, outputRef) {
     }
 
     case 'SPONSORS': {
+<<<<<<< HEAD
       const REPEAT_TIER = 2
       const REPEAT_ASSOC = 8
       const REPEAT_ROLE = 4
@@ -566,6 +571,29 @@ function renderItemBody(item, runCommand, outputRef) {
               </div>
             </div>
 
+=======
+      const REPEAT = 6
+      const track = Array.from({ length: REPEAT }, () => SPONSORS).flat()
+      return (
+        <div className="line block">
+          <div className="card">
+            <h3>sponsors.log</h3>
+            <p style={{ marginBottom: '10px' }}>Backed by the organizations powering IdeaX 2026.</p>
+            <div className="sponsor-carousel">
+              <div className="sponsor-track">
+                {track.map((s, i) => (
+                  <div className="sponsor-slide" key={`${s.file}-${i}`} title={s.name}>
+                    <img
+                      src={encodeURI(`/sponsor logos/${s.file}`)}
+                      alt={s.name}
+                      loading="lazy"
+                      draggable="false"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+>>>>>>> origin/main
           </div>
         </div>
       )

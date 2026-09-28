@@ -342,6 +342,7 @@ body.reduced-motion .app {
 .card .meta { margin-top: 8px; color: var(--accent4); font-size: 12px; }
 
 /* ---------------- sponsor carousel ---------------- */
+<<<<<<< HEAD
 .sponsors-card {
   display: flex;
   flex-direction: column;
@@ -365,12 +366,20 @@ body.reduced-motion .app {
   margin: 2px 0;
   -webkit-mask-image: linear-gradient(to right, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
   mask-image: linear-gradient(to right, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
+=======
+.sponsor-carousel {
+  overflow: hidden;
+  margin: 4px 0 2px 0;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
+>>>>>>> origin/main
 }
 
 .sponsor-track {
   display: flex;
   align-items: center;
   width: max-content;
+<<<<<<< HEAD
 }
 
 /* Individual track animations */
@@ -384,12 +393,16 @@ body.reduced-motion .app {
 
 .sponsor-track-role {
   animation: sponsorScrollRole 38s linear infinite;
+=======
+  animation: sponsorScroll 24s linear infinite;
+>>>>>>> origin/main
 }
 
 .sponsor-carousel:hover .sponsor-track {
   animation-play-state: paused;
 }
 
+<<<<<<< HEAD
 /* Marquee 1: Flowing Tier Badges */
 .sponsor-tier-badge {
   flex: 0 0 auto;
@@ -447,11 +460,14 @@ body.reduced-motion .app {
 }
 
 /* Common slide for logo links (Marquees 1 & 2) */
+=======
+>>>>>>> origin/main
 .sponsor-slide {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
+<<<<<<< HEAD
   width: 144px;
   height: 72px;
   margin: 0 10px;
@@ -468,6 +484,15 @@ body.reduced-motion .app {
   transform: translateY(-2px) scale(1.05);
   border-color: var(--accent3);
   box-shadow: 0 6px 18px rgba(37, 99, 255, 0.25);
+=======
+  width: 140px;
+  height: 72px;
+  margin: 0 10px;
+  padding: 8px 14px;
+  background: var(--panel2);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+>>>>>>> origin/main
 }
 
 .sponsor-slide img {
@@ -475,11 +500,16 @@ body.reduced-motion .app {
   max-height: 100%;
   object-fit: contain;
   filter: grayscale(1) brightness(1.6) contrast(0.9) opacity(0.75);
+<<<<<<< HEAD
   transition: filter 0.25s ease, opacity 0.25s ease;
+=======
+  transition: filter 0.2s ease;
+>>>>>>> origin/main
 }
 
 .sponsor-slide:hover img {
   filter: none;
+<<<<<<< HEAD
   opacity: 1;
 }
 
@@ -670,18 +700,41 @@ body.reduced-motion .app {
   .sponsor-tier-badge.tier-bronze {
     margin-left: 50px;
   }
+=======
+}
+
+@keyframes sponsorScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-16.6667%); }
+}
+
+@media (max-width: 600px) {
+  .sponsor-slide {
+    width: 104px;
+    height: 56px;
+    margin: 0 6px;
+    padding: 6px 10px;
+  }
+>>>>>>> origin/main
 }
 
 @media (prefers-reduced-motion: reduce) {
   .sponsor-track {
+<<<<<<< HEAD
     animation: none !important;
+=======
+    animation: none;
+>>>>>>> origin/main
   }
   .sponsor-carousel {
     overflow-x: auto;
   }
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/main
 /* ---------------- register cta card ---------------- */
 
 .register-cta-card {
