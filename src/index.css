@@ -583,8 +583,21 @@ body.reduced-motion .app {
   text-shadow: 0 0 8px rgba(245, 158, 11, 0.8);
 }
 
-/* ─ Marquee 2: fixed label + scrolling logos ─ */
-.sponsor-row-associate {
+.sponsor-tier-associate {
+  background: rgba(56, 189, 248, 0.05);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.08);
+}
+
+.sponsor-tier-associate .tier-bullet {
+  color: #38bdf8;
+  text-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
+}
+
+/* ─ Marquees with fixed label + scrolling logos (Associate & Community) ─ */
+.sponsor-row-associate,
+.sponsor-row-community {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -592,7 +605,7 @@ body.reduced-motion .app {
 }
 
 .sponsor-fixed-card {
-  flex: 0 0 170px;
+  flex: 0 0 180px;
   height: 72px;
   background: rgba(14, 24, 48, 0.7);
   border: 1px solid rgba(56, 189, 248, 0.25);
@@ -620,7 +633,8 @@ body.reduced-motion .app {
   font-family: var(--mono);
 }
 
-.sponsor-row-associate .marquee-associate {
+.sponsor-row-associate .marquee-associate,
+.sponsor-row-community .marquee-community {
   flex: 1 1 auto;
   min-width: 0;
   margin: 0;

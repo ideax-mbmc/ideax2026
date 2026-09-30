@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import AsciiCanvas from './AsciiCanvas'
 import Conduct from './Conduct'
 import Testimonials from './Testimonials'
-import { SILVER_BRONZE, ASSOCIATE_PARTNERS, OFFICIAL_PARTNERS } from '../utils/sponsorsData'
+import { SILVER_BRONZE, ASSOCIATE_PARTNERS, COMMUNITY_PARTNERS, OFFICIAL_PARTNERS } from '../utils/sponsorsData'
 
 // Self-contained ticking countdown so the whole OutputPane doesn't re-render every second
 function LiveCountdown({ targetDate }) {
@@ -457,11 +457,16 @@ function renderItemBody(item, runCommand, outputRef) {
 
     case 'SPONSORS': {
       const REPEAT = 6
-      // Marquee 1 — Silver / Bronze: build a flat array of { type, ...data } items
+      // Marquee 1 — Cash Sponsors: Silver, Bronze, Associate
       const silverBronzeItems = SILVER_BRONZE.flatMap(group => {
-        const isSilver = group.tier.toLowerCase().includes('silver')
+        const tierName = group.tier.toLowerCase()
+        const isSilver = tierName.includes('silver')
+        const isAssociate = tierName.includes('associate')
+        let tierClass = 'sponsor-tier-bronze'
+        if (isSilver) tierClass = 'sponsor-tier-silver'
+        else if (isAssociate) tierClass = 'sponsor-tier-associate'
         return [
-          { type: 'label', text: group.tier.toUpperCase(), isSilver },
+          { type: 'label', text: group.tier.toUpperCase(), isSilver, tierClass },
           ...group.sponsors.map(s => ({ type: 'logo', isSilver, ...s })),
         ]
       })
@@ -469,6 +474,9 @@ function renderItemBody(item, runCommand, outputRef) {
 
       // Marquee 2 — Associate Partners
       const associateTrack = Array.from({ length: REPEAT }, () => ASSOCIATE_PARTNERS).flat()
+
+      // Community Partners
+      const communityTrack = Array.from({ length: REPEAT }, () => COMMUNITY_PARTNERS).flat()
 
       // Marquee 3 — Official Partners (logo + role)
       const officialTrack = Array.from({ length: REPEAT }, () => OFFICIAL_PARTNERS).flat()
@@ -479,13 +487,13 @@ function renderItemBody(item, runCommand, outputRef) {
             <h3>sponsors.log</h3>
             <p style={{ marginBottom: '14px' }}>Backed by the organizations powering IdeaX 2026.</p>
 
-            {/* ── Marquee 1: Silver / Bronze ── */}
+            {/* ── Marquee 1: Cash Sponsors ── */}
             <div className="sponsor-carousel marquee-silver-bronze">
               <div className="sponsor-track sponsor-track--slow">
                 {silverBronzeTrack.map((item, i) =>
                   item.type === 'label' ? (
                     <div
-                      className={`sponsor-tier-label ${item.isSilver ? 'sponsor-tier-silver' : 'sponsor-tier-bronze'}`}
+                      className={`sponsor-tier-label ${item.tierClass}`}
                       key={`lbl-${item.text}-${i}`}
                     >
                       <span className="tier-bullet">●</span>
@@ -515,7 +523,6 @@ function renderItemBody(item, runCommand, outputRef) {
             {/* ── Marquee 2: Associate Partners ── */}
             <div className="sponsor-row-associate">
               <div className="sponsor-fixed-card">
-                <span className="fixed-card-tag">PARTNERS</span>
                 <span className="fixed-card-title">Associate Partners</span>
               </div>
               <div className="sponsor-carousel marquee-associate">
@@ -527,6 +534,34 @@ function renderItemBody(item, runCommand, outputRef) {
                       rel="noopener noreferrer"
                       className="sponsor-slide"
                       key={`ap-${s.file}-${i}`}
+                      title={s.name}
+                    >
+                      <img
+                        src={encodeURI(`/sponsor logos/${s.file}`)}
+                        alt={s.name}
+                        loading="lazy"
+                        draggable="false"
+                      />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* ── Community Partners ── */}
+            <div className="sponsor-row-community">
+              <div className="sponsor-fixed-card">
+                <span className="fixed-card-title">Community Partners</span>
+              </div>
+              <div className="sponsor-carousel marquee-community">
+                <div className="sponsor-track sponsor-track--medium">
+                  {communityTrack.map((s, i) => (
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="sponsor-slide"
+                      key={`cp-${s.file}-${i}`}
                       title={s.name}
                     >
                       <img
