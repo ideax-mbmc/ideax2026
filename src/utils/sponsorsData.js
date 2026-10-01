@@ -12,7 +12,7 @@ export const SILVER_BRONZE = [
     { name: 'Leapfrog Technology',     file: 'leapfrog-technology.svg', url: 'https://www.lftechnology.com/' },
     { name: 'Burrst Neembu Fizz',      file: 'burst-neembu-fizz.png',   url: 'https://www.facebook.com/burrst.np/' },
     { name: 'Debug Soft',              file: 'debug-dark.png',          url: 'https://www.dibugsoft.com/' },
-    { name: 'Global Stationary',       file: 'global-stationery.svg',   url: '#' },
+    { name: 'Global Stationary',       file: 'global-stationery.svg',   url: 'https://www.facebook.com/profile.php?id=100090055374308' },
   ]},
 ]
 
@@ -22,7 +22,7 @@ export const SILVER_BRONZE = [
 export const ASSOCIATE_PARTNERS = [
   { name: 'Leapfrog Connect', file: 'leapfrog-connect.png', url: 'https://leapfrogconnect.co' },
   { name: 'Royal Shoes',      file: 'royal-shoes.svg',      url: 'https://www.royalshoesnepal.com' },
-  { name: 'Alish Stationery', file: 'alish-stationary.jpg', url: '#' },
+  { name: 'Alish Stationery', file: 'alish-stationary.jpg', url: 'https://www.facebook.com/profile.php?id=61575998945004' },
   { name: 'i-CES',            file: 'i-ces.png',            url: 'https://ices.edu.np/' },
 ]
 
