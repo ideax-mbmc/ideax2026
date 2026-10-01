@@ -27,6 +27,7 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
           ['faq', 'frequently asked questions'],
           ['conduct', 'code of conduct & hackathon rules'],
           ['sponsors', 'see who is backing IdeaX 2026'],
+          ['community', 'meet our community partners'],
           ['organizing team', 'meet the organizing team'],
           ['recap', 'browse past hackathon recaps (2023-2025)'],
           ['prizes', 'prize breakdown'],
@@ -113,6 +114,12 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
     case 'sponsor':
       return { type: 'SPONSORS' }
 
+    case 'community':
+    case 'community-partners':
+    case 'community-partner':
+    case 'partners':
+      return { type: 'COMMUNITY' }
+
     case 'testimonials':
       return { type: 'TESTIMONIALS' }
 
@@ -157,7 +164,7 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
       if (arg === 'tracks' || arg === 'tracks/') {
         return { type: 'TEXT', text: TRACKS.map(t => t.file).join('  '), cls: 'accent2' }
       }
-      return { type: 'TEXT', text: 'about.md  participation.md  tracks/  timeline.log  prizes.md  code-of-conduct.md  faq.md  register.sh  contact.md', cls: 'accent2' }
+      return { type: 'TEXT', text: 'about.md  participation.md  tracks/  timeline.log  prizes.md  code-of-conduct.md  faq.md  sponsors.log  community-partners.log  register.sh  contact.md', cls: 'accent2' }
     }
 
     case 'cat': {
@@ -181,6 +188,9 @@ export function executeCommand(rawCommand, { history, onRunCommand }) {
         case 'prizes.md': return { type: 'PRIZES' }
         case 'code-of-conduct.md': return { type: 'CONDUCT' }
         case 'faq.md': return { type: 'FAQ' }
+        case 'sponsors.log': return { type: 'SPONSORS' }
+        case 'community-partners.log':
+        case 'community.log': return { type: 'COMMUNITY' }
         case 'register.sh': return { type: 'REGISTER' }
         case 'contact.md': return { type: 'CONTACT' }
         default:

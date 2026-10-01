@@ -127,11 +127,15 @@ export default function App() {
     organizers: 'organizing-team',
     organizing: 'organizing-team',
     'organizing-team': 'organizing-team',
+
     coc: 'code',
     'code-of-conduct': 'code',
     conduct: 'code',
     code: 'code',
     recaps: 'recap',
+    community: 'community',
+    'community-partners': 'community',
+    partners: 'community',
     cls: 'clear'
   }
 
@@ -175,6 +179,9 @@ export default function App() {
     discord: 'Community Discord | MBMC IdeaX 2026',
     sponsors: 'Our Sponsors | MBMC IdeaX 2026',
     sponsor: 'Our Sponsors | MBMC IdeaX 2026',
+    community: 'Community Partners | MBMC IdeaX 2026',
+    'community-partners': 'Community Partners | MBMC IdeaX 2026',
+    partners: 'Community Partners | MBMC IdeaX 2026',
     countdown: 'Countdown to Kickoff | MBMC IdeaX 2026',
     home: 'MBMC IdeaX 2026 | National Hackathon Nepal | Register Now'
   }
@@ -276,7 +283,7 @@ export default function App() {
   const handleRunCommand = (raw) => {
     const trimmed = (raw || '').trim()
     const now = Date.now()
-    
+
     // Prevent accidental double execution (e.g. from rapid double clicks or event bubbling)
     if (trimmed !== '' && trimmed === lastCommandRef.current.cmd && (now - lastCommandRef.current.time) < 300) {
       return
@@ -385,7 +392,7 @@ export default function App() {
           </Suspense>
         </section>
       )}
-      
+
       {view === 'conduct' && (
         <section aria-label="Code of Conduct Manual">
           <Suspense fallback={<div className="view-loading">loading code of conduct…</div>}>

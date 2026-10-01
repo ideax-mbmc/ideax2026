@@ -548,7 +548,38 @@ function renderItemBody(item, runCommand, outputRef) {
               </div>
             </div>
 
-            {/* ── Community Partners ── */}
+          {/* ── Marquee 3: Official Partners (logo + role) ── */}
+            <div className="sponsor-carousel marquee-official">
+              <div className="sponsor-track sponsor-track--fast">
+                {officialTrack.map((s, i) => (
+                  <a
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="sponsor-partner-card"
+                    key={`op-${s.file}-${i}`}
+                    title={s.name}
+                  >
+                    <div className="partner-logo-area">
+                      <img
+                        src={encodeURI(`/sponsor logos/${s.file}`)}
+                        alt={s.name}
+                        loading="lazy"
+                        draggable="false"
+                      />
+                    </div>
+                    <div className="partner-divider" />
+                    <div className="sponsor-role">{s.role}</div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* ── Community Partners (Separate card outside sponsors.log) ── */}
+          <div className="card">
+            <h3>community-partners.log</h3>
+            <p style={{ marginBottom: '14px' }}>Supported by student clubs, tech communities, and grassroots developer networks.</p>
             <div className="sponsor-row-community">
               <div className="sponsor-fixed-card">
                 <span className="fixed-card-title">Community Partners</span>
@@ -575,31 +606,45 @@ function renderItemBody(item, runCommand, outputRef) {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      )
+    }
 
-            {/* ── Marquee 3: Official Partners (logo + role) ── */}
-            <div className="sponsor-carousel marquee-official">
-              <div className="sponsor-track sponsor-track--fast">
-                {officialTrack.map((s, i) => (
-                  <a
-                    href={s.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="sponsor-partner-card"
-                    key={`op-${s.file}-${i}`}
-                    title={s.name}
-                  >
-                    <div className="partner-logo-area">
+    case 'COMMUNITY':
+    case 'COMMUNITY_PARTNERS': {
+      const REPEAT = 6
+      const communityTrack = Array.from({ length: REPEAT }, () => COMMUNITY_PARTNERS).flat()
+
+      return (
+        <div className="line block">
+          <div className="card">
+            <h3>community-partners.log</h3>
+            <p style={{ marginBottom: '14px' }}>Supported by student clubs, tech communities, and grassroots developer networks.</p>
+            <div className="sponsor-row-community">
+              <div className="sponsor-fixed-card">
+                <span className="fixed-card-title">Community Partners</span>
+              </div>
+              <div className="sponsor-carousel marquee-community">
+                <div className="sponsor-track sponsor-track--medium">
+                  {communityTrack.map((s, i) => (
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="sponsor-slide"
+                      key={`cp-solo-${s.file}-${i}`}
+                      title={s.name}
+                    >
                       <img
                         src={encodeURI(`/sponsor logos/${s.file}`)}
                         alt={s.name}
                         loading="lazy"
                         draggable="false"
                       />
-                    </div>
-                    <div className="partner-divider" />
-                    <div className="sponsor-role">{s.role}</div>
-                  </a>
-                ))}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
