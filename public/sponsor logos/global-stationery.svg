@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="100%" height="100%">
+  <defs>
+    <!-- Top arc for text -->
+    <path id="top-arc" d="M 40,150 A 110,110 0 1,1 260,150" fill="none"/>
+    <!-- Bottom arc for text -->
+    <path id="bottom-arc" d="M 240,150 A 90,90 0 0,1 60,150" fill="none"/>
+  </defs>
+
+  <!-- Outer Blue Ring -->
+  <circle cx="150" cy="150" r="142" fill="#00a8ea" stroke="#008ec7" stroke-width="2"/>
+  
+  <!-- Inner White Circle (Globe background) -->
+  <circle cx="150" cy="150" r="92" fill="#ffffff" stroke="#00a8ea" stroke-width="2.5"/>
+
+  <!-- Globe Grid Lines -->
+  <g stroke="#bce5f7" stroke-width="1.2" fill="none">
+    <!-- Latitude lines -->
+    <ellipse cx="150" cy="150" rx="90" ry="32"/>
+    <ellipse cx="150" cy="150" rx="90" ry="62"/>
+    <line x1="60" y1="150" x2="240" y2="150"/>
+    
+    <!-- Longitude lines -->
+    <ellipse cx="150" cy="150" rx="32" ry="90"/>
+    <ellipse cx="150" cy="150" rx="64" ry="90"/>
+    <line x1="150" y1="60" x2="150" y2="240"/>
+  </g>
+
+  <!-- Text: GLOBAL PRINT CONNECTION PVT. LTD. -->
+  <text font-family="'Helvetica Neue', Arial, sans-serif" font-size="16.5" font-weight="900" fill="#ffffff" letter-spacing="1.5px">
+    <textPath href="#top-arc" startOffset="50%" text-anchor="middle">
+      GLOBAL PRINT CONNECTION PVT. LTD.
+    </textPath>
+  </text>
+
+  <!-- Text: ★ NEPAL ★ -->
+  <text font-family="'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="900" fill="#ffffff" letter-spacing="3.5px">
+    <textPath href="#bottom-arc" startOffset="50%" text-anchor="middle">
+      ★ NEPAL ★
+    </textPath>
+  </text>
+
+  <!-- Center Text: G P C in bold red -->
+  <text x="150" y="161" font-family="'Helvetica Neue', Arial, sans-serif" font-size="34" font-weight="900" fill="#e51a24" letter-spacing="6px" text-anchor="middle">G P C</text>
+</svg>
